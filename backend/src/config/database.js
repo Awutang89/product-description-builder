@@ -4,10 +4,7 @@ export const connectDatabase = async () => {
   try {
     const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/page-crafter';
 
-    await mongoose.connect(mongoUri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(mongoUri);
 
     console.log(`✅ MongoDB Connected: ${mongoose.connection.host}`);
 

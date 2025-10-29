@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+logs/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Git
+.git/
+.gitignore
+
+# IDE and Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+.claude/
+claude-skills-marketplace/
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Testing
+coverage/
+.nyc_output/
+
+# Build artifacts (keep dist for deployment)
+.DS_Store
+Thumbs.db
+
+# Development files
+dev.bat
+dev.ps1
+
+# Context7 setup (not needed in deployment)
+claude-mcp-config.json
+CONTEXT7_SETUP.md
