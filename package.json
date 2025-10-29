@@ -1,0 +1,13 @@
+{
+  "name": "product-description-builder",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "scripts": {
+    "install": "cd backend && npm ci --production && cd ../frontend && npm ci",
+    "build": "cd frontend && npm run build",
+    "start": "cd backend && node src/server.js"
+  }
+}

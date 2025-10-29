@@ -52,3 +52,6 @@ logs/
 # MacOS
 .AppleDouble
 .LSOverride
+
+# Claude Skills Marketplace (nested repo)
+claude-skills-marketplace/
