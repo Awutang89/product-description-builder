@@ -42,7 +42,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(frontendPath));
 
   // Serve index.html for all non-API routes (SPA support)
-  app.get('*', (req, res) => {
+  app.use((req, res) => {
     res.sendFile(path.join(frontendPath, 'index.html'));
   });
 } else {
