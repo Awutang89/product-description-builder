@@ -74,9 +74,9 @@ app.use((err, req, res, next) => {
 const startServer = async () => {
   try {
     await connectDatabase();
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on http://localhost:${PORT}`);
-      console.log(`📊 Health check: http://localhost:${PORT}/health`);
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 Server running on http://0.0.0.0:${PORT}`);
+      console.log(`📊 Health check: http://0.0.0.0:${PORT}/health`);
       console.log(`📚 API Documentation: ${process.env.FRONTEND_URL || 'http://localhost:3000'}/docs`);
     });
   } catch (error) {
