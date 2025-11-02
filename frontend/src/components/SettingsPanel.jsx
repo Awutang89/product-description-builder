@@ -158,7 +158,7 @@ export function SettingsPanel({ projectId }) {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Text Content
               </label>
-              <div className="bg-white border border-gray-300 rounded">
+              <div className="bg-white border border-gray-300 rounded overflow-hidden" style={{ height: '280px', display: 'flex', flexDirection: 'column' }}>
                 <ReactQuill
                   value={selectedSection.content?.text || ''}
                   onChange={(value) => handleContentChange('text', value)}
@@ -174,7 +174,7 @@ export function SettingsPanel({ projectId }) {
                   }}
                   theme="snow"
                   placeholder="Enter your text here"
-                  style={{ height: '200px' }}
+                  style={{ flex: 1, display: 'flex', flexDirection: 'column' }}
                 />
               </div>
             </div>
