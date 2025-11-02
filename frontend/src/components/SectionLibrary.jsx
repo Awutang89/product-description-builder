@@ -62,6 +62,41 @@ export function SectionLibrary({ onAddSection }) {
       icon: Grid3x3,
       category: 'content',
     },
+    {
+      id: 'twoColumn',
+      name: 'Two Column w/ Image',
+      description: 'Two columns with text and image',
+      icon: Grid3x3,
+      category: 'content',
+    },
+    {
+      id: 'sideBySide',
+      name: 'Side by Side Text w/ Image',
+      description: 'Two columns with images and text below',
+      icon: Grid3x3,
+      category: 'content',
+    },
+    {
+      id: 'threeColumns',
+      name: 'Three Columns w/ Images',
+      description: 'Three columns with text and images',
+      icon: Grid3x3,
+      category: 'content',
+    },
+    {
+      id: 'fourColumns',
+      name: 'Four Columns w/ Images',
+      description: 'Four columns with text and images',
+      icon: Grid3x3,
+      category: 'content',
+    },
+    {
+      id: 'twoColumnHighlight',
+      name: 'Two Column Highlight',
+      description: 'Highlight feature with text and image/video',
+      icon: Grid3x3,
+      category: 'content',
+    },
   ];
 
   const categories = ['layout', 'content', 'interaction', 'social'];
