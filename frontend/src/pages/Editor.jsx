@@ -16,6 +16,8 @@ export function Editor() {
   const navigate = useNavigate();
   const [isExportOpen, setIsExportOpen] = useState(false);
   const [isLibraryCollapsed, setIsLibraryCollapsed] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [editedName, setEditedName] = useState('');
 
   const {
     project,
@@ -61,6 +63,36 @@ export function Editor() {
     setIsExportOpen(true);
   };
 
+  const handleEditName = () => {
+    setEditedName(project.name);
+    setIsEditingName(true);
+  };
+
+  const handleSaveName = async () => {
+    if (editedName.trim() && editedName !== project.name) {
+      try {
+        // Update the project name in the store and save
+        const response = await fetch(`/api/projects/${projectId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: editedName.trim() }),
+        });
+        if (response.ok) {
+          // Update local project object
+          project.name = editedName.trim();
+        }
+      } catch (error) {
+        console.error('Failed to update project name:', error);
+      }
+    }
+    setIsEditingName(false);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditingName(false);
+    setEditedName('');
+  };
+
   if (!project) {
     return (
       <div className="h-screen flex items-center justify-center bg-gray-50">
@@ -85,10 +117,46 @@ export function Editor() {
             Back
           </button>
           <div className="border-l border-gray-200 pl-4">
-            <h1 className="text-xl font-bold text-gray-900">{project.name}</h1>
-            <p className="text-xs text-gray-500">
-              {isDirty ? '● Unsaved changes' : '✓ All changes saved'}
-            </p>
+            {isEditingName ? (
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={editedName}
+                  onChange={(e) => setEditedName(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleSaveName();
+                    if (e.key === 'Escape') handleCancelEdit();
+                  }}
+                  autoFocus
+                  className="text-xl font-bold text-gray-900 border border-blue-500 rounded px-2 py-1"
+                />
+                <button
+                  onClick={handleSaveName}
+                  className="px-2 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600"
+                >
+                  Save
+                </button>
+                <button
+                  onClick={handleCancelEdit}
+                  className="px-2 py-1 bg-gray-300 text-gray-700 text-xs rounded hover:bg-gray-400"
+                >
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <>
+                <h1
+                  onClick={handleEditName}
+                  className="text-xl font-bold text-gray-900 cursor-pointer hover:text-blue-600 transition-colors"
+                  title="Click to edit project name"
+                >
+                  {project.name}
+                </h1>
+                <p className="text-xs text-gray-500">
+                  {isDirty ? '● Unsaved changes' : '✓ All changes saved'}
+                </p>
+              </>
+            )}
           </div>
         </div>
 
