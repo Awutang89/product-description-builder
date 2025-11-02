@@ -43,8 +43,8 @@ export function SectionLibrary({ onAddSection }) {
     },
     {
       id: 'cta',
-      name: 'Call to Action',
-      description: 'Button with heading and description',
+      name: 'Button',
+      description: 'Single action button with link',
       icon: MousePointerClick,
       category: 'interaction',
     },
@@ -86,52 +86,37 @@ export function SectionLibrary({ onAddSection }) {
       </div>
 
       {/* Sections List */}
-      <div className="flex-1 overflow-y-auto p-3 space-y-4">
-        {categories.map((category) => (
-          <div key={category}>
-            {/* Category Header */}
-            <h3 className="text-xs font-semibold text-gray-600 uppercase tracking-wider px-2 mb-2">
-              {category === 'layout' && '📐 Layout'}
-              {category === 'content' && '📄 Content'}
-              {category === 'interaction' && '🔘 Interaction'}
-              {category === 'social' && '💬 Social'}
-            </h3>
-
-            {/* Section Items */}
-            <div className="space-y-2">
-              {groupedSections[category]?.map((section) => {
-                const Icon = section.icon;
-                return (
-                  <div
-                    key={section.id}
-                    draggable
-                    onDragStart={(e) => {
-                      e.dataTransfer.effectAllowed = 'copy';
-                      e.dataTransfer.setData('section-type', section.id);
-                    }}
-                    onClick={() => onAddSection(section.id)}
-                    className="p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 hover:border-blue-300 rounded-lg cursor-grab active:cursor-grabbing transition-colors group"
-                  >
-                    <div className="flex items-start gap-3">
-                      <Icon
-                        size={18}
-                        className="text-gray-400 group-hover:text-blue-500 flex-shrink-0 mt-0.5 transition-colors"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-sm text-gray-900 group-hover:text-blue-900">
-                          {section.name}
-                        </p>
-                        <p className="text-xs text-gray-500 line-clamp-1 group-hover:text-gray-600">
-                          {section.description}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+      <div className="flex-1 overflow-y-auto p-3 space-y-2">
+        {sections.map((section) => {
+          const Icon = section.icon;
+          return (
+            <div
+              key={section.id}
+              draggable
+              onDragStart={(e) => {
+                e.dataTransfer.effectAllowed = 'copy';
+                e.dataTransfer.setData('section-type', section.id);
+              }}
+              onClick={() => onAddSection(section.id)}
+              className="p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 hover:border-blue-300 rounded-lg cursor-grab active:cursor-grabbing transition-colors group"
+            >
+              <div className="flex items-start gap-3">
+                <Icon
+                  size={18}
+                  className="text-gray-400 group-hover:text-blue-500 flex-shrink-0 mt-0.5 transition-colors"
+                />
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-sm text-gray-900 group-hover:text-blue-900">
+                    {section.name}
+                  </p>
+                  <p className="text-xs text-gray-500 line-clamp-1 group-hover:text-gray-600">
+                    {section.description}
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Footer Info */}

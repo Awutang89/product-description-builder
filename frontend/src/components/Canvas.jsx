@@ -34,36 +34,89 @@ export function Canvas({ projectId }) {
       case 'hero':
         return (
           <div
-            className="text-white p-12 rounded text-center"
-            style={{ backgroundColor: section.styles?.bgColor || '#3B82F6' }}
+            className="p-12 rounded text-center"
+            style={{
+              backgroundColor: section.styles?.bgColor || '#3B82F6',
+              color: section.styles?.textColor || '#FFFFFF'
+            }}
           >
-            <h2 className="text-3xl font-bold mb-2">
+            <h2
+              className="font-bold mb-2"
+              style={{ fontSize: `${section.styles?.titleSize || 40}px` }}
+            >
               {section.content?.title || 'Hero Title'}
             </h2>
-            <p className="text-blue-100">
+            <p
+              className="opacity-90"
+              style={{ fontSize: `${section.styles?.subtitleSize || 16}px` }}
+            >
               {section.content?.subtitle || 'Hero subtitle goes here'}
             </p>
           </div>
         );
       case 'text':
         return (
-          <div className="p-8 bg-gray-50 rounded text-gray-700" style={{ color: section.styles?.color || '#374151' }}>
-            <p className="line-clamp-3">
-              {section.content?.text || 'Sample text content. Add your own text here to customize this section.'}
-            </p>
-          </div>
+          <div
+            className="p-8 bg-gray-50 rounded prose prose-sm max-w-none"
+            style={{ color: section.styles?.color || '#374151' }}
+            dangerouslySetInnerHTML={{
+              __html: section.content?.text || '<p>Sample text content. Add your own text here to customize this section.</p>'
+            }}
+          />
         );
-      case 'features':
+      case 'features': {
+        const features = section.content?.features || [{}, {}, {}];
+        const gridCols = {
+          2: 'grid-cols-2',
+          3: 'grid-cols-3',
+          4: 'grid-cols-4'
+        }[features.length] || 'grid-cols-3';
+
+        const renderFeatureTitle = (feature, index) => {
+          const headingLevel = feature.headingLevel || 'h3';
+          const titleText = feature.title || `Feature ${index + 1}`;
+          const titleClass = 'font-semibold text-gray-900';
+
+          const HeadingTag = headingLevel;
+
+          const headingSizes = {
+            h1: 'text-lg',
+            h2: 'text-base',
+            h3: 'text-sm',
+            h4: 'text-xs'
+          };
+
+          return (
+            <HeadingTag className={`${titleClass} ${headingSizes[headingLevel]}`}>
+              {titleText}
+            </HeadingTag>
+          );
+        };
+
         return (
-          <div className="grid grid-cols-3 gap-4 p-6">
-            {[1, 2, 3].map((i) => (
+          <div className={`grid ${gridCols} gap-4 p-6`}>
+            {features.map((feature, i) => (
               <div key={i} className="bg-gray-50 p-4 rounded text-center">
-                <div className="w-12 h-12 bg-blue-200 rounded mx-auto mb-2"></div>
-                <p className="text-sm font-semibold text-gray-900">Feature {i}</p>
+                {feature.icon ? (
+                  <img
+                    src={feature.icon}
+                    alt={feature.title || `Feature ${i + 1}`}
+                    className="w-12 h-12 rounded mx-auto mb-2 object-cover"
+                  />
+                ) : (
+                  <div className="w-12 h-12 bg-blue-200 rounded mx-auto mb-2"></div>
+                )}
+                {renderFeatureTitle(feature, i)}
+                {feature.description && (
+                  <p className="text-xs text-gray-600 mt-2 line-clamp-2">
+                    {feature.description}
+                  </p>
+                )}
               </div>
             ))}
           </div>
         );
+      }
       case 'image':
         return (
           <div className="bg-gray-100 rounded flex items-center justify-center h-64">
@@ -73,20 +126,50 @@ export function Canvas({ projectId }) {
             </div>
           </div>
         );
-      case 'gallery':
+      case 'gallery': {
+        const media = section.content?.media || [{}, {}, {}];
+        const gridCols = {
+          2: 'grid-cols-2',
+          3: 'grid-cols-3',
+          4: 'grid-cols-4'
+        }[media.length] || 'grid-cols-3';
+
         return (
-          <div className="grid grid-cols-4 gap-3 p-4">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="aspect-square bg-gray-200 rounded"></div>
+          <div className={`grid ${gridCols} gap-3 p-4`}>
+            {media.map((item, i) => (
+              <div key={i} className="aspect-square bg-gray-200 rounded overflow-hidden flex items-center justify-center">
+                {item.type === 'video' ? (
+                  item.url ? (
+                    <div
+                      className="w-full h-full"
+                      dangerouslySetInnerHTML={{ __html: item.url }}
+                    />
+                  ) : (
+                    <div className="text-center text-gray-400">
+                      <p className="text-sm">🎬 Video</p>
+                    </div>
+                  )
+                ) : (
+                  <img
+                    src={item.url || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23ddd" width="100" height="100"/%3E%3C/svg%3E'}
+                    alt={item.altText || `Gallery item ${i + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                )}
+              </div>
             ))}
           </div>
         );
+      }
       case 'cta':
         return (
-          <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded">
-            <h3 className="font-bold text-gray-900 mb-2">Call to Action</h3>
-            <p className="text-gray-600 mb-4">Add your CTA text here</p>
-            <button className="btn-primary">Action Button</button>
+          <div className="p-6 flex items-center justify-center">
+            <a
+              href={section.content?.buttonLink || '#'}
+              className="btn-primary inline-block px-8 py-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition-colors"
+            >
+              {section.content?.buttonText || 'Shop Now'}
+            </a>
           </div>
         );
       case 'testimonial':
@@ -97,22 +180,46 @@ export function Canvas({ projectId }) {
           </div>
         );
       case 'comparison':
+        const table = section.content?.table || {
+          headers: ['Feature', 'Basic', 'Pro'],
+          rows: [['Feature A', '✓', '✓']]
+        };
+        const colCount = table.headers?.length || 3;
+        const colWidthClass = {
+          2: 'w-1/2',
+          3: 'w-1/3',
+          4: 'w-1/4',
+          5: 'w-1/5'
+        }[colCount] || 'w-1/3';
+
         return (
-          <div className="p-6 bg-gray-50 rounded">
-            <table className="w-full text-sm text-gray-700">
+          <div className="p-6 bg-gray-50 rounded overflow-x-auto">
+            <table className="w-full text-sm text-gray-700 border-collapse">
               <thead>
-                <tr className="border-b border-gray-300">
-                  <th className="text-left py-2 font-semibold">Feature</th>
-                  <th className="text-center py-2 font-semibold">Basic</th>
-                  <th className="text-center py-2 font-semibold">Pro</th>
+                <tr className="border-b-2 border-gray-300">
+                  {table.headers?.map((header, i) => (
+                    <th
+                      key={i}
+                      className={`${colWidthClass} text-left py-3 px-2 font-semibold ${i === 0 ? 'text-left' : 'text-center'}`}
+                    >
+                      {header}
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-gray-200">
-                  <td className="py-2">Feature A</td>
-                  <td className="text-center">✓</td>
-                  <td className="text-center">✓</td>
-                </tr>
+                {table.rows?.map((row, rowIndex) => (
+                  <tr key={rowIndex} className="border-b border-gray-200 hover:bg-gray-100">
+                    {row?.map((cell, colIndex) => (
+                      <td
+                        key={colIndex}
+                        className={`${colWidthClass} py-3 px-2 ${colIndex === 0 ? 'text-left' : 'text-center'}`}
+                      >
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
