@@ -195,24 +195,24 @@ export function Editor() {
       {/* Editor Container - 3 Column Layout */}
       <div className="flex-1 flex overflow-hidden">
         {/* Left Column - Section Library (Collapsible) */}
-        <div className={`transition-all duration-300 overflow-hidden flex flex-shrink-0 ${
-          isLibraryCollapsed ? 'w-12' : 'w-64'
-        }`}>
-          <SectionLibrary onAddSection={addSection} />
+        {!isLibraryCollapsed && (
+          <div className="w-64 flex-shrink-0 overflow-hidden">
+            <SectionLibrary onAddSection={addSection} />
+          </div>
+        )}
 
-          {/* Collapse Toggle Button */}
-          <button
-            onClick={() => setIsLibraryCollapsed(!isLibraryCollapsed)}
-            className="flex-shrink-0 w-4 bg-gray-100 border-r border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"
-            title={isLibraryCollapsed ? 'Expand library' : 'Collapse library'}
-          >
-            {isLibraryCollapsed ? (
-              <ChevronRight size={14} className="text-gray-600" />
-            ) : (
-              <ChevronLeft size={14} className="text-gray-600" />
-            )}
-          </button>
-        </div>
+        {/* Collapse Toggle Button */}
+        <button
+          onClick={() => setIsLibraryCollapsed(!isLibraryCollapsed)}
+          className="flex-shrink-0 w-4 bg-gray-100 border-r border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"
+          title={isLibraryCollapsed ? 'Expand library' : 'Collapse library'}
+        >
+          {isLibraryCollapsed ? (
+            <ChevronRight size={14} className="text-gray-600" />
+          ) : (
+            <ChevronLeft size={14} className="text-gray-600" />
+          )}
+        </button>
 
         {/* Middle Column - Canvas */}
         <div className="flex-1 overflow-hidden">

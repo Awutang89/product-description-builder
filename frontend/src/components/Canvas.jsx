@@ -257,6 +257,78 @@ export function Canvas({ projectId }) {
             </table>
           </div>
         );
+      case 'twoColumn':
+        return (
+          <div className="grid grid-cols-2 gap-6 p-6">
+            {section.styles?.imagePosition === 'left' ? (
+              <>
+                <div className="bg-gray-300 rounded h-48"></div>
+                <div className="flex flex-col justify-center">
+                  <p className="text-gray-700 text-sm">{section.content?.leftText || 'Column text here'}</p>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="flex flex-col justify-center">
+                  <p className="text-gray-700 text-sm">{section.content?.leftText || 'Column text here'}</p>
+                </div>
+                <div className="bg-gray-300 rounded h-48"></div>
+              </>
+            )}
+          </div>
+        );
+
+      case 'sideBySide':
+        return (
+          <div className="grid grid-cols-2 gap-6 p-6">
+            <div className="text-center">
+              <div className="bg-gray-300 rounded h-48 mb-3"></div>
+              <p className="text-gray-700 text-xs">{section.content?.col1Text || 'Column 1 text'}</p>
+            </div>
+            <div className="text-center">
+              <div className="bg-gray-300 rounded h-48 mb-3"></div>
+              <p className="text-gray-700 text-xs">{section.content?.col2Text || 'Column 2 text'}</p>
+            </div>
+          </div>
+        );
+
+      case 'threeColumns':
+        return (
+          <div className="grid grid-cols-3 gap-4 p-6">
+            {[1, 2, 3].map((colNum) => (
+              <div key={colNum} className="text-center">
+                <div className="bg-gray-300 rounded h-40 mb-2"></div>
+                <p className="text-gray-700 text-xs">{section.content?.[`col${colNum}Text`] || `Column ${colNum}`}</p>
+              </div>
+            ))}
+          </div>
+        );
+
+      case 'fourColumns':
+        return (
+          <div className="grid grid-cols-4 gap-3 p-6">
+            {[1, 2, 3, 4].map((colNum) => (
+              <div key={colNum} className="text-center">
+                <div className="bg-gray-300 rounded h-32 mb-2"></div>
+                <p className="text-gray-700 text-xs">{section.content?.[`col${colNum}Text`] || `Col ${colNum}`}</p>
+              </div>
+            ))}
+          </div>
+        );
+
+      case 'twoColumnHighlight':
+        return (
+          <div className="grid grid-cols-2 gap-8 p-6 items-center">
+            <div
+              className="prose prose-sm max-w-none"
+              dangerouslySetInnerHTML={{
+                __html: section.content?.richText || '<p>Rich text content here</p>'
+              }}
+            />
+            <div className="bg-gray-300 rounded h-64"></div>
+          </div>
+        );
+
       default:
         return (
           <div className="bg-gray-100 p-8 rounded text-center text-gray-500">
@@ -271,9 +343,6 @@ export function Canvas({ projectId }) {
       {/* Canvas Header */}
       <div className="border-b border-gray-200 p-4 bg-white">
         <h2 className="text-lg font-bold text-gray-900">Canvas Preview</h2>
-        <p className="text-xs text-gray-500 mt-1">
-          {sections.length} section{sections.length !== 1 ? 's' : ''}
-        </p>
       </div>
 
       {/* Canvas Area */}
@@ -356,16 +425,6 @@ export function Canvas({ projectId }) {
                 className="flex-1 cursor-pointer"
                 onClick={() => selectSection(section.id)}
               >
-                {/* Section Header */}
-                <div className="flex items-center gap-2 p-3 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200 group-hover:from-gray-100 group-hover:to-gray-200">
-                  <span className="text-sm font-semibold text-gray-900 capitalize">
-                    {section.type}
-                  </span>
-                  <span className="text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded ml-auto">
-                    #{index + 1}
-                  </span>
-                </div>
-
                 {/* Section Preview */}
                 <div className="p-4">
                   {getSectionPreview(section)}
