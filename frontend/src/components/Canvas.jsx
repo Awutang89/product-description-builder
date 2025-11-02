@@ -262,7 +262,11 @@ export function Canvas({ projectId }) {
           <div className="grid grid-cols-2 gap-6 p-6">
             {section.styles?.imagePosition === 'left' ? (
               <>
-                <div className="bg-gray-300 rounded h-48"></div>
+                <img
+                  src={section.content?.rightImage || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23ddd" width="100" height="100"/%3E%3C/svg%3E'}
+                  alt="Column image"
+                  className="w-full h-48 object-cover rounded"
+                />
                 <div className="flex flex-col justify-center">
                   <p className="text-gray-700 text-sm">{section.content?.leftText || 'Column text here'}</p>
                 </div>
@@ -272,7 +276,11 @@ export function Canvas({ projectId }) {
                 <div className="flex flex-col justify-center">
                   <p className="text-gray-700 text-sm">{section.content?.leftText || 'Column text here'}</p>
                 </div>
-                <div className="bg-gray-300 rounded h-48"></div>
+                <img
+                  src={section.content?.rightImage || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23ddd" width="100" height="100"/%3E%3C/svg%3E'}
+                  alt="Column image"
+                  className="w-full h-48 object-cover rounded"
+                />
               </>
             )}
           </div>
@@ -282,11 +290,19 @@ export function Canvas({ projectId }) {
         return (
           <div className="grid grid-cols-2 gap-6 p-6">
             <div className="text-center">
-              <div className="bg-gray-300 rounded h-48 mb-3"></div>
+              <img
+                src={section.content?.col1Image || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23ddd" width="100" height="100"/%3E%3C/svg%3E'}
+                alt="Column 1"
+                className="w-full h-48 object-cover rounded mb-3"
+              />
               <p className="text-gray-700 text-xs">{section.content?.col1Text || 'Column 1 text'}</p>
             </div>
             <div className="text-center">
-              <div className="bg-gray-300 rounded h-48 mb-3"></div>
+              <img
+                src={section.content?.col2Image || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23ddd" width="100" height="100"/%3E%3C/svg%3E'}
+                alt="Column 2"
+                className="w-full h-48 object-cover rounded mb-3"
+              />
               <p className="text-gray-700 text-xs">{section.content?.col2Text || 'Column 2 text'}</p>
             </div>
           </div>
@@ -297,7 +313,11 @@ export function Canvas({ projectId }) {
           <div className="grid grid-cols-3 gap-4 p-6">
             {[1, 2, 3].map((colNum) => (
               <div key={colNum} className="text-center">
-                <div className="bg-gray-300 rounded h-40 mb-2"></div>
+                <img
+                  src={section.content?.[`col${colNum}Image`] || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23ddd" width="100" height="100"/%3E%3C/svg%3E'}
+                  alt={`Column ${colNum}`}
+                  className="w-full h-40 object-cover rounded mb-2"
+                />
                 <p className="text-gray-700 text-xs">{section.content?.[`col${colNum}Text`] || `Column ${colNum}`}</p>
               </div>
             ))}
@@ -309,7 +329,11 @@ export function Canvas({ projectId }) {
           <div className="grid grid-cols-4 gap-3 p-6">
             {[1, 2, 3, 4].map((colNum) => (
               <div key={colNum} className="text-center">
-                <div className="bg-gray-300 rounded h-32 mb-2"></div>
+                <img
+                  src={section.content?.[`col${colNum}Image`] || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23ddd" width="100" height="100"/%3E%3C/svg%3E'}
+                  alt={`Column ${colNum}`}
+                  className="w-full h-32 object-cover rounded mb-2"
+                />
                 <p className="text-gray-700 text-xs">{section.content?.[`col${colNum}Text`] || `Col ${colNum}`}</p>
               </div>
             ))}
@@ -325,7 +349,18 @@ export function Canvas({ projectId }) {
                 __html: section.content?.richText || '<p>Rich text content here</p>'
               }}
             />
-            <div className="bg-gray-300 rounded h-64"></div>
+            {section.content?.mediaType === 'video' ? (
+              <div
+                className="w-full h-64 rounded overflow-hidden"
+                dangerouslySetInnerHTML={{ __html: section.content?.mediaUrl || '<div className="bg-gray-300 w-full h-64"></div>' }}
+              />
+            ) : (
+              <img
+                src={section.content?.mediaUrl || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23ddd" width="100" height="100"/%3E%3C/svg%3E'}
+                alt="Media"
+                className="w-full h-64 object-cover rounded"
+              />
+            )}
           </div>
         );
 

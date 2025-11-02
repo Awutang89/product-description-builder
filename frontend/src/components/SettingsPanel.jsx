@@ -130,23 +130,41 @@ export function SettingsPanel({ projectId }) {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Text Color
               </label>
-              <input
-                type="color"
-                value={selectedSection.styles?.textColor || '#FFFFFF'}
-                onChange={(e) => handleStyleChange('textColor', e.target.value)}
-                className="w-full h-10 rounded border border-gray-300 cursor-pointer"
-              />
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={selectedSection.styles?.textColor || '#FFFFFF'}
+                  onChange={(e) => handleStyleChange('textColor', e.target.value)}
+                  placeholder="#FFFFFF"
+                  className="input-field"
+                />
+                <input
+                  type="color"
+                  value={selectedSection.styles?.textColor || '#FFFFFF'}
+                  onChange={(e) => handleStyleChange('textColor', e.target.value)}
+                  className="w-12 h-10 rounded border border-gray-300 cursor-pointer flex-shrink-0"
+                />
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Background Color
               </label>
-              <input
-                type="color"
-                value={selectedSection.styles?.bgColor || '#3B82F6'}
-                onChange={(e) => handleStyleChange('bgColor', e.target.value)}
-                className="w-full h-10 rounded border border-gray-300 cursor-pointer"
-              />
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={selectedSection.styles?.bgColor || '#3B82F6'}
+                  onChange={(e) => handleStyleChange('bgColor', e.target.value)}
+                  placeholder="#3B82F6"
+                  className="input-field"
+                />
+                <input
+                  type="color"
+                  value={selectedSection.styles?.bgColor || '#3B82F6'}
+                  onChange={(e) => handleStyleChange('bgColor', e.target.value)}
+                  className="w-12 h-10 rounded border border-gray-300 cursor-pointer flex-shrink-0"
+                />
+              </div>
             </div>
           </>
         );
@@ -197,12 +215,21 @@ export function SettingsPanel({ projectId }) {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Text Color
               </label>
-              <input
-                type="color"
-                value={selectedSection.styles?.color || '#1F2937'}
-                onChange={(e) => handleStyleChange('color', e.target.value)}
-                className="w-full h-10 rounded border border-gray-300 cursor-pointer"
-              />
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={selectedSection.styles?.color || '#1F2937'}
+                  onChange={(e) => handleStyleChange('color', e.target.value)}
+                  placeholder="#1F2937"
+                  className="input-field"
+                />
+                <input
+                  type="color"
+                  value={selectedSection.styles?.color || '#1F2937'}
+                  onChange={(e) => handleStyleChange('color', e.target.value)}
+                  className="w-12 h-10 rounded border border-gray-300 cursor-pointer flex-shrink-0"
+                />
+              </div>
             </div>
           </>
         );
@@ -1078,45 +1105,6 @@ export function SettingsPanel({ projectId }) {
             {renderContentFields()}
           </div>
         </div>
-
-        {/* Common Styles - Hidden for text and image sections */}
-        {selectedSection.type !== 'text' && selectedSection.type !== 'image' && (
-          <div className="border-t border-gray-200 pt-4">
-            <h3 className="text-sm font-semibold text-gray-900 mb-3 px-1">Spacing</h3>
-            <div className="space-y-3">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Padding
-                </label>
-                <select
-                  value={selectedSection.styles?.padding || 'md'}
-                  onChange={(e) => handleStyleChange('padding', e.target.value)}
-                  className="input-field"
-                >
-                  <option value="sm">Small</option>
-                  <option value="md">Medium</option>
-                  <option value="lg">Large</option>
-                  <option value="xl">Extra Large</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Margin Bottom
-                </label>
-                <select
-                  value={selectedSection.styles?.marginBottom || 'md'}
-                  onChange={(e) => handleStyleChange('marginBottom', e.target.value)}
-                  className="input-field"
-                >
-                  <option value="none">None</option>
-                  <option value="sm">Small</option>
-                  <option value="md">Medium</option>
-                  <option value="lg">Large</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Footer Info */}

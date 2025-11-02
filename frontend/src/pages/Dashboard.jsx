@@ -56,7 +56,7 @@ export function Dashboard() {
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">📝 Page Crafter</h1>
+              <h1 className="text-3xl font-bold text-gray-900">📝 Project Database</h1>
               <p className="text-gray-600 mt-1">
                 {pagination.totalItems} project{pagination.totalItems !== 1 ? 's' : ''}
               </p>
