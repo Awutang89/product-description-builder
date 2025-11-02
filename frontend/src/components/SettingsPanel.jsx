@@ -238,42 +238,11 @@ export function SettingsPanel({ projectId }) {
         );
 
       case 'image': {
-        const handleImageUpload = (e) => {
-          const file = e.target.files?.[0];
-          if (file) {
-            // Validate file type
-            const validTypes = ['image/png', 'image/jpeg'];
-            if (!validTypes.includes(file.type)) {
-              alert('Only PNG and JPG images are allowed');
-              return;
-            }
-
-            // Convert file to base64 data URL
-            const reader = new FileReader();
-            reader.onload = (event) => {
-              handleContentChange('imageUrl', event.target.result);
-            };
-            reader.readAsDataURL(file);
-          }
-        };
-
         return (
           <>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Upload Image (PNG/JPG only)
-              </label>
-              <input
-                type="file"
-                accept=".png,.jpg,.jpeg"
-                onChange={handleImageUpload}
-                className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-              />
-              <p className="text-xs text-gray-500 mt-1">Accepted formats: PNG, JPG</p>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Or paste Image URL
+                Image URL
               </label>
               <input
                 type="url"
@@ -446,27 +415,6 @@ export function SettingsPanel({ projectId }) {
       }
 
       case 'gallery': {
-        const handleMediaImageUpload = (e, mediaIndex) => {
-          const file = e.target.files?.[0];
-          if (file) {
-            // Validate file type
-            const validTypes = ['image/png', 'image/jpeg'];
-            if (!validTypes.includes(file.type)) {
-              alert('Only PNG and JPG images are allowed');
-              return;
-            }
-
-            // Convert file to base64 data URL
-            const reader = new FileReader();
-            reader.onload = (event) => {
-              const media = selectedSection.content?.media || [{}, {}, {}];
-              media[mediaIndex] = { ...media[mediaIndex], url: event.target.result };
-              handleContentChange('media', media);
-            };
-            reader.readAsDataURL(file);
-          }
-        };
-
         const handleMediaChange = (mediaIndex, field, value) => {
           const media = selectedSection.content?.media || [{}, {}, {}];
           media[mediaIndex] = { ...media[mediaIndex], [field]: value };
@@ -542,18 +490,7 @@ export function SettingsPanel({ projectId }) {
                   <>
                     <div className="mb-3">
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Upload Image (PNG/JPG)
-                      </label>
-                      <input
-                        type="file"
-                        accept=".png,.jpg,.jpeg"
-                        onChange={(e) => handleMediaImageUpload(e, index)}
-                        className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Or paste Image URL
+                        Image URL
                       </label>
                       <input
                         type="url"
@@ -612,27 +549,6 @@ export function SettingsPanel({ projectId }) {
       }
 
       case 'features': {
-        const handleFeatureImageUpload = (e, featureIndex) => {
-          const file = e.target.files?.[0];
-          if (file) {
-            // Validate file type
-            const validTypes = ['image/png', 'image/jpeg'];
-            if (!validTypes.includes(file.type)) {
-              alert('Only PNG and JPG images are allowed');
-              return;
-            }
-
-            // Convert file to base64 data URL
-            const reader = new FileReader();
-            reader.onload = (event) => {
-              const features = selectedSection.content?.features || [{}, {}, {}];
-              features[featureIndex] = { ...features[featureIndex], icon: event.target.result };
-              handleContentChange('features', features);
-            };
-            reader.readAsDataURL(file);
-          }
-        };
-
         const handleFeatureChange = (featureIndex, field, value) => {
           const features = selectedSection.content?.features || [{}, {}, {}];
           features[featureIndex] = { ...features[featureIndex], [field]: value };
@@ -676,13 +592,14 @@ export function SettingsPanel({ projectId }) {
                 <div className="space-y-3">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Icon Image (PNG/JPG)
+                      Icon URL
                     </label>
                     <input
-                      type="file"
-                      accept=".png,.jpg,.jpeg"
-                      onChange={(e) => handleFeatureImageUpload(e, index)}
-                      className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                      type="url"
+                      value={selectedSection.content?.features?.[index]?.icon || ''}
+                      onChange={(e) => handleFeatureChange(index, 'icon', e.target.value)}
+                      placeholder="https://example.com/icon.png"
+                      className="input-field"
                     />
                     {selectedSection.content?.features?.[index]?.icon && (
                       <div className="mt-2 flex justify-center">
@@ -741,27 +658,6 @@ export function SettingsPanel({ projectId }) {
       }
 
       case 'testimonial': {
-        const handleTestimonialImageUpload = (e, testimonialIndex) => {
-          const file = e.target.files?.[0];
-          if (file) {
-            // Validate file type
-            const validTypes = ['image/png', 'image/jpeg'];
-            if (!validTypes.includes(file.type)) {
-              alert('Only PNG and JPG images are allowed');
-              return;
-            }
-
-            // Convert file to base64 data URL
-            const reader = new FileReader();
-            reader.onload = (event) => {
-              const testimonials = selectedSection.content?.testimonials || [{}, {}];
-              testimonials[testimonialIndex] = { ...testimonials[testimonialIndex], photo: event.target.result };
-              handleContentChange('testimonials', testimonials);
-            };
-            reader.readAsDataURL(file);
-          }
-        };
-
         const handleTestimonialChange = (testimonialIndex, field, value) => {
           const testimonials = selectedSection.content?.testimonials || [{}, {}];
           testimonials[testimonialIndex] = { ...testimonials[testimonialIndex], [field]: value };
@@ -806,13 +702,14 @@ export function SettingsPanel({ projectId }) {
                 <div className="space-y-3">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Reviewer Photo (PNG/JPG)
+                      Reviewer Photo URL
                     </label>
                     <input
-                      type="file"
-                      accept=".png,.jpg,.jpeg"
-                      onChange={(e) => handleTestimonialImageUpload(e, index)}
-                      className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                      type="url"
+                      value={selectedSection.content?.testimonials?.[index]?.photo || ''}
+                      onChange={(e) => handleTestimonialChange(index, 'photo', e.target.value)}
+                      placeholder="https://example.com/photo.jpg"
+                      className="input-field"
                     />
                     {selectedSection.content?.testimonials?.[index]?.photo && (
                       <div className="mt-2 flex justify-center">
@@ -866,6 +763,271 @@ export function SettingsPanel({ projectId }) {
           </>
         );
       }
+
+      case 'twoColumn':
+        return (
+          <>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Left Column Text
+              </label>
+              <textarea
+                value={selectedSection.content?.leftText || ''}
+                onChange={(e) => handleContentChange('leftText', e.target.value)}
+                placeholder="Enter text for left column"
+                className="input-field resize-none"
+                rows="4"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Right Column Image URL
+              </label>
+              <input
+                type="url"
+                value={selectedSection.content?.rightImage || ''}
+                onChange={(e) => handleContentChange('rightImage', e.target.value)}
+                placeholder="https://example.com/image.jpg"
+                className="input-field"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Image Position
+              </label>
+              <select
+                value={selectedSection.styles?.imagePosition || 'right'}
+                onChange={(e) => handleStyleChange('imagePosition', e.target.value)}
+                className="input-field"
+              >
+                <option value="right">Image on Right</option>
+                <option value="left">Image on Left</option>
+              </select>
+            </div>
+          </>
+        );
+
+      case 'sideBySide':
+        return (
+          <>
+            <div className="border-b border-gray-200 pb-4 mb-4">
+              <h3 className="text-sm font-semibold text-gray-900 mb-3">Column 1</h3>
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Image URL
+                  </label>
+                  <input
+                    type="url"
+                    value={selectedSection.content?.col1Image || ''}
+                    onChange={(e) => handleContentChange('col1Image', e.target.value)}
+                    placeholder="https://example.com/image.jpg"
+                    className="input-field"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Text Below Image
+                  </label>
+                  <textarea
+                    value={selectedSection.content?.col1Text || ''}
+                    onChange={(e) => handleContentChange('col1Text', e.target.value)}
+                    placeholder="Enter text for column 1"
+                    className="input-field resize-none"
+                    rows="3"
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900 mb-3">Column 2</h3>
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Image URL
+                  </label>
+                  <input
+                    type="url"
+                    value={selectedSection.content?.col2Image || ''}
+                    onChange={(e) => handleContentChange('col2Image', e.target.value)}
+                    placeholder="https://example.com/image.jpg"
+                    className="input-field"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Text Below Image
+                  </label>
+                  <textarea
+                    value={selectedSection.content?.col2Text || ''}
+                    onChange={(e) => handleContentChange('col2Text', e.target.value)}
+                    placeholder="Enter text for column 2"
+                    className="input-field resize-none"
+                    rows="3"
+                  />
+                </div>
+              </div>
+            </div>
+          </>
+        );
+
+      case 'threeColumns':
+        return (
+          <>
+            {[1, 2, 3].map((colNum) => (
+              <div key={colNum} className={colNum < 3 ? 'border-b border-gray-200 pb-4 mb-4' : ''}>
+                <h3 className="text-sm font-semibold text-gray-900 mb-3">Column {colNum}</h3>
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Image URL
+                    </label>
+                    <input
+                      type="url"
+                      value={selectedSection.content?.[`col${colNum}Image`] || ''}
+                      onChange={(e) => handleContentChange(`col${colNum}Image`, e.target.value)}
+                      placeholder="https://example.com/image.jpg"
+                      className="input-field"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Text Below Image
+                    </label>
+                    <textarea
+                      value={selectedSection.content?.[`col${colNum}Text`] || ''}
+                      onChange={(e) => handleContentChange(`col${colNum}Text`, e.target.value)}
+                      placeholder={`Enter text for column ${colNum}`}
+                      className="input-field resize-none"
+                      rows="3"
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </>
+        );
+
+      case 'fourColumns':
+        return (
+          <>
+            {[1, 2, 3, 4].map((colNum) => (
+              <div key={colNum} className={colNum < 4 ? 'border-b border-gray-200 pb-4 mb-4' : ''}>
+                <h3 className="text-sm font-semibold text-gray-900 mb-3">Column {colNum}</h3>
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Image URL
+                    </label>
+                    <input
+                      type="url"
+                      value={selectedSection.content?.[`col${colNum}Image`] || ''}
+                      onChange={(e) => handleContentChange(`col${colNum}Image`, e.target.value)}
+                      placeholder="https://example.com/image.jpg"
+                      className="input-field"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Text Below Image
+                    </label>
+                    <textarea
+                      value={selectedSection.content?.[`col${colNum}Text`] || ''}
+                      onChange={(e) => handleContentChange(`col${colNum}Text`, e.target.value)}
+                      placeholder={`Enter text for column ${colNum}`}
+                      className="input-field resize-none"
+                      rows="2"
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </>
+        );
+
+      case 'twoColumnHighlight':
+        return (
+          <>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Text Content
+              </label>
+              <div className="bg-white border border-gray-300 rounded">
+                <ReactQuill
+                  value={selectedSection.content?.richText || ''}
+                  onChange={(value) => handleContentChange('richText', value)}
+                  modules={{
+                    toolbar: [
+                      ['bold', 'italic', 'underline'],
+                      [{ 'script': 'sub' }, { 'script': 'super' }],
+                      ['link'],
+                      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                      ['blockquote'],
+                      ['clean']
+                    ]
+                  }}
+                  theme="snow"
+                  placeholder="Enter your text here"
+                  style={{ height: '200px' }}
+                />
+              </div>
+            </div>
+            <div className="mt-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Media Type
+              </label>
+              <div className="flex gap-2 bg-gray-100 p-1 rounded mb-3">
+                <button
+                  onClick={() => handleStyleChange('mediaType', 'image')}
+                  className={`flex-1 py-2 px-3 rounded text-sm font-medium transition-colors ${
+                    (selectedSection.styles?.mediaType || 'image') === 'image'
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-transparent text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  Image
+                </button>
+                <button
+                  onClick={() => handleStyleChange('mediaType', 'video')}
+                  className={`flex-1 py-2 px-3 rounded text-sm font-medium transition-colors ${
+                    selectedSection.styles?.mediaType === 'video'
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-transparent text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  Video
+                </button>
+              </div>
+            </div>
+            {(selectedSection.styles?.mediaType || 'image') === 'image' ? (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Image URL
+                </label>
+                <input
+                  type="url"
+                  value={selectedSection.content?.mediaUrl || ''}
+                  onChange={(e) => handleContentChange('mediaUrl', e.target.value)}
+                  placeholder="https://example.com/image.jpg"
+                  className="input-field"
+                />
+              </div>
+            ) : (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Video Embed Code
+                </label>
+                <textarea
+                  value={selectedSection.content?.mediaUrl || ''}
+                  onChange={(e) => handleContentChange('mediaUrl', e.target.value)}
+                  placeholder='<iframe width="560" height="315" src="..." frameborder="0" allow="accelerometer; autoplay;" allowfullscreen></iframe>'
+                  className="input-field resize-none font-mono text-xs"
+                  rows="6"
+                />
+              </div>
+            )}
+          </>
+        );
 
       default:
         return (
