@@ -292,48 +292,85 @@ export function Canvas({ projectId }) {
           sections.map((section, index) => (
             <div
               key={section.id}
-              onClick={() => selectSection(section.id)}
-              className={`rounded-lg border-2 transition-colors cursor-pointer group ${
+              draggable
+              onDragStart={(e) => {
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('section-index', index);
+              }}
+              onDragOver={(e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+              }}
+              onDrop={(e) => {
+                e.preventDefault();
+                const fromIndex = parseInt(e.dataTransfer.getData('section-index'));
+                if (fromIndex !== index) {
+                  reorderSections(fromIndex, index);
+                }
+              }}
+              className={`rounded-lg border-2 transition-colors cursor-pointer group flex gap-0 ${
                 selectedSectionId === section.id
                   ? 'border-blue-500 bg-blue-50 shadow-lg'
                   : 'border-gray-200 bg-white hover:border-gray-300'
               }`}
             >
-              {/* Section Header */}
-              <div className="flex items-center gap-2 p-3 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200 rounded-t group-hover:from-gray-100 group-hover:to-gray-200">
-                <Move size={16} className="text-gray-400 cursor-grab active:cursor-grabbing" />
-                <span className="text-sm font-semibold text-gray-900 capitalize">
-                  {section.type}
-                </span>
-                <span className="text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded ml-auto">
-                  #{index + 1}
-                </span>
-              </div>
-
-              {/* Section Preview */}
-              <div className="p-4">
-                {getSectionPreview(section)}
-              </div>
-
-              {/* Section Actions */}
-              {selectedSectionId === section.id && (
-                <div className="flex gap-2 p-3 bg-gray-100 border-t border-gray-200 rounded-b">
-                  <button
-                    onClick={() => duplicateSection(section.id)}
-                    className="flex items-center gap-1 px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-                  >
-                    <Copy size={14} />
-                    Duplicate
-                  </button>
-                  <button
-                    onClick={() => removeSection(section.id)}
-                    className="flex items-center gap-1 px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition-colors ml-auto"
-                  >
-                    <Trash2 size={14} />
-                    Delete
-                  </button>
+              {/* Left Control Panel */}
+              <div className="flex flex-col items-center gap-1 p-2 bg-gray-100 rounded-l border-r border-gray-200">
+                {/* Move/Drag Handle - 6 dots */}
+                <div
+                  className="grid grid-cols-2 gap-1 cursor-grab active:cursor-grabbing p-1 text-gray-400 hover:text-gray-600"
+                  title="Drag to reorder sections"
+                >
+                  {[...Array(6)].map((_, i) => (
+                    <div key={i} className="w-1 h-1 bg-current rounded-full"></div>
+                  ))}
                 </div>
-              )}
+
+                {/* Duplicate Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    duplicateSection(section.id);
+                  }}
+                  className="p-1.5 text-gray-400 hover:text-blue-500 hover:bg-blue-100 rounded transition-colors"
+                  title="Duplicate section"
+                >
+                  <Copy size={16} />
+                </button>
+
+                {/* Delete Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeSection(section.id);
+                  }}
+                  className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-100 rounded transition-colors"
+                  title="Delete section"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
+
+              {/* Main Content Area */}
+              <div
+                className="flex-1 cursor-pointer"
+                onClick={() => selectSection(section.id)}
+              >
+                {/* Section Header */}
+                <div className="flex items-center gap-2 p-3 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200 group-hover:from-gray-100 group-hover:to-gray-200">
+                  <span className="text-sm font-semibold text-gray-900 capitalize">
+                    {section.type}
+                  </span>
+                  <span className="text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded ml-auto">
+                    #{index + 1}
+                  </span>
+                </div>
+
+                {/* Section Preview */}
+                <div className="p-4">
+                  {getSectionPreview(section)}
+                </div>
+              </div>
             </div>
           ))
         )}
