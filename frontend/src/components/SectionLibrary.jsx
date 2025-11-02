@@ -118,11 +118,6 @@ export function SectionLibrary({ onAddSection }) {
           );
         })}
       </div>
-
-      {/* Footer Info */}
-      <div className="border-t border-gray-200 p-3 bg-gray-50 text-xs text-gray-600">
-        <p>💡 Drag & drop to reorder sections</p>
-      </div>
     </div>
   );
 }

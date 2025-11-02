@@ -375,11 +375,6 @@ export function Canvas({ projectId }) {
           ))
         )}
       </div>
-
-      {/* Canvas Footer */}
-      <div className="border-t border-gray-200 p-3 bg-white text-xs text-gray-600">
-        <p>📌 Click sections to edit properties in the right panel</p>
-      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Save, ArrowLeft, Download } from 'lucide-react';
+import { Save, ArrowLeft, Download, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEditor } from '../store/editorStore';
 import SectionLibrary from '../components/SectionLibrary';
 import Canvas from '../components/Canvas';
@@ -15,6 +15,7 @@ export function Editor() {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const [isExportOpen, setIsExportOpen] = useState(false);
+  const [isLibraryCollapsed, setIsLibraryCollapsed] = useState(false);
 
   const {
     project,
@@ -125,9 +126,24 @@ export function Editor() {
 
       {/* Editor Container - 3 Column Layout */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Left Column - Section Library */}
-        <div className="w-64 flex-shrink-0 overflow-hidden">
+        {/* Left Column - Section Library (Collapsible) */}
+        <div className={`transition-all duration-300 overflow-hidden flex flex-shrink-0 ${
+          isLibraryCollapsed ? 'w-12' : 'w-64'
+        }`}>
           <SectionLibrary onAddSection={addSection} />
+
+          {/* Collapse Toggle Button */}
+          <button
+            onClick={() => setIsLibraryCollapsed(!isLibraryCollapsed)}
+            className="flex-shrink-0 w-12 bg-gray-100 border-r border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"
+            title={isLibraryCollapsed ? 'Expand library' : 'Collapse library'}
+          >
+            {isLibraryCollapsed ? (
+              <ChevronRight size={20} className="text-gray-600" />
+            ) : (
+              <ChevronLeft size={20} className="text-gray-600" />
+            )}
+          </button>
         </div>
 
         {/* Middle Column - Canvas */}
@@ -140,14 +156,6 @@ export function Editor() {
           <SettingsPanel projectId={projectId} />
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 px-4 py-2 text-xs text-gray-600">
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
-          <p>💡 Drag sections from the left panel to add them to your project</p>
-          <p>Right-click sections to access more options</p>
-        </div>
-      </footer>
 
       {/* Export Modal */}
       <ExportModal
