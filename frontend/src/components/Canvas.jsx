@@ -33,15 +33,24 @@ export function Canvas({ projectId }) {
     switch (section.type) {
       case 'hero':
         return (
-          <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-12 rounded text-center">
-            <h2 className="text-3xl font-bold mb-2">Hero Title</h2>
-            <p className="text-blue-100">Hero subtitle goes here</p>
+          <div
+            className="text-white p-12 rounded text-center"
+            style={{ backgroundColor: section.styles?.bgColor || '#3B82F6' }}
+          >
+            <h2 className="text-3xl font-bold mb-2">
+              {section.content?.title || 'Hero Title'}
+            </h2>
+            <p className="text-blue-100">
+              {section.content?.subtitle || 'Hero subtitle goes here'}
+            </p>
           </div>
         );
       case 'text':
         return (
-          <div className="p-8 bg-gray-50 rounded text-gray-700">
-            <p className="line-clamp-3">Sample text content. Add your own text here to customize this section.</p>
+          <div className="p-8 bg-gray-50 rounded text-gray-700" style={{ color: section.styles?.color || '#374151' }}>
+            <p className="line-clamp-3">
+              {section.content?.text || 'Sample text content. Add your own text here to customize this section.'}
+            </p>
           </div>
         );
       case 'features':

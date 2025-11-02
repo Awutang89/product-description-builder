@@ -25,8 +25,8 @@ export function Navigation() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 text-xl font-bold text-gray-900">
-            <span className="text-2xl">📝</span>
-            Page Crafter
+            <span className="text-2xl">🤖</span>
+            AI Description Builder
           </Link>
 
           {/* Desktop Navigation */}
