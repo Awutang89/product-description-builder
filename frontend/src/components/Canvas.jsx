@@ -172,13 +172,46 @@ export function Canvas({ projectId }) {
             </a>
           </div>
         );
-      case 'testimonial':
+      case 'testimonial': {
+        const testimonials = section.content?.testimonials || [
+          { quote: 'Great product! Highly recommended.', author: 'Customer Name' }
+        ];
+        const gridCols = {
+          1: 'grid-cols-1 max-w-2xl mx-auto',
+          2: 'grid-cols-2',
+          3: 'grid-cols-3',
+          4: 'grid-cols-4'
+        }[testimonials.length] || 'grid-cols-1';
+
         return (
-          <div className="bg-yellow-50 p-6 rounded border border-yellow-200">
-            <p className="text-gray-700 italic mb-3">"Great product! Highly recommended."</p>
-            <p className="font-semibold text-gray-900">— Customer Name</p>
+          <div className={`grid ${gridCols} gap-6 p-6 w-full`}>
+            {testimonials.map((testimonial, i) => (
+              <div key={i} className="bg-yellow-50 p-6 rounded border border-yellow-200 flex flex-col items-center text-center h-full">
+                {testimonial.photo && (
+                  <img
+                    src={testimonial.photo}
+                    alt={testimonial.author || `Reviewer ${i + 1}`}
+                    className="h-16 w-16 object-cover rounded-full border-2 border-yellow-200 mb-4 flex-shrink-0"
+                  />
+                )}
+                <p className="text-gray-700 italic mb-4 flex-1">
+                  "{testimonial.quote || 'Great product! Highly recommended.'}"
+                </p>
+                <div className="w-full">
+                  <p className="font-semibold text-gray-900">
+                    — {testimonial.author || 'Customer Name'}
+                  </p>
+                  {testimonial.authorTitle && (
+                    <p className="text-xs text-gray-600">
+                      {testimonial.authorTitle}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         );
+      }
       case 'comparison':
         const table = section.content?.table || {
           headers: ['Feature', 'Basic', 'Pro'],

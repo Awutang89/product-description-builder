@@ -740,6 +740,133 @@ export function SettingsPanel({ projectId }) {
         );
       }
 
+      case 'testimonial': {
+        const handleTestimonialImageUpload = (e, testimonialIndex) => {
+          const file = e.target.files?.[0];
+          if (file) {
+            // Validate file type
+            const validTypes = ['image/png', 'image/jpeg'];
+            if (!validTypes.includes(file.type)) {
+              alert('Only PNG and JPG images are allowed');
+              return;
+            }
+
+            // Convert file to base64 data URL
+            const reader = new FileReader();
+            reader.onload = (event) => {
+              const testimonials = selectedSection.content?.testimonials || [{}, {}];
+              testimonials[testimonialIndex] = { ...testimonials[testimonialIndex], photo: event.target.result };
+              handleContentChange('testimonials', testimonials);
+            };
+            reader.readAsDataURL(file);
+          }
+        };
+
+        const handleTestimonialChange = (testimonialIndex, field, value) => {
+          const testimonials = selectedSection.content?.testimonials || [{}, {}];
+          testimonials[testimonialIndex] = { ...testimonials[testimonialIndex], [field]: value };
+          handleContentChange('testimonials', testimonials);
+        };
+
+        const testimonialCount = selectedSection.content?.testimonials?.length || 1;
+
+        return (
+          <>
+            <div className="mb-4 pb-4 border-b border-gray-200">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Number of Testimonials (1-4)
+              </label>
+              <select
+                value={testimonialCount}
+                onChange={(e) => {
+                  const newCount = parseInt(e.target.value);
+                  const testimonials = selectedSection.content?.testimonials || [{}, {}];
+                  // Add or remove testimonials based on selection
+                  if (newCount > testimonials.length) {
+                    testimonials.push(...Array(newCount - testimonials.length).fill({}));
+                  } else {
+                    testimonials.splice(newCount);
+                  }
+                  handleContentChange('testimonials', testimonials);
+                }}
+                className="input-field"
+              >
+                <option value="1">1 Testimonial</option>
+                <option value="2">2 Testimonials</option>
+                <option value="3">3 Testimonials</option>
+                <option value="4">4 Testimonials</option>
+              </select>
+            </div>
+
+            {Array(testimonialCount).fill(null).map((_, index) => (
+              <div key={index} className="border-b border-gray-200 pb-4 mb-4 last:border-b-0">
+                <h3 className="text-sm font-semibold text-gray-900 mb-3 px-1">
+                  Testimonial {index + 1}
+                </h3>
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Reviewer Photo (PNG/JPG)
+                    </label>
+                    <input
+                      type="file"
+                      accept=".png,.jpg,.jpeg"
+                      onChange={(e) => handleTestimonialImageUpload(e, index)}
+                      className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                    />
+                    {selectedSection.content?.testimonials?.[index]?.photo && (
+                      <div className="mt-2 flex justify-center">
+                        <img
+                          src={selectedSection.content.testimonials[index].photo}
+                          alt={`Reviewer ${index + 1}`}
+                          className="h-20 w-20 object-cover rounded-full border-2 border-gray-300"
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Testimonial Quote
+                    </label>
+                    <textarea
+                      value={selectedSection.content?.testimonials?.[index]?.quote || ''}
+                      onChange={(e) => handleTestimonialChange(index, 'quote', e.target.value)}
+                      placeholder="Enter the customer testimonial or quote here"
+                      className="input-field resize-none"
+                      rows="3"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Reviewer Name
+                    </label>
+                    <input
+                      type="text"
+                      value={selectedSection.content?.testimonials?.[index]?.author || ''}
+                      onChange={(e) => handleTestimonialChange(index, 'author', e.target.value)}
+                      placeholder="Customer Name"
+                      className="input-field"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Reviewer Title/Position
+                    </label>
+                    <input
+                      type="text"
+                      value={selectedSection.content?.testimonials?.[index]?.authorTitle || ''}
+                      onChange={(e) => handleTestimonialChange(index, 'authorTitle', e.target.value)}
+                      placeholder="e.g., CEO at Company"
+                      className="input-field"
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </>
+        );
+      }
+
       default:
         return (
           <div className="text-gray-500 text-sm">
