@@ -135,13 +135,13 @@ export function Editor() {
           {/* Collapse Toggle Button */}
           <button
             onClick={() => setIsLibraryCollapsed(!isLibraryCollapsed)}
-            className="flex-shrink-0 w-12 bg-gray-100 border-r border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"
+            className="flex-shrink-0 w-4 bg-gray-100 border-r border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"
             title={isLibraryCollapsed ? 'Expand library' : 'Collapse library'}
           >
             {isLibraryCollapsed ? (
-              <ChevronRight size={20} className="text-gray-600" />
+              <ChevronRight size={14} className="text-gray-600" />
             ) : (
-              <ChevronLeft size={20} className="text-gray-600" />
+              <ChevronLeft size={14} className="text-gray-600" />
             )}
           </button>
         </div>

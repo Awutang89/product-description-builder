@@ -292,11 +292,6 @@ export function Canvas({ projectId }) {
           sections.map((section, index) => (
             <div
               key={section.id}
-              draggable
-              onDragStart={(e) => {
-                e.dataTransfer.effectAllowed = 'move';
-                e.dataTransfer.setData('section-index', index);
-              }}
               onDragOver={(e) => {
                 e.preventDefault();
                 e.dataTransfer.dropEffect = 'move';
@@ -318,6 +313,11 @@ export function Canvas({ projectId }) {
               <div className="flex flex-col items-center gap-1 p-2 bg-gray-100 rounded-l border-r border-gray-200">
                 {/* Move/Drag Handle - 6 dots */}
                 <div
+                  draggable
+                  onDragStart={(e) => {
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('section-index', index);
+                  }}
                   className="grid grid-cols-2 gap-1 cursor-grab active:cursor-grabbing p-1 text-gray-400 hover:text-gray-600"
                   title="Drag to reorder sections"
                 >
