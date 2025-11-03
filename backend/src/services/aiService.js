@@ -433,11 +433,12 @@ QUALITY CHECKLIST - Your output must meet ALL of these criteria:
 ✓ Length: 150-250 words of body content
 ✓ Tone: Conversational, empathetic, not salesy
 
-EXAMPLE - Stage 1: Problem Identification
-Product: Premium Air Purifier
+EXAMPLE 1 - Stage 1: Problem Identification
+Product: Airpura R700 Air Purifier
+Secondary Keywords: Airpura R700, R700 Air Purifier, Airpura, R700 Airpura
 
 [HEADING]
-Tired of Waking Up Sneezing? The Hidden Air Quality Crisis in Your Home
+Give Your Family the Gift of Clean Air with the Airpura R700
 
 [BODY]
 You probably don't think about the air you breathe at home. But every night, your family is inhaling dust mites, pet dander, pollen, and microscopic particles that accumulate in your bedroom. If you've noticed increased sneezing, allergies flaring up, or that stuffy feeling when you wake up, your lungs are trying to tell you something.
@@ -445,6 +446,34 @@ You probably don't think about the air you breathe at home. But every night, you
 Most traditional fans just push this contaminated air around. Air purifiers on shelves at big box stores? They're often underpowered and loud enough to keep you awake. You deserve clean air that doesn't compromise on comfort.
 
 The solution exists—it just needs to be the right one.
+
+EXAMPLE 2 - Stage 1: Problem Identification
+Product: Evaluation Evolution Auto Fold Heavy Duty Power Wheelchair
+Secondary Keywords: Evaluation Electric Wheelchair, Evaluation Evolution Fully Automatic Folding Power Wheelchair
+
+[HEADING]
+Discover Freedom with the Evaluation Evolution Fully Automatic Folding Power Wheelchair
+
+[BODY]
+Mobility shouldn't mean sacrificing independence or convenience. If you've struggled with bulky, heavy wheelchairs that require help to transport, or flimsy lightweight models that feel unstable on uneven surfaces, you know the frustration of compromising between portability and durability.
+
+Traditional power wheelchairs are either too heavy to lift into a car or too lightweight to feel secure on ramps and outdoor terrain. You need something that folds automatically, supports your weight confidently, and doesn't leave you stranded when you want to travel.
+
+True mobility freedom exists—and it doesn't require choosing between strength and portability.
+
+EXAMPLE 3 - Stage 1: Problem Identification
+Product: Body Solid G9S/G9B Two Stack Gym
+Secondary Keywords: Body Solid G9S/G9B All in One Home Gym, Body Solid G9S/G9B Universal Gym
+
+[HEADING]
+The Body Solid G9S/G9B All in One Home Gym: The Last Machine You'll Ever Need
+
+[BODY]
+Gym memberships are expensive, crowded, and inconvenient. You're paying $50-100 per month to wait for equipment, deal with other people's sweat, and commute 20 minutes each way. Home gym equipment? Most machines only work a few muscle groups, forcing you to buy multiple pieces that take over your entire basement.
+
+You want the variety of a full commercial gym in your home without needing a warehouse-sized space or spending $10,000 on separate machines. You need real strength training, not just resistance bands or adjustment-heavy contraptions.
+
+A complete strength training solution exists—one machine that replaces an entire gym floor.
 
 ---
 
@@ -470,18 +499,47 @@ QUALITY CHECKLIST - Your output must meet ALL of these criteria:
 ✓ Length: 150-250 words of body content
 ✓ Tone: Clear, logical, reassuring
 
-EXAMPLE - Stage 2: Solution Explanation
-Product: Premium Air Purifier
+EXAMPLE 1 - Stage 2: Solution Explanation
+Product: Airpura R700 Air Purifier
+Secondary Keywords: R700 Air Purifier, Airpura
 
 [HEADING]
-How HEPA Filtration Actually Eliminates 99.97% of Airborne Particles
+What is New and Improved for the R700 Air Purifier?
 
 [BODY]
-Unlike basic fan-based purifiers, our system uses hospital-grade HEPA filtration—the same technology used in operating rooms. Here's how it works: air is pulled through multiple filter layers. First, a pre-filter catches large particles like dust and pet hair. Then the HEPA filter traps 99.97% of particles as small as 0.3 microns—that includes pollen, mold spores, and dust mites.
+Unlike basic fan-based purifiers, the Airpura R700 uses hospital-grade HEPA filtration—the same technology used in operating rooms. Here's how it works: air is pulled through multiple filter layers. First, a pre-filter catches large particles like dust and pet hair. Then the HEPA filter traps 99.97% of particles as small as 0.3 microns—that includes pollen, mold spores, and dust mites.
 
 The result? Within 24 hours of running continuously, your bedroom air quality improves dramatically. You'll notice it immediately: easier breathing, fewer allergies, and waking up refreshed instead of congested.
 
-But unlike clinical purifiers that sound like a jet engine, ours runs at whisper-quiet levels. You get hospital-grade air cleaning without the hospital noise.
+But unlike clinical purifiers that sound like a jet engine, the R700 runs at whisper-quiet levels. You get hospital-grade air cleaning without the hospital noise.
+
+EXAMPLE 2 - Stage 2: Solution Explanation
+Product: Evaluation Evolution Auto Fold Heavy Duty Power Wheelchair
+Secondary Keywords: Evaluation Heavy Duty Power Wheelchair Design, Evaluation Folding Wheelchair
+
+[HEADING]
+Evaluation Heavy Duty Power Wheelchair Design: Stability Meets Lightweight Agility
+
+[BODY]
+The Evaluation Evolution combines heavy-duty construction with intelligent automatic folding technology. Here's how it works: a reinforced steel frame supports up to 330 lbs, while the patented auto-fold mechanism collapses the entire wheelchair with one button press—no manual lifting or disassembly required.
+
+The transformation is remarkable: in 10 seconds, it folds to fit in your car trunk. The advanced suspension system absorbs bumps on outdoor terrain, giving you stability on ramps and sidewalks that lightweight wheelchairs can't match. You get the durability of a traditional power chair with the portability of a travel scooter.
+
+Before, you chose between strength or convenience. Now, you get both—automatic folding that doesn't compromise on stability or weight capacity.
+
+EXAMPLE 3 - Stage 2: Solution Explanation
+Product: Body Solid G9S/G9B Two Stack Gym
+Secondary Keywords: Body Solid G9S/G9B Universal Gym
+
+[HEADING]
+The Body Solid G9S/G9B Universal Gym Has Nearly Every Exercise In The Book
+
+[BODY]
+The Body Solid G9S/G9B features two 210-pound weight stacks and over 75 exercise stations—all in one 6-foot footprint. Here's how it works: dual weight stacks allow two people to train simultaneously, or let you superset exercises without changing stations. The multi-press station, leg developer, ab crunch, pec dec, and cable crossover system are all integrated.
+
+The result? You can perform compound exercises (bench press, squats, rows) and isolation movements (bicep curls, lateral raises) without ever leaving the machine. No more waiting for equipment or buying separate machines for legs, chest, back, and shoulders.
+
+You're getting a complete commercial-grade gym that fits in your basement—for less than one year of gym membership fees.
 
 ---
 
@@ -507,23 +565,62 @@ QUALITY CHECKLIST - Your output must meet ALL of these criteria:
 ✓ Length: 4-6 feature/benefit pairs with detail
 ✓ Tone: Conversational, benefit-focused
 
-EXAMPLE - Stage 3: Feature → Benefit Mapping
-Product: Premium Air Purifier
+EXAMPLE 1 - Stage 3: Feature → Benefit Mapping
+Product: Airpura R700 Air Purifier
+Secondary Keywords: Airpura R700, Airpura
 
 [HEADING]
-What Makes Our Purifier Different - Benefits That Actually Matter
+What Does the Filtration System Look Like Inside the Airpura R700?
 
-• HEPA-13 Grade Filtration → Removes 99.97% of particles (not 95%)
-  Why it matters: Your allergies actually improve instead of just "managing" them. Asthma attacks become less frequent.
+• HEPA-Barrier True HEPA Filter → Removes 99.97% of particles as small as 0.3 microns
+  Why it matters: Your allergies actually improve instead of just "managing" them. Asthma attacks become less frequent. Pollen, dust mites, and pet dander are captured before reaching your lungs.
 
-• Whisper-Quiet Operation (22dB at lowest speed) → Sleep undisturbed while breathing cleaner air
-  Why it matters: You don't have to choose between clean air and a good night's sleep. Your whole family sleeps better.
+• 18 lbs of Activated Carbon → Removes chemicals, VOCs, and odors from the air
+  Why it matters: No more chemical smell from new furniture or cleaning products. Your home smells fresh naturally, not masked with air fresheners.
 
-• Auto-Detect Sensor → Automatically adjusts to pollution levels
-  Why it matters: No more guessing if the air is clean. The purifier works harder when needed, quieter when the air is fresh. Set it and forget it.
+• 360-Degree Air Intake → Pulls contaminated air from all directions simultaneously
+  Why it matters: The entire room gets cleaned faster—not just the air directly in front of the unit. Complete room coverage in half the time.
 
-• 3-Year Filter Lifespan → Replace filters once every 3 years, not monthly
-  Why it matters: Save hundreds on replacement filters. No more maintenance headaches.
+• Eco-Friendly Features From Airpura → Energy Star rated, uses 50% less electricity than competitors
+  Why it matters: Run it 24/7 without guilt or high electric bills. Clean air that's good for your wallet and the planet.
+
+EXAMPLE 2 - Stage 3: Feature → Benefit Mapping
+Product: Evaluation Evolution Auto Fold Heavy Duty Power Wheelchair
+Secondary Keywords: Evaluation Auto Fold Electric Wheelchair, Evaluation Electric Wheelchair
+
+[HEADING]
+Advanced Suspension for Evaluation Electric Folding Wheelchair
+
+• One-Button Automatic Folding → Collapses in 10 seconds without manual effort
+  Why it matters: No more asking for help loading your wheelchair. Independence means doing it yourself—and this makes it effortless.
+
+• 330 lb Weight Capacity with Reinforced Frame → Heavy-duty construction that feels solid and stable
+  Why it matters: You're not worried about the chair wobbling or feeling flimsy. Confidence on ramps, sidewalks, and uneven surfaces. Built to last years, not months.
+
+• Dual Motor System → Independent motors for each wheel provide better control
+  Why it matters: Smoother turns, better traction on slopes, and reliable performance. No more getting stuck on inclines or struggling with tight corners.
+
+• Joystick Control + Emergency Stop → Intuitive operation with safety failsafe
+  Why it matters: Easy to learn even if you've never used a power wheelchair. The emergency stop gives you peace of mind—you're always in control.
+
+EXAMPLE 3 - Stage 3: Feature → Benefit Mapping
+Product: Body Solid G9S/G9B Two Stack Gym
+Secondary Keywords: Body Solid G9S/G9B, Body Solid G9S/G9B All in One Home Gym
+
+[HEADING]
+The Body Solid G9S/G9B Price Includes Premium Features, Parts Well Rounded Design
+
+• Two 210 lb Weight Stacks → Train with a partner or superset exercises instantly
+  Why it matters: No more waiting between sets or for your workout partner. Cut your workout time in half while maintaining intensity.
+
+• 75+ Exercise Variations → Every major muscle group covered in one machine
+  Why it matters: You're getting chest press, leg extension, cable crossovers, lat pulldowns, and more—without buying separate machines. One purchase replaces an entire gym.
+
+• Commercial-Grade Aircraft Cable → 2,000 lb tensile strength, doesn't stretch or fray
+  Why it matters: This is the same cable used in $10,000 commercial gym equipment. It won't break, won't need replacing, and feels smooth for decades.
+
+• Lifetime Warranty on Frame → Body Solid stands behind their construction forever
+  Why it matters: This is the last home gym you'll ever buy. If anything breaks, they replace it—no questions asked.
 
 ---
 
@@ -550,27 +647,86 @@ QUALITY CHECKLIST - Your output must meet ALL of these criteria:
 ✓ Length: Detailed specs with 1-2 sentences context each
 ✓ Tone: Expert, trustworthy, confident
 
-EXAMPLE - Stage 4: Technical Specifications
-Product: Premium Air Purifier
+EXAMPLE 1 - Stage 4: Technical Specifications
+Product: Airpura R700 Air Purifier
+Secondary Keywords: Airpura R700 Tech Specs, Airpura R700
 
 [HEADING]
-Engineered for Performance - The Technical Details Behind the Clean Air
+Airpura R700 Tech Specs
 
 Coverage & Performance
-• Room Coverage: Up to 600 square feet (fully filters room air 5x per hour)
-  Why it matters: This is 2x larger than standard purifiers. Your entire bedroom gets thoroughly cleaned, not just the corner where it sits.
+• Room Coverage: Up to 2,000 square feet (fully filters room air 5x per hour)
+  Why it matters: This covers an entire floor or large open-concept space—not just a bedroom. Commercial-grade performance for your home.
 
-• CADR Rating: 350 CFM (Clean Air Delivery Rate)
-  Why it matters: Third-party verified performance. You're not trusting marketing claims—this is the industry standard measurement.
+• CADR Rating: 560 CFM (Clean Air Delivery Rate)
+  Why it matters: Third-party verified performance. You're not trusting marketing claims—this is the industry standard measurement and significantly higher than competitors.
 
-• Filter Type: Medical-Grade HEPA-13 (not standard HEPA)
-  Why it matters: Hospital-grade filtration. This is what they use in operating rooms and isolation wards.
+• Filter System: True HEPA + 18 lbs Activated Carbon
+  Why it matters: Hospital-grade filtration plus industrial-strength odor/chemical removal. This is what they use in operating rooms and chemical labs.
 
 Durability & Support
-• Filter Lifespan: 8,000 hours (approximately 3 years at 8 hours/day)
-• Warranty: 5-year manufacturer warranty + 30-day satisfaction guarantee
-• Certifications: CARB certified, ENERGY STAR rated
-  Why it matters: You're protected. If anything fails, we replace it. The certifications mean it meets the strictest US air quality standards.
+• Filter Lifespan: 5 years for carbon, 3-5 years for HEPA (depending on usage)
+• Warranty: 10-year limited warranty on parts and labor
+• Made in Canada with North American components
+  Why it matters: You're protected for a decade. If anything fails, Airpura replaces it. Canadian manufacturing standards are among the strictest in the world.
+
+EXAMPLE 2 - Stage 4: Technical Specifications
+Product: Evaluation Evolution Auto Fold Heavy Duty Power Wheelchair
+Secondary Keywords: Evaluation Auto Fold Power Wheelchair, Evaluation Power Wheelchair Specifications
+
+[HEADING]
+Evaluation Auto Fold Power Wheelchair Manual
+
+Performance & Capacity
+• Weight Capacity: 330 lbs with reinforced steel frame
+  Why it matters: Heavy-duty construction that accommodates most adults comfortably. The frame won't flex or feel unstable like lightweight models.
+
+• Battery Range: 12-15 miles per charge (dual lithium-ion batteries)
+  Why it matters: Go all day without range anxiety. Visit the mall, run errands, spend time outdoors—without worrying about getting stranded.
+
+• Top Speed: 4 mph with variable speed control
+  Why it matters: Fast enough to keep pace with walking companions, but controlled enough for indoor navigation and safety.
+
+Portability & Convenience
+• Folded Dimensions: 30" x 20" x 16" (fits in most car trunks)
+• Weight: 58 lbs total (with batteries)
+• Fold Time: 10 seconds automatic with one-button activation
+  Why it matters: True portability without sacrificing durability. Take it anywhere—travel, appointments, vacations—without needing a wheelchair van.
+
+Warranty & Support
+• 2-year warranty on frame and electronics
+• 1-year warranty on batteries
+• FDA registered medical device
+  Why it matters: You're protected. FDA registration means it meets strict safety and quality standards. If anything fails during warranty, it's replaced.
+
+EXAMPLE 3 - Stage 4: Technical Specifications
+Product: Body Solid G9S/G9B Two Stack Gym
+Secondary Keywords: Body Solid G9S/G9B Dimensions, Body Solid G9S/G9B
+
+[HEADING]
+Body Solid G9S/G9B Dimensions and Footprint
+
+Capacity & Performance
+• Dual Weight Stacks: 210 lbs each (420 lbs total resistance)
+  Why it matters: Serious weight for serious lifters. This isn't a toy—it's commercial gym equipment designed for progressive overload and muscle building.
+
+• 75+ Exercise Stations: Full body coverage including chest, back, shoulders, legs, abs
+  Why it matters: Every major and minor muscle group covered. You're not limited to basic exercises—this supports advanced training programs.
+
+• Cable System: 2,000 lb tensile strength aircraft-grade cables
+  Why it matters: Commercial-grade components that won't stretch, fray, or break. The same cables used in $15,000+ gym equipment.
+
+Dimensions & Space Requirements
+• Assembled Dimensions: 88"L x 78"W x 83"H
+• Footprint: Approximately 48 square feet
+• Weight: 850 lbs (rock-solid stability, no movement during use)
+  Why it matters: Fits in most basements or garage gym spaces. The weight means it stays planted—no shifting or wobbling during heavy lifts.
+
+Warranty & Craftsmanship
+• Lifetime Warranty: Frame and welds (non-prorated, transferable)
+• 5-Year Warranty: Cables, pulleys, and all moving parts
+• 2-Year Warranty: Upholstery and grips
+  Why it matters: Body Solid has been in business for 40+ years. This warranty is real—they stand behind every machine forever. This is the last home gym you'll ever need to buy.
 
 ---
 
@@ -596,25 +752,71 @@ QUALITY CHECKLIST - Your output must meet ALL of these criteria:
 ✓ Length: 150-200 words body + CTA button text
 ✓ Tone: Urgent, confident, reassuring
 
-EXAMPLE - Stage 5: Call-to-Action Conclusion
-Product: Premium Air Purifier
+EXAMPLE 1 - Stage 5: Call-to-Action Conclusion
+Product: Airpura R700 Air Purifier
+Secondary Keywords: Airpura R700, Airpura
 
 [HEADING]
-Start Breathing Clean Tonight - Join 50,000+ Families Who Did
+Ready to Experience the Airpura Difference? Order Your R700 Today
 
 [BODY]
 You've waited long enough. Your family deserves clean air, and you've just learned exactly how to get it. The only question is whether you're going to take action now or keep waking up sneezing.
 
 Here's what makes this risk-free:
 • 30-day money-back guarantee: Try it in your home. If you don't notice the difference, we refund every penny.
-• 5-year warranty: We stand behind our engineering because we built this to last.
+• 10-year warranty: We stand behind Airpura's Canadian engineering because it's built to last a decade.
 • Free shipping: No surprises at checkout.
+• Installation support: We'll walk you through setup if you need help.
 
-This week, we're offering free premium filter included (a $79 value). This bonus is only available until supplies run out.
+Orders ship within 1-2 business days. Most customers notice improved air quality within 24 hours of running the R700 continuously.
 
 Imagine waking up tomorrow with clear sinuses. Breathing easily. Your kids sleeping through the night without coughing. That future is just one click away.
 
-[CTA BUTTON TEXT: Get My Clean Air Purifier + Free Filter]
+[CTA BUTTON TEXT: Order My Airpura R700 + Free Shipping]
+
+EXAMPLE 2 - Stage 5: Call-to-Action Conclusion
+Product: Evaluation Evolution Auto Fold Heavy Duty Power Wheelchair
+Secondary Keywords: Evaluation Auto Fold Electric Wheelchair, Evaluation Electric Wheelchair
+
+[HEADING]
+Evaluation Auto Fold Electric Wheelchair: Secure and Empower Your Mobility
+
+[BODY]
+You deserve independence and mobility without compromise. You've just discovered how automatic folding technology changes everything—now it's time to experience it yourself.
+
+Here's what makes this decision risk-free:
+• 30-day trial period: Use the Evaluation Evolution in your daily life. If it doesn't transform your mobility, return it for a full refund.
+• 2-year warranty: Frame, electronics, and motors are covered. If anything fails, we replace it at no cost.
+• White-glove delivery available: We'll deliver, assemble, and train you on operation at your home.
+• Medicare/Insurance accepted: We handle the paperwork and work directly with your insurance provider.
+
+Limited stock available for immediate shipping. Most orders ship within 3-5 business days.
+
+Picture yourself visiting family without needing help loading your wheelchair. Shopping independently. Traveling again. That freedom is waiting for you.
+
+[CTA BUTTON TEXT: Secure My Evaluation Evolution Wheelchair]
+
+EXAMPLE 3 - Stage 5: Call-to-Action Conclusion
+Product: Body Solid G9S/G9B Two Stack Gym
+Secondary Keywords: Body Solid G9S/G9B, Body Solid G9S/G9B All in One Home Gym
+
+[HEADING]
+Can It Get Any Better? Yep. Add Body Solid G9S/G9B Attachments To Your Gym
+
+[BODY]
+You've seen the specs. You know this replaces an entire gym. The only question left is whether you're ready to stop paying monthly gym fees and start building muscle at home.
+
+Here's what makes this the smartest investment:
+• Lifetime warranty on frame: This is the last home gym you'll ever buy. Body Solid guarantees the frame forever.
+• 0% financing available: Break payments into affordable monthly installments—often less than your current gym membership.
+• White-glove delivery + assembly: Professional installation included. We set it up in your home gym space and remove all packaging.
+• 30-day trial: Use it for a month. If you don't love training at home, return it for a full refund.
+
+Current promotion: Free leg press attachment ($299 value) with purchase. Offer ends when current inventory sells out.
+
+Imagine never waiting for equipment again. Training on your schedule. Saving $1,200+ per year in gym fees. That's your new reality.
+
+[CTA BUTTON TEXT: Get My Body Solid G9S + Free Leg Press]
 
 ---
 
