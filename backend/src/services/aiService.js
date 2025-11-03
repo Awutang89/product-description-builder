@@ -415,6 +415,7 @@ Return only the keywords as a comma-separated list, nothing else.`;
 
 /**
  * Build stage-specific system prompt for product description
+ * Includes examples and quality checklist for each stage
  */
 function buildProductDescriptionPrompt(stage, productTitle, secondaryKeywords = []) {
   const keywords = secondaryKeywords.length > 0 ? secondaryKeywords.join(', ') : productTitle;
@@ -422,9 +423,34 @@ function buildProductDescriptionPrompt(stage, productTitle, secondaryKeywords = 
   const stagePrompts = {
     1: `You are an expert copywriter specializing in identifying and articulating customer problems.
 
+QUALITY CHECKLIST - Your output must meet ALL of these criteria:
+✓ Heading incorporates the keyword naturally
+✓ Identifies a specific, relatable customer problem (not generic)
+✓ Shows deep understanding of customer pain points
+✓ Creates empathy - customer feels understood
+✓ Validates frustration with emotional language
+✓ Sets up product as the logical next step
+✓ Length: 150-250 words of body content
+✓ Tone: Conversational, empathetic, not salesy
+
+EXAMPLE - Stage 1: Problem Identification
+Product: Premium Air Purifier
+
+[HEADING]
+Tired of Waking Up Sneezing? The Hidden Air Quality Crisis in Your Home
+
+[BODY]
+You probably don't think about the air you breathe at home. But every night, your family is inhaling dust mites, pet dander, pollen, and microscopic particles that accumulate in your bedroom. If you've noticed increased sneezing, allergies flaring up, or that stuffy feeling when you wake up, your lungs are trying to tell you something.
+
+Most traditional fans just push this contaminated air around. Air purifiers on shelves at big box stores? They're often underpowered and loud enough to keep you awake. You deserve clean air that doesn't compromise on comfort.
+
+The solution exists—it just needs to be the right one.
+
+---
+
 For the product "${productTitle}", create a compelling Stage 1 section that:
 1. Identifies the main problem customers face that this product solves
-2. Demonstrates understanding of the customer's pain points
+2. Demonstrates deep understanding of the customer's pain points
 3. Creates empathy and validates their frustration
 4. Sets up the product as the solution
 5. Uses the keyword "${keywords}" in a natural heading if possible
@@ -433,6 +459,31 @@ Write in a benefit-focused, conversational tone. Include a compelling heading th
 Output format: [HEADING]\n[BODY CONTENT]`,
 
     2: `You are an expert copywriter specializing in solution explanation and value propositions.
+
+QUALITY CHECKLIST - Your output must meet ALL of these criteria:
+✓ Heading incorporates the keyword naturally
+✓ Explains the core mechanism/how it actually works
+✓ Shows before → after transformation clearly
+✓ Uses accessible language (no jargon)
+✓ Highlights the innovation or unique approach
+✓ Addresses the specific problem from Stage 1
+✓ Length: 150-250 words of body content
+✓ Tone: Clear, logical, reassuring
+
+EXAMPLE - Stage 2: Solution Explanation
+Product: Premium Air Purifier
+
+[HEADING]
+How HEPA Filtration Actually Eliminates 99.97% of Airborne Particles
+
+[BODY]
+Unlike basic fan-based purifiers, our system uses hospital-grade HEPA filtration—the same technology used in operating rooms. Here's how it works: air is pulled through multiple filter layers. First, a pre-filter catches large particles like dust and pet hair. Then the HEPA filter traps 99.97% of particles as small as 0.3 microns—that includes pollen, mold spores, and dust mites.
+
+The result? Within 24 hours of running continuously, your bedroom air quality improves dramatically. You'll notice it immediately: easier breathing, fewer allergies, and waking up refreshed instead of congested.
+
+But unlike clinical purifiers that sound like a jet engine, ours runs at whisper-quiet levels. You get hospital-grade air cleaning without the hospital noise.
+
+---
 
 For the product "${productTitle}", create a compelling Stage 2 section that:
 1. Explains how the product elegantly solves the problem identified in Stage 1
@@ -445,6 +496,36 @@ Write in a benefit-focused, conversational tone. Include a compelling heading th
 Output format: [HEADING]\n[BODY CONTENT]`,
 
     3: `You are an expert copywriter specializing in feature-to-benefit translation.
+
+QUALITY CHECKLIST - Your output must meet ALL of these criteria:
+✓ Heading incorporates the keyword naturally
+✓ Each feature clearly tied to customer benefit
+✓ Answers "Why should I care?" for each feature
+✓ Uses customer perspective language, not specs
+✓ Shows real-world transformation/outcomes
+✓ Specific and concrete (not vague)
+✓ Length: 4-6 feature/benefit pairs with detail
+✓ Tone: Conversational, benefit-focused
+
+EXAMPLE - Stage 3: Feature → Benefit Mapping
+Product: Premium Air Purifier
+
+[HEADING]
+What Makes Our Purifier Different - Benefits That Actually Matter
+
+• HEPA-13 Grade Filtration → Removes 99.97% of particles (not 95%)
+  Why it matters: Your allergies actually improve instead of just "managing" them. Asthma attacks become less frequent.
+
+• Whisper-Quiet Operation (22dB at lowest speed) → Sleep undisturbed while breathing cleaner air
+  Why it matters: You don't have to choose between clean air and a good night's sleep. Your whole family sleeps better.
+
+• Auto-Detect Sensor → Automatically adjusts to pollution levels
+  Why it matters: No more guessing if the air is clean. The purifier works harder when needed, quieter when the air is fresh. Set it and forget it.
+
+• 3-Year Filter Lifespan → Replace filters once every 3 years, not monthly
+  Why it matters: Save hundreds on replacement filters. No more maintenance headaches.
+
+---
 
 For the product "${productTitle}", create a compelling Stage 3 section that:
 1. Maps key features to specific customer benefits
@@ -459,6 +540,40 @@ Output format: [HEADING]\n[FEATURE/BENEFIT PAIRS]`,
 
     4: `You are an expert copywriter specializing in technical specifications and trust-building.
 
+QUALITY CHECKLIST - Your output must meet ALL of these criteria:
+✓ Heading incorporates the keyword naturally
+✓ Each spec includes context for why it matters
+✓ Specific measurements and metrics provided
+✓ Links specs back to customer benefits
+✓ Uses quality/expert language (builds confidence)
+✓ Addresses durability, warranty, certifications
+✓ Length: Detailed specs with 1-2 sentences context each
+✓ Tone: Expert, trustworthy, confident
+
+EXAMPLE - Stage 4: Technical Specifications
+Product: Premium Air Purifier
+
+[HEADING]
+Engineered for Performance - The Technical Details Behind the Clean Air
+
+Coverage & Performance
+• Room Coverage: Up to 600 square feet (fully filters room air 5x per hour)
+  Why it matters: This is 2x larger than standard purifiers. Your entire bedroom gets thoroughly cleaned, not just the corner where it sits.
+
+• CADR Rating: 350 CFM (Clean Air Delivery Rate)
+  Why it matters: Third-party verified performance. You're not trusting marketing claims—this is the industry standard measurement.
+
+• Filter Type: Medical-Grade HEPA-13 (not standard HEPA)
+  Why it matters: Hospital-grade filtration. This is what they use in operating rooms and isolation wards.
+
+Durability & Support
+• Filter Lifespan: 8,000 hours (approximately 3 years at 8 hours/day)
+• Warranty: 5-year manufacturer warranty + 30-day satisfaction guarantee
+• Certifications: CARB certified, ENERGY STAR rated
+  Why it matters: You're protected. If anything fails, we replace it. The certifications mean it meets the strictest US air quality standards.
+
+---
+
 For the product "${productTitle}", create a compelling Stage 4 section that:
 1. Provides technical specifications with context and relevance
 2. Explains why each specification matters to the customer
@@ -470,6 +585,38 @@ Write in a benefit-focused, conversational tone that makes technical info access
 Output format: [HEADING]\n[SPECIFICATIONS WITH CONTEXT]`,
 
     5: `You are an expert copywriter specializing in persuasive calls-to-action and closing statements.
+
+QUALITY CHECKLIST - Your output must meet ALL of these criteria:
+✓ Heading incorporates the keyword naturally
+✓ Creates clear sense of urgency (time/scarcity based)
+✓ Removes final objections (price, warranty, risk)
+✓ Specific call-to-action (not vague)
+✓ Mentions guarantee or risk-removal
+✓ Ends with memorable benefit/transformation
+✓ Length: 150-200 words body + CTA button text
+✓ Tone: Urgent, confident, reassuring
+
+EXAMPLE - Stage 5: Call-to-Action Conclusion
+Product: Premium Air Purifier
+
+[HEADING]
+Start Breathing Clean Tonight - Join 50,000+ Families Who Did
+
+[BODY]
+You've waited long enough. Your family deserves clean air, and you've just learned exactly how to get it. The only question is whether you're going to take action now or keep waking up sneezing.
+
+Here's what makes this risk-free:
+• 30-day money-back guarantee: Try it in your home. If you don't notice the difference, we refund every penny.
+• 5-year warranty: We stand behind our engineering because we built this to last.
+• Free shipping: No surprises at checkout.
+
+This week, we're offering free premium filter included (a $79 value). This bonus is only available until supplies run out.
+
+Imagine waking up tomorrow with clear sinuses. Breathing easily. Your kids sleeping through the night without coughing. That future is just one click away.
+
+[CTA BUTTON TEXT: Get My Clean Air Purifier + Free Filter]
+
+---
 
 For the product "${productTitle}", create a compelling Stage 5 section that:
 1. Creates urgency and motivation to take action
