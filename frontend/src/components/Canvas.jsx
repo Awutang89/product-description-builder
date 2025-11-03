@@ -1,11 +1,15 @@
-import { Trash2, Copy, Move } from 'lucide-react';
+import { useState } from 'react';
+import { Trash2, Copy, Move, Zap } from 'lucide-react';
 import { useEditor } from '../store/editorStore';
+import AIGeneratorModal from './AIGeneratorModal';
 
 /**
  * Canvas Component
  * Main editing canvas where sections are displayed and managed
  */
 export function Canvas({ projectId }) {
+  const [showAIModal, setShowAIModal] = useState(false);
+
   const {
     sections,
     selectedSectionId,
@@ -376,9 +380,19 @@ export function Canvas({ projectId }) {
   return (
     <div className="h-full flex flex-col bg-gray-50 border-r border-gray-200 overflow-hidden">
       {/* Canvas Header */}
-      <div className="border-b border-gray-200 p-4 bg-white">
+      <div className="border-b border-gray-200 p-4 bg-white flex justify-between items-center">
         <h2 className="text-lg font-bold text-gray-900">Canvas Preview</h2>
+        <button
+          onClick={() => setShowAIModal(true)}
+          className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+        >
+          <Zap size={18} />
+          AI Generate
+        </button>
       </div>
+
+      {/* AI Generator Modal */}
+      <AIGeneratorModal isOpen={showAIModal} onClose={() => setShowAIModal(false)} projectId={projectId} />
 
       {/* Canvas Area */}
       <div

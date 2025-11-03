@@ -357,9 +357,290 @@ Please revise the content to address the feedback while maintaining the core mes
   }
 };
 
+/**
+ * Generate secondary keywords from product title
+ * Used for SEO optimization and heading variation
+ */
+export const generateSecondaryKeywords = async (productTitle) => {
+  try {
+    const prompt = `Given the product title: "${productTitle}"
+
+Generate 4-6 secondary keywords that:
+1. Are variations or related keywords to the main product
+2. Can be used as headings throughout a product description
+3. Are SEO-friendly
+4. Provide good variety while staying relevant
+5. Are suitable for different sections of a sales page
+
+Return only the keywords as a comma-separated list, nothing else.`;
+
+    const completion = await getOpenAIClient().chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'system',
+          content:
+            'You are an SEO expert and copywriter. Generate keyword variations from product titles.',
+        },
+        {
+          role: 'user',
+          content: prompt,
+        },
+      ],
+      temperature: 0.7,
+      max_tokens: 150,
+    });
+
+    // Parse the response into an array
+    const keywordString = completion.choices[0].message.content.trim();
+    const keywords = keywordString.split(',').map((k) => k.trim());
+
+    return {
+      success: true,
+      keywords,
+      usage: {
+        promptTokens: completion.usage.prompt_tokens,
+        completionTokens: completion.usage.completion_tokens,
+        totalTokens: completion.usage.total_tokens,
+      },
+    };
+  } catch (error) {
+    console.error('Generate Secondary Keywords Error:', error);
+    throw {
+      code: 'KEYWORD_ERROR',
+      message: 'Failed to generate secondary keywords',
+    };
+  }
+};
+
+/**
+ * Build stage-specific system prompt for product description
+ */
+function buildProductDescriptionPrompt(stage, productTitle, secondaryKeywords = []) {
+  const keywords = secondaryKeywords.length > 0 ? secondaryKeywords.join(', ') : productTitle;
+
+  const stagePrompts = {
+    1: `You are an expert copywriter specializing in identifying and articulating customer problems.
+
+For the product "${productTitle}", create a compelling Stage 1 section that:
+1. Identifies the main problem customers face that this product solves
+2. Demonstrates understanding of the customer's pain points
+3. Creates empathy and validates their frustration
+4. Sets up the product as the solution
+5. Uses the keyword "${keywords}" in a natural heading if possible
+
+Write in a benefit-focused, conversational tone. Include a compelling heading that incorporates the keyword.
+Output format: [HEADING]\n[BODY CONTENT]`,
+
+    2: `You are an expert copywriter specializing in solution explanation and value propositions.
+
+For the product "${productTitle}", create a compelling Stage 2 section that:
+1. Explains how the product elegantly solves the problem identified in Stage 1
+2. Highlights the core mechanism or innovation
+3. Shows the transformation from "before" (with problem) to "after" (problem solved)
+4. Uses accessible, non-technical language
+5. Uses the keyword "${keywords}" in a natural heading if possible
+
+Write in a benefit-focused, conversational tone. Include a compelling heading that incorporates the keyword.
+Output format: [HEADING]\n[BODY CONTENT]`,
+
+    3: `You are an expert copywriter specializing in feature-to-benefit translation.
+
+For the product "${productTitle}", create a compelling Stage 3 section that:
+1. Maps key features to specific customer benefits
+2. Answers "Why should I care?" for each important feature
+3. Uses the customer's language and perspective
+4. Shows transformation and improved outcomes
+5. Uses the keyword "${keywords}" in a natural heading if possible
+6. Format as a structured list with feature and corresponding benefit clearly connected
+
+Write in a benefit-focused, conversational tone. Include a compelling heading that incorporates the keyword.
+Output format: [HEADING]\n[FEATURE/BENEFIT PAIRS]`,
+
+    4: `You are an expert copywriter specializing in technical specifications and trust-building.
+
+For the product "${productTitle}", create a compelling Stage 4 section that:
+1. Provides technical specifications with context and relevance
+2. Explains why each specification matters to the customer
+3. Uses specific measurements, materials, or performance metrics
+4. Builds confidence through detailed expertise and quality signals
+5. Uses the keyword "${keywords}" in a natural heading if possible
+
+Write in a benefit-focused, conversational tone that makes technical info accessible. Include a compelling heading that incorporates the keyword.
+Output format: [HEADING]\n[SPECIFICATIONS WITH CONTEXT]`,
+
+    5: `You are an expert copywriter specializing in persuasive calls-to-action and closing statements.
+
+For the product "${productTitle}", create a compelling Stage 5 section that:
+1. Creates urgency and motivation to take action
+2. Removes final objections or barriers
+3. Clearly states the next step (purchase, learn more, etc.)
+4. Includes a strong, action-oriented call-to-action
+5. Uses the keyword "${keywords}" in a natural heading if possible
+6. Ends with a memorable benefit or guarantee
+
+Write in a benefit-focused, conversational tone with power words. Include a compelling heading that incorporates the keyword.
+Output format: [HEADING]\n[BODY CONTENT]\n[CTA BUTTON TEXT: XXX]`,
+  };
+
+  return stagePrompts[stage] || stagePrompts[1];
+}
+
+/**
+ * Generate product description for a specific stage
+ * Stages: 1=Problem, 2=Solution, 3=Benefits, 4=Specs, 5=CTA
+ */
+export const generateProductDescriptionStage = async (
+  supplierDescription,
+  imageUrls = [],
+  productTitle,
+  stage = 1,
+  options = {}
+) => {
+  try {
+    const { secondaryKeywords = [], previousStageContent = null } = options;
+
+    // Build the system prompt for this stage
+    const systemPrompt = buildProductDescriptionPrompt(stage, productTitle, secondaryKeywords);
+
+    // Build the user prompt with context
+    let userPrompt = `Product Title: ${productTitle}
+
+Supplier Information:
+${supplierDescription}`;
+
+    if (imageUrls && imageUrls.length > 0) {
+      userPrompt += `
+
+Product Images (${imageUrls.length}): ${imageUrls.join(', ')}
+Use these image URLs as reference for product appearance, features, and context.`;
+    }
+
+    if (previousStageContent && stage > 1) {
+      userPrompt += `
+
+Previous Stage Content (for context):
+${previousStageContent}
+
+Build on this foundation without repeating it.`;
+    }
+
+    userPrompt += `
+
+Generate the content for Stage ${stage}. Focus on creating compelling, benefit-focused copy.`;
+
+    const completion = await getOpenAIClient().chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'system',
+          content: systemPrompt,
+        },
+        {
+          role: 'user',
+          content: userPrompt,
+        },
+      ],
+      temperature: 0.7,
+      max_tokens: 800,
+    });
+
+    const content = completion.choices[0].message.content.trim();
+
+    return {
+      success: true,
+      stage,
+      content,
+      usage: {
+        promptTokens: completion.usage.prompt_tokens,
+        completionTokens: completion.usage.completion_tokens,
+        totalTokens: completion.usage.total_tokens,
+      },
+    };
+  } catch (error) {
+    console.error('Generate Product Description Stage Error:', error);
+    throw {
+      code: 'DESCRIPTION_ERROR',
+      message: 'Failed to generate product description stage',
+    };
+  }
+};
+
+/**
+ * Refine a product description stage based on user feedback
+ */
+export const refineProductStageContent = async (
+  stageContent,
+  feedback,
+  stage,
+  options = {}
+) => {
+  try {
+    const { secondaryKeywords = [] } = options;
+    const keywords = secondaryKeywords.length > 0 ? secondaryKeywords.join(', ') : '';
+
+    const refinementPrompt = `You are refining a product description stage based on user feedback.
+
+Original Stage ${stage} Content:
+${stageContent}
+
+User Feedback:
+${feedback}
+
+Please revise the content to address the feedback while:
+1. Maintaining the core message and purpose of Stage ${stage}
+2. Keeping the benefit-focused copywriting approach
+3. Incorporating the keywords naturally if applicable: ${keywords}
+4. Improving clarity, persuasiveness, and engagement
+
+Return only the revised content.`;
+
+    const completion = await getOpenAIClient().chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'system',
+          content:
+            'You are an expert copywriter refining product description content based on feedback.',
+        },
+        {
+          role: 'user',
+          content: refinementPrompt,
+        },
+      ],
+      temperature: 0.7,
+      max_tokens: 800,
+    });
+
+    const refinedContent = completion.choices[0].message.content.trim();
+
+    return {
+      success: true,
+      stage,
+      originalContent: stageContent,
+      refinedContent,
+      feedback,
+      usage: {
+        promptTokens: completion.usage.prompt_tokens,
+        completionTokens: completion.usage.completion_tokens,
+        totalTokens: completion.usage.total_tokens,
+      },
+    };
+  } catch (error) {
+    console.error('Refine Product Stage Error:', error);
+    throw {
+      code: 'REFINE_ERROR',
+      message: 'Failed to refine product description stage',
+    };
+  }
+};
+
 export default {
   generateContent,
   generateVariations,
   scoreContent,
   refineContent,
+  generateSecondaryKeywords,
+  generateProductDescriptionStage,
+  refineProductStageContent,
 };
