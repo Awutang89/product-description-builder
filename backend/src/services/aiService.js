@@ -425,11 +425,15 @@ function buildProductDescriptionPrompt(stage, productTitle, secondaryKeywords = 
 
 QUALITY CHECKLIST - Your output must meet ALL of these criteria:
 ✓ Heading incorporates the keyword naturally
+✓ NEVER use H1 heading tags (use H2, H3, or H4 only)
 ✓ Identifies a specific, relatable customer problem (not generic)
 ✓ Shows deep understanding of customer pain points
 ✓ Creates empathy - customer feels understood
 ✓ Validates frustration with emotional language
 ✓ Sets up product as the logical next step
+✓ Uses copywriting to tell a story and create a hook at the beginning
+✓ Mentions the primary keyword (product name) at least once in the first 100-300 words
+✓ Uses chunking with bullet/numbered lists and increased white space to enhance readability
 ✓ Length: 150-250 words of body content
 ✓ Tone: Conversational, empathetic, not salesy
 
@@ -441,11 +445,26 @@ Secondary Keywords: Airpura R700, R700 Air Purifier, Airpura, R700 Airpura
 Give Your Family the Gift of Clean Air with the Airpura R700
 
 [BODY]
-You probably don't think about the air you breathe at home. But every night, your family is inhaling dust mites, pet dander, pollen, and microscopic particles that accumulate in your bedroom. If you've noticed increased sneezing, allergies flaring up, or that stuffy feeling when you wake up, your lungs are trying to tell you something.
+This is the everyday air purifier you've been looking for.
 
-Most traditional fans just push this contaminated air around. Air purifiers on shelves at big box stores? They're often underpowered and loud enough to keep you awake. You deserve clean air that doesn't compromise on comfort.
+Eliminate unwanted household chemicals, pollen, mold spores, dust, allergens, odors, and more!
 
-The solution exists—it just needs to be the right one.
+With indoor air quality now an environmental health concern, you should know what you are breathing inside your home or at work.
+
+With its powerful 635 CFM Impeller, the R700 is able to draw air through an 18 pound carbon bed and true HEPA filter. This will help clean your indoor environment by removing any potential health hazards that may be present in polluted air!
+
+Help relieve allergy, asthma, or MCS symptoms with one of the best air purifiers on the market.
+
+Can you feel the crispness of your new air yet? Get your Airpura R700 Air Purifier today!
+
+WHY THIS WORKS:
+✓ Emotional Hook: Opens with "gift of clean air" in heading - benefit-focused, not feature-focused
+✓ Direct & Conversational: "This is the everyday air purifier you've been looking for" - speaks directly to reader
+✓ Problem Awareness: Mentions "indoor air quality now an environmental health concern"
+✓ Specific Benefits: Lists exact problems it solves (chemicals, pollen, mold, allergens)
+✓ Technical Credibility: Includes specs (635 CFM, 18 pound carbon bed) but translates to benefit
+✓ Sensory Close: "Can you feel the crispness of your new air yet?" - makes it tangible
+✓ Keyword Placement: "Airpura R700" appears in first 100 words
 
 EXAMPLE 2 - Stage 1: Problem Identification
 Product: Evaluation Evolution Auto Fold Heavy Duty Power Wheelchair
@@ -455,11 +474,14 @@ Secondary Keywords: Evaluation Electric Wheelchair, Evaluation Evolution Fully A
 Discover Freedom with the Evaluation Evolution Fully Automatic Folding Power Wheelchair
 
 [BODY]
-Mobility shouldn't mean sacrificing independence or convenience. If you've struggled with bulky, heavy wheelchairs that require help to transport, or flimsy lightweight models that feel unstable on uneven surfaces, you know the frustration of compromising between portability and durability.
+How often have you felt the burden of dependence, longing for a simpler way to enjoy your day-to-day activities? The Evaluation Evolution Fully Automatic Folding Power Wheelchair is your answer. This isn't just any chair; it's your gateway to reclaiming independence. With its state-of-the-art auto-fold feature, you can easily fold and unfold the chair with just a push of a button, no physical strain, no asking for help. It's compact enough (14" X 31" X 24.5") to fit in any car trunk, making travel a breeze.
 
-Traditional power wheelchairs are either too heavy to lift into a car or too lightweight to feel secure on ramps and outdoor terrain. You need something that folds automatically, supports your weight confidently, and doesn't leave you stranded when you want to travel.
-
-True mobility freedom exists—and it doesn't require choosing between strength and portability.
+WHY THIS WORKS:
+✓ Empathy Opening: "How often have you felt the burden of dependence" - acknowledges pain point
+✓ Transformation Promise: "gateway to reclaiming independence"
+✓ Specific Feature + Benefit: Auto-fold feature → no physical strain, no asking for help
+✓ Practical Detail: Exact dimensions (14" X 31" X 24.5") + "fits in any car trunk"
+✓ Product Name Early: Mentions full product name in first sentence
 
 EXAMPLE 3 - Stage 1: Problem Identification
 Product: Body Solid G9S/G9B Two Stack Gym
@@ -469,11 +491,24 @@ Secondary Keywords: Body Solid G9S/G9B All in One Home Gym, Body Solid G9S/G9B U
 The Body Solid G9S/G9B All in One Home Gym: The Last Machine You'll Ever Need
 
 [BODY]
-Gym memberships are expensive, crowded, and inconvenient. You're paying $50-100 per month to wait for equipment, deal with other people's sweat, and commute 20 minutes each way. Home gym equipment? Most machines only work a few muscle groups, forcing you to buy multiple pieces that take over your entire basement.
+How would you like to eliminate monthly fees and daily gym commutes? Maybe you'd prefer to blast your own music, and avoid sweaty gym bros? This multi-station all-in-one gym has 7+ commercial-quality, full-body workout stations in one compact machine. Your busy lifestyle, family, and hobbies, shouldn't suffer to stay in shape. Free up precious time for what matters most with the G9S/G9B.
 
-You want the variety of a full commercial gym in your home without needing a warehouse-sized space or spending $10,000 on separate machines. You need real strength training, not just resistance bands or adjustment-heavy contraptions.
+Commercial quality construction for long-lasting performance.
+Powered by two upgradable 210 lb. selectorized weight stacks.
+7+ workout stations for legs, chest, back, arms, abs, and more.
+An included full function seated leg press with up 520 lbs of resistance.
+Premium upholstery, adjustable seats, and durable cables & pulleys.
+Front to back, lifetime in-home warranty for a life-time of training.
+Lets go a step deeper on this ultimate piece of light commercial home gym equipment.
 
-A complete strength training solution exists—one machine that replaces an entire gym floor.
+WHY THIS WORKS:
+✓ Lifestyle Hook: "eliminate monthly fees and daily gym commutes"
+✓ Personality: "avoid sweaty gym bros" - casual, relatable tone
+✓ Value Proposition: "7+ commercial-quality... workout stations in one"
+✓ Emotional Benefit: "Your busy lifestyle, family, and hobbies, shouldn't suffer"
+✓ Bullet Summary: Quick-scan benefits before diving deep
+✓ Conversational Transition: "Lets go a step deeper" - keeps reader engaged
+✓ Product Name: "G9S/G9B" appears early in opening paragraph
 
 ---
 
@@ -491,11 +526,13 @@ Output format: [HEADING]\n[BODY CONTENT]`,
 
 QUALITY CHECKLIST - Your output must meet ALL of these criteria:
 ✓ Heading incorporates the keyword naturally
+✓ NEVER use H1 heading tags (use H2, H3, or H4 only)
 ✓ Explains the core mechanism/how it actually works
 ✓ Shows before → after transformation clearly
 ✓ Uses accessible language (no jargon)
 ✓ Highlights the innovation or unique approach
 ✓ Addresses the specific problem from Stage 1
+✓ Uses chunking with bullet/numbered lists and increased white space to enhance readability
 ✓ Length: 150-250 words of body content
 ✓ Tone: Clear, logical, reassuring
 
@@ -507,11 +544,29 @@ Secondary Keywords: R700 Air Purifier, Airpura
 What is New and Improved for the R700 Air Purifier?
 
 [BODY]
-Unlike basic fan-based purifiers, the Airpura R700 uses hospital-grade HEPA filtration—the same technology used in operating rooms. Here's how it works: air is pulled through multiple filter layers. First, a pre-filter catches large particles like dust and pet hair. Then the HEPA filter traps 99.97% of particles as small as 0.3 microns—that includes pollen, mold spores, and dust mites.
+New powerful 635 CFM Fan/Motor
 
-The result? Within 24 hours of running continuously, your bedroom air quality improves dramatically. You'll notice it immediately: easier breathing, fewer allergies, and waking up refreshed instead of congested.
+The Airpura R700 has the largest motor in a portable air purifier at 635 CFM! CFM stands for cubic feet per minute, and this is how many cubic feet per minute this air purifier can clean. This will give you more complete air exchanges every hour.
 
-But unlike clinical purifiers that sound like a jet engine, the R700 runs at whisper-quiet levels. You get hospital-grade air cleaning without the hospital noise.
+Increased Airflow with lower noise levels
+
+Get better performance out of your R700 Air Purifier with the improved airflow. It is also one of the quietest noise levels for an air purifier — 30.2 db on low (a whisper) and 63 db on high (a normal conversation) at 6 ft. Turn it on and let it clean your air without the loud noises.
+
+Purify areas as large as 2,000 sq. ft.
+
+With its multi-stage filtration, the Airpura R700 can help eliminate many pollutants.
+
+These include:
+
+Allergen Particles: Pet dander, dust, dust mites, pollen, mold spores, and asbestos.
+
+WHY THIS WORKS:
+✓ Feature → Benefit Translation: Every spec explains "why it matters"
+✓ Chunking: Clear subheadings for each feature (H3-style)
+✓ Specificity: "635 CFM" + explains what CFM means in layman's terms
+✓ Real-World Context: "30.2 db on low (a whisper)" - relatable comparison
+✓ Bullet Lists: Uses colons and bullets for allergen types - increases white space
+✓ Accessible Language: Technical terms explained immediately (CFM definition)
 
 EXAMPLE 2 - Stage 2: Solution Explanation
 Product: Evaluation Evolution Auto Fold Heavy Duty Power Wheelchair
@@ -521,25 +576,44 @@ Secondary Keywords: Evaluation Heavy Duty Power Wheelchair Design, Evaluation Fo
 Evaluation Heavy Duty Power Wheelchair Design: Stability Meets Lightweight Agility
 
 [BODY]
-The Evaluation Evolution combines heavy-duty construction with intelligent automatic folding technology. Here's how it works: a reinforced steel frame supports up to 330 lbs, while the patented auto-fold mechanism collapses the entire wheelchair with one button press—no manual lifting or disassembly required.
+Isn't it about time your wheelchair adapted to your needs rather than the other way around? Weighing only 53 lbs yet robust enough to support up to 400 pounds, the Evaluation Evolution combines the best of both worlds: heavy-duty performance in a lightweight, agile frame. Crafted from high-grade aircraft aluminum alloy and equipped with a luxurious leather memory foam seat, it provides comfort without compromising on durability or your mobility.
 
-The transformation is remarkable: in 10 seconds, it folds to fit in your car trunk. The advanced suspension system absorbs bumps on outdoor terrain, giving you stability on ramps and sidewalks that lightweight wheelchairs can't match. You get the durability of a traditional power chair with the portability of a travel scooter.
-
-Before, you chose between strength or convenience. Now, you get both—automatic folding that doesn't compromise on stability or weight capacity.
+WHY THIS WORKS:
+✓ Rhetorical Question: Engages reader personally
+✓ Contrast Strategy: "53 lbs yet... supports up to 400 pounds" - shows engineering achievement
+✓ Material Quality Signal: "high-grade aircraft aluminum alloy" builds confidence
+✓ Comfort Details: "luxurious leather memory foam seat"
+✓ Benefit Summary: "comfort without compromising on durability or your mobility"
 
 EXAMPLE 3 - Stage 2: Solution Explanation
 Product: Body Solid G9S/G9B Two Stack Gym
 Secondary Keywords: Body Solid G9S/G9B Universal Gym
 
 [HEADING]
-The Body Solid G9S/G9B Universal Gym Has Nearly Every Exercise In The Book
+The Body Solid G9S/G9B Price Includes Premium Features, Parts Well Rounded Design
 
 [BODY]
-The Body Solid G9S/G9B features two 210-pound weight stacks and over 75 exercise stations—all in one 6-foot footprint. Here's how it works: dual weight stacks allow two people to train simultaneously, or let you superset exercises without changing stations. The multi-press station, leg developer, ab crunch, pec dec, and cable crossover system are all integrated.
+The Body Solid Multi Gym G9S/G9B is the top-of-the-line body solid home gym. Providing more than just versatile workouts.
 
-The result? You can perform compound exercises (bench press, squats, rows) and isolation movements (bicep curls, lateral raises) without ever leaving the machine. No more waiting for equipment or buying separate machines for legs, chest, back, and shoulders.
+Its built with the user in mind and made to feel like a premium, impressively designed machine that adds value to the user in areas they may not even realize.
 
-You're getting a complete commercial-grade gym that fits in your basement—for less than one year of gym membership fees.
+Constructed with high durability materials, adjustable seats, selectorized weight stacks, and all the accessories you need to start working out immediately after assembly, so you can make one purchase and be on your way to a healthier longer life of workouts!
+
+Gas Assisted Adjustable Seats
+Two Independent 210 lb. Weight Stacks
+DuraFirm™ Pads and Upholstery
+2,200 lb. Test Strength Cables
+Fiberglass Reinforced Nylon Pulleys
+11-gauge Steel Construction
+Electrostatic Powder Coat Finish
+Includes cable attachments and accessories
+
+WHY THIS WORKS:
+✓ Quality Focus: "top-of-the-line... premium, impressively designed"
+✓ User-Centric: "built with the user in mind"
+✓ Complete Solution: "all the accessories you need to start working out immediately"
+✓ Scannable List: Feature list after intro paragraph for easy reading
+✓ Value Statement: "one purchase... healthier longer life of workouts"
 
 ---
 
@@ -557,11 +631,14 @@ Output format: [HEADING]\n[BODY CONTENT]`,
 
 QUALITY CHECKLIST - Your output must meet ALL of these criteria:
 ✓ Heading incorporates the keyword naturally
+✓ NEVER use H1 heading tags (use H2, H3, or H4 only)
 ✓ Each feature clearly tied to customer benefit
 ✓ Answers "Why should I care?" for each feature
 ✓ Uses customer perspective language, not specs
 ✓ Shows real-world transformation/outcomes
 ✓ Specific and concrete (not vague)
+✓ Uses chunking with bullet/numbered lists and increased white space to enhance readability
+✓ Include lifestyle images where beneficial (reference provided image URLs)
 ✓ Length: 4-6 feature/benefit pairs with detail
 ✓ Tone: Conversational, benefit-focused
 
@@ -572,36 +649,45 @@ Secondary Keywords: Airpura R700, Airpura
 [HEADING]
 What Does the Filtration System Look Like Inside the Airpura R700?
 
-• HEPA-Barrier True HEPA Filter → Removes 99.97% of particles as small as 0.3 microns
-  Why it matters: Your allergies actually improve instead of just "managing" them. Asthma attacks become less frequent. Pollen, dust mites, and pet dander are captured before reaching your lungs.
+[BODY]
+The three different filtration stages make sure the air coming out is the purified air you need and want. The stages that make the purified air happen are:
 
-• 18 lbs of Activated Carbon → Removes chemicals, VOCs, and odors from the air
-  Why it matters: No more chemical smell from new furniture or cleaning products. Your home smells fresh naturally, not masked with air fresheners.
+Pre-Filtration: The pre-filter removes large particles and helps to extend the life of the HEPA and carbon filters. This filter should be changed every 12 months and can be vacuumed on the outside of the air purifier.
 
-• 360-Degree Air Intake → Pulls contaminated air from all directions simultaneously
-  Why it matters: The entire room gets cleaned faster—not just the air directly in front of the unit. Complete room coverage in half the time.
+Carbon Filtration: The unit uses 18 lbs. of activated carbon to collect and absorb chemicals, pollutants, odors, and tobacco smoke from the air. This filter typically lasts up to 2 years.
 
-• Eco-Friendly Features From Airpura → Energy Star rated, uses 50% less electricity than competitors
-  Why it matters: Run it 24/7 without guilt or high electric bills. Clean air that's good for your wallet and the planet.
+HEPA Filtration Options: Standard HEPA: The R700 is also equipped with 40 sq. ft. of True HEPA filter material. This filter removes up to 99.97% of airborne particles that are as small as 0.3 microns in diameter. It lasts approximately 3–5 years under regular use. (Option to upgrade to a Super HEPA Filter — R714 — that removes up to 99.99% of airborne particles that are as small as 0.3 microns.)
+
+WHY THIS WORKS:
+✓ Educational Tone: Teaches how it works, builds trust
+✓ Clear Structure: Three stages clearly separated with labels
+✓ Practical Details: Filter lifespan info (12 months, 2 years, 3-5 years)
+✓ Transparency: Mentions maintenance requirements honestly
+✓ Upgrade Option: Notes Super HEPA upgrade possibility
+✓ Specificity: "40 sq. ft. of True HEPA filter material" - concrete details
 
 EXAMPLE 2 - Stage 3: Feature → Benefit Mapping
 Product: Evaluation Evolution Auto Fold Heavy Duty Power Wheelchair
 Secondary Keywords: Evaluation Auto Fold Electric Wheelchair, Evaluation Electric Wheelchair
 
 [HEADING]
+Evaluation Auto Fold Electric Wheelchair: Secure and Empower Your Mobility
+
+[BODY]
+Gain the confidence to move safely with features designed to protect and assist you. The Evaluation Evolution's anti-tip wheels prevent backward tipping on inclines, while the load-bearing, flip-up armrests support your weight as you get in and out of the chair. Adjust the joystick from left to right quickly, customizing control to fit your preference, all designed to make your life easier and keep you safe.
+
 Advanced Suspension for Evaluation Electric Folding Wheelchair
 
-• One-Button Automatic Folding → Collapses in 10 seconds without manual effort
-  Why it matters: No more asking for help loading your wheelchair. Independence means doing it yourself—and this makes it effortless.
+Do bumpy paths make you think twice about going out? The Evaluation Evolution ensures that rough terrain is no longer a barrier. Its advanced suspension system with large, shock-absorbent tires provides a smooth ride across various surfaces, letting you explore with confidence and comfort. The four-point coiled springs at each wheel absorb impacts, offering a stability that matches your adventurous spirit.
 
-• 330 lb Weight Capacity with Reinforced Frame → Heavy-duty construction that feels solid and stable
-  Why it matters: You're not worried about the chair wobbling or feeling flimsy. Confidence on ramps, sidewalks, and uneven surfaces. Built to last years, not months.
-
-• Dual Motor System → Independent motors for each wheel provide better control
-  Why it matters: Smoother turns, better traction on slopes, and reliable performance. No more getting stuck on inclines or struggling with tight corners.
-
-• Joystick Control + Emergency Stop → Intuitive operation with safety failsafe
-  Why it matters: Easy to learn even if you've never used a power wheelchair. The emergency stop gives you peace of mind—you're always in control.
+WHY THIS WORKS:
+✓ Safety Focus: Addresses key objection (safety/stability) upfront
+✓ Feature List with Purpose: Each safety feature explained with its benefit
+✓ Customization: Mentions joystick adjustment - shows adaptability
+✓ Objection Handling: "Do bumpy paths make you think twice" - addresses barrier
+✓ Freedom Messaging: "rough terrain is no longer a barrier"
+✓ Technical + Emotional: Suspension system specs + "adventurous spirit"
+✓ Multiple Sections: Two related feature areas combined under same example
 
 EXAMPLE 3 - Stage 3: Feature → Benefit Mapping
 Product: Body Solid G9S/G9B Two Stack Gym
@@ -610,17 +696,44 @@ Secondary Keywords: Body Solid G9S/G9B, Body Solid G9S/G9B All in One Home Gym
 [HEADING]
 The Body Solid G9S/G9B Price Includes Premium Features, Parts Well Rounded Design
 
-• Two 210 lb Weight Stacks → Train with a partner or superset exercises instantly
-  Why it matters: No more waiting between sets or for your workout partner. Cut your workout time in half while maintaining intensity.
+[BODY]
+Gas Assisted Adjustable Seats:
+Each adjustable seat post is gas assisted for a smooth, quick adjustment to get the proper body positioning at each station. Discomfort is hard to find on this universal home gym machine.
 
-• 75+ Exercise Variations → Every major muscle group covered in one machine
-  Why it matters: You're getting chest press, leg extension, cable crossovers, lat pulldowns, and more—without buying separate machines. One purchase replaces an entire gym.
+Two Upgradeable 210 lb. Selectorized Weight Stacks:
+Each station is connected to 1 of (2) 210-pound weight stacks shared through the home gym machine. This precisely thought amount of weight will challenge even the strongest home gym users. If you're like Arnold, you can add up to 50 lbs. to each stack, making them 260 lbs. each.
 
-• Commercial-Grade Aircraft Cable → 2,000 lb tensile strength, doesn't stretch or fray
-  Why it matters: This is the same cable used in $10,000 commercial gym equipment. It won't break, won't need replacing, and feels smooth for decades.
+Top grade DuraFirm™ Pads and Upholstery:
+Body-Solid made sure to leave nothing out in this complete home gym machine. The DuraFirm padding throughout the machine is high-density, durable foam with a leather substitute upholstery.
 
-• Lifetime Warranty on Frame → Body Solid stands behind their construction forever
-  Why it matters: This is the last home gym you'll ever buy. If anything breaks, they replace it—no questions asked.
+2,200 lb. Test Strength Cables:
+Tension strength, military spec, and steel aircraft cables with swiveling ends provide durability and low maintenance across the machine. The cables connect everything and can either be weak or strong points in a home gym. For the G9S, it's the latter.
+
+4½" Fiberglass reinforced Nylon Pulleys With Steel Bearings:
+The many pulleys on this machine are extra smooth and durable. They're made with fiberglass-reinforced nylon plastic with stainless steel ball bearings inside. This ensures you get that premium feel at each station on the G9S home gym.
+
+11-gauge Steel Construction:
+Strong gauge steels ensure a durable and long-lasting home gym machine. Body-Solid is known for its long last equipment because they are "Built for Life", and backed by excellent warranties.
+
+Tough, Durable, Electrostatically Applied Powder Coat Finish:
+The attractive paint coating is for more than looks. The powder coating acts as a seal for the steel to fend off moisture and general wear and tear.
+
+All the Accessories you need to work out today:
+Revolving lat bar
+Revolving straight bar
+Ankle strap
+Ab crunch / Tricep strap
+Total Body Workout™ DVD
+Full-size exercise chart
+Convenient water bottle and towel holder
+
+WHY THIS WORKS:
+✓ Feature List + Deep Dive: Lists features, then explains each in detail with benefits
+✓ Benefit Translation: Each spec followed by "why it matters" explanation
+✓ Trust Signals: "2,200 lb. Test Strength", "military spec", "Built for Life"
+✓ Technical Credibility: Specific measurements and materials build confidence
+✓ Complete Package: Shows all included accessories - no hidden costs
+✓ Quality Language: "premium feel", "extra smooth and durable" - builds perceived value
 
 ---
 
@@ -639,11 +752,16 @@ Output format: [HEADING]\n[FEATURE/BENEFIT PAIRS]`,
 
 QUALITY CHECKLIST - Your output must meet ALL of these criteria:
 ✓ Heading incorporates the keyword naturally
+✓ NEVER use H1 heading tags (use H2, H3, or H4 only)
 ✓ Each spec includes context for why it matters
 ✓ Specific measurements and metrics provided
 ✓ Links specs back to customer benefits
 ✓ Uses quality/expert language (builds confidence)
 ✓ Addresses durability, warranty, certifications
+✓ Uses chunking with bullet/numbered lists and increased white space to enhance readability
+✓ SPECIFICATIONS FORMAT: Use table block format for specifications lists - this allows specs to be plugged into a structured, scannable table in the product editor
+✓ Installation manuals/specs: Create heading as "[Product Name] + Manual", add body text with actual hyperlink on separate line (NEVER put link in heading tag)
+✓ MANUAL/DIAGRAM LINKS: When user provides links to installation manuals or diagrams, ALWAYS use a section with a PDF icon and clickable link - prefer these dedicated manual sections when building the page
 ✓ Length: Detailed specs with 1-2 sentences context each
 ✓ Tone: Expert, trustworthy, confident
 
@@ -654,21 +772,28 @@ Secondary Keywords: Airpura R700 Tech Specs, Airpura R700
 [HEADING]
 Airpura R700 Tech Specs
 
-Coverage & Performance
-• Room Coverage: Up to 2,000 square feet (fully filters room air 5x per hour)
-  Why it matters: This covers an entire floor or large open-concept space—not just a bedroom. Commercial-grade performance for your home.
+[BODY]
+Coverage Area – Up to 2,000 sq. ft. (based on 8 ft. ceilings)
 
-• CADR Rating: 560 CFM (Clean Air Delivery Rate)
-  Why it matters: Third-party verified performance. You're not trusting marketing claims—this is the industry standard measurement and significantly higher than competitors.
+Airflow Speed/ Fan Speed – Up to 635 CFM. The most you will find in a portable air purifier.
 
-• Filter System: True HEPA + 18 lbs Activated Carbon
-  Why it matters: Hospital-grade filtration plus industrial-strength odor/chemical removal. This is what they use in operating rooms and chemical labs.
+Air Exchange per Hour – 360° air distribution allows for 2 air exchanges per hour.
 
-Durability & Support
-• Filter Lifespan: 5 years for carbon, 3-5 years for HEPA (depending on usage)
-• Warranty: 10-year limited warranty on parts and labor
-• Made in Canada with North American components
-  Why it matters: You're protected for a decade. If anything fails, Airpura replaces it. Canadian manufacturing standards are among the strictest in the world.
+Dimensions – 23" H x 15" W
+
+Housing – Powder coated steel that prevents off gassing.
+
+Weight – 42 lbs.
+
+Noise level – 30.2 dB on low and 63.0 dB on high
+
+WHY THIS WORKS:
+✓ Scannable Format: Dash-separated specs are easy to read
+✓ Context Added: "(based on 8 ft. ceilings)" - helps customer visualize
+✓ Confidence Building: "The most you will find in a portable air purifier"
+✓ Simple Structure: Clean, organized list format
+✓ Relevant Details: All key specs without overwhelming technical jargon
+✓ Material Quality: Mentions "powder coated steel" and benefits (prevents off gassing)
 
 EXAMPLE 2 - Stage 4: Technical Specifications
 Product: Evaluation Evolution Auto Fold Heavy Duty Power Wheelchair
@@ -677,27 +802,45 @@ Secondary Keywords: Evaluation Auto Fold Power Wheelchair, Evaluation Power Whee
 [HEADING]
 Evaluation Auto Fold Power Wheelchair Manual
 
-Performance & Capacity
-• Weight Capacity: 330 lbs with reinforced steel frame
-  Why it matters: Heavy-duty construction that accommodates most adults comfortably. The frame won't flex or feel unstable like lightweight models.
+[BODY]
+If you need more information on the specifications, installation, warranty, etc -- Please check out the Owner's Manual.
 
-• Battery Range: 12-15 miles per charge (dual lithium-ion batteries)
-  Why it matters: Go all day without range anxiety. Visit the mall, run errands, spend time outdoors—without worrying about getting stranded.
+[Note: Link should appear here in body text, NOT in heading. Suggest adding PDF icon image with alt tag: "Evaluation Evolution Auto Fold Power Wheelchair Owner's Manual PDF"]
 
-• Top Speed: 4 mph with variable speed control
-  Why it matters: Fast enough to keep pace with walking companions, but controlled enough for indoor navigation and safety.
+Evaluation Power Wheelchair Specifications
 
-Portability & Convenience
-• Folded Dimensions: 30" x 20" x 16" (fits in most car trunks)
-• Weight: 58 lbs total (with batteries)
-• Fold Time: 10 seconds automatic with one-button activation
-  Why it matters: True portability without sacrificing durability. Take it anywhere—travel, appointments, vacations—without needing a wheelchair van.
+Size Unfolded    43" Height X 24.5" Wide X 37.5" Length
+Size Folded    14" Thick X 24.5" Wide X 31" Length
+Weight (With Battery)    59 Pounds
+Weight (Without Battery)    53 Pounds (Battery snaps in & out easily)
+Front Wheel (Caster)    8" X 2" Solid Flat Free (Shock Absorbent)
+Rear Wheel Tire    12.5" X 2.2" Solid Flat Free (Shock Absorbent)
+Weight Capacity    400 lbs
+Top Speed    4 Mph
+Range    17 Miles
+Motor X 2    24v 250 Watt
+Turning Radius    23.5"
+Battery    Lithium-ion 24v 20ah - (6 Pounds)
+Brakes X 2    Intelligent Electro Magnetic
+Anti-Tip Wheel X 2    2" X 1"
+Incline Ability    25 Percent
+International Charger Input    100 - 240 Volts AC
+International Charger Output    24 Volt DC 3 AMP
+Frame    Aircraft Quality Aluminum Alloy
+Seat Cushion    18.5" X 18.5" (2" Thick Memory Foam)
+Upholstery    Leather
+Wireless Remote Driving Feature    Yes
+Wireless Remote Folding & Unfolding    Yes
+Arm Rest    Foldable (Load Bearing)
 
-Warranty & Support
-• 2-year warranty on frame and electronics
-• 1-year warranty on batteries
-• FDA registered medical device
-  Why it matters: You're protected. FDA registration means it meets strict safety and quality standards. If anything fails during warranty, it's replaced.
+WHY THIS WORKS:
+✓ Manual Section: Separate heading for manual with link in body (NOT in heading)
+✓ PDF Icon Suggestion: Notes proper alt tag usage for accessibility
+✓ Comprehensive Table: Easy to scan comprehensive specifications
+✓ Practical Notes: "(Battery snaps in & out easily)" adds confidence
+✓ Real-World Metrics: "17 Miles" range - customer can visualize use cases
+✓ Technical Completeness: Every relevant spec included for informed decision-making
+✓ Yes/No Features: Clear indication of included features at bottom
 
 EXAMPLE 3 - Stage 4: Technical Specifications
 Product: Body Solid G9S/G9B Two Stack Gym
@@ -706,27 +849,28 @@ Secondary Keywords: Body Solid G9S/G9B Dimensions, Body Solid G9S/G9B
 [HEADING]
 Body Solid G9S/G9B Dimensions and Footprint
 
-Capacity & Performance
-• Dual Weight Stacks: 210 lbs each (420 lbs total resistance)
-  Why it matters: Serious weight for serious lifters. This isn't a toy—it's commercial gym equipment designed for progressive overload and muscle building.
+[BODY]
+Dimensions: 90"L x 73"W x 84"H
+Suggested Area for Usage: 11' 10" x 9' 6" x 7'
+Assembled Weight: 964lb
+Ships in 7 boxes on a pallet
+Heaviest box is 110 lbs
 
-• 75+ Exercise Stations: Full body coverage including chest, back, shoulders, legs, abs
-  Why it matters: Every major and minor muscle group covered. You're not limited to basic exercises—this supports advanced training programs.
+Body Solid G9S/G9U Assembly Manual & Exercise Poster:
 
-• Cable System: 2,000 lb tensile strength aircraft-grade cables
-  Why it matters: Commercial-grade components that won't stretch, fray, or break. The same cables used in $15,000+ gym equipment.
+Body-Solid G9S Multi-Stack Home Gym System Assembly Manual
+Body-Solid G9S Weight Exercise Poster PDF
 
-Dimensions & Space Requirements
-• Assembled Dimensions: 88"L x 78"W x 83"H
-• Footprint: Approximately 48 square feet
-• Weight: 850 lbs (rock-solid stability, no movement during use)
-  Why it matters: Fits in most basements or garage gym spaces. The weight means it stays planted—no shifting or wobbling during heavy lifts.
+[Note: Links should appear here in body text, NOT in heading. Suggest adding PDF icon images with alt tags: "Body Solid G9S Assembly Manual PDF" and "Body Solid G9S Exercise Poster PDF"]
 
-Warranty & Craftsmanship
-• Lifetime Warranty: Frame and welds (non-prorated, transferable)
-• 5-Year Warranty: Cables, pulleys, and all moving parts
-• 2-Year Warranty: Upholstery and grips
-  Why it matters: Body Solid has been in business for 40+ years. This warranty is real—they stand behind every machine forever. This is the last home gym you'll ever need to buy.
+WHY THIS WORKS:
+✓ Space Planning Help: "Suggested Area for Usage" helps customer visualize in their space
+✓ Shipping Transparency: "Ships in 7 boxes... Heaviest box is 110 lbs" - sets expectations
+✓ Practical Info: Helps customer prepare for delivery and assembly
+✓ Manual Links: Separate section for assembly and exercise resources
+✓ Links in Body: Follows guideline - links NOT in headings
+✓ PDF Icons: Notes proper image and alt tag usage for manuals
+✓ Clean Format: Simple, scannable dimensions without overwhelming detail
 
 ---
 
@@ -744,11 +888,14 @@ Output format: [HEADING]\n[SPECIFICATIONS WITH CONTEXT]`,
 
 QUALITY CHECKLIST - Your output must meet ALL of these criteria:
 ✓ Heading incorporates the keyword naturally
+✓ NEVER use H1 heading tags (use H2, H3, or H4 only)
 ✓ Creates clear sense of urgency (time/scarcity based)
 ✓ Removes final objections (price, warranty, risk)
 ✓ Specific call-to-action (not vague)
 ✓ Mentions guarantee or risk-removal
 ✓ Ends with memorable benefit/transformation
+✓ Uses chunking with bullet/numbered lists and increased white space to enhance readability
+✓ NEVER put external links as part of any heading tags (H2, H3, H4, etc.)
 ✓ Length: 150-200 words body + CTA button text
 ✓ Tone: Urgent, confident, reassuring
 
@@ -856,13 +1003,27 @@ export const generateProductDescriptionStage = async (
     let userPrompt = `Product Title: ${productTitle}
 
 Supplier Information:
-${supplierDescription}`;
+${supplierDescription}
+
+IMPORTANT: If the supplier information contains links to installation manuals, diagrams, spec sheets, or PDF documents:
+- Create a dedicated section for these resources with a proper heading like "[Product Name] Manual" or "[Product Name] Installation Guide"
+- Add the link in the BODY text, never in the heading
+- Suggest using a PDF icon image next to the link
+- Include proper alt tags for the PDF icon (e.g., "${productTitle} Installation Manual PDF")
+- Prioritize including these manual sections when building the product description`;
 
     if (imageUrls && imageUrls.length > 0) {
       userPrompt += `
 
 Product Images (${imageUrls.length}): ${imageUrls.join(', ')}
-Use these image URLs as reference for product appearance, features, and context.`;
+
+IMAGE USAGE GUIDELINES:
+- Use these image URLs as reference for product appearance, features, and context
+- Include lifestyle images that show the story you're telling
+- When suggesting image placement, provide descriptive alt tags for each image
+- Alt tags should include the product name and describe what the image shows
+- Suggest renaming images with descriptive, SEO-friendly names
+- Example alt tag format: "${productTitle} - [descriptive action or feature shown in image]"`;
     }
 
     if (previousStageContent && stage > 1) {
@@ -875,6 +1036,15 @@ Build on this foundation without repeating it.`;
     }
 
     userPrompt += `
+
+IMPORTANT FORMATTING RULES (apply to all stages):
+- NEVER use H1 heading tags (only use H2, H3, H4)
+- NEVER include external links as part of heading tags
+- Use chunking with bullet/numbered lists to increase white space and readability
+- Separate sections clearly with proper formatting
+- Include videos and pictures where beneficial to support the content
+- SPECIFICATIONS: Format specifications as tables/structured lists for the product editor
+- MANUALS/DIAGRAMS: When user provides manual or diagram links, create dedicated sections with PDF icon + clickable link (link in body, NOT in heading)
 
 Generate the content for Stage ${stage}. Focus on creating compelling, benefit-focused copy.`;
 

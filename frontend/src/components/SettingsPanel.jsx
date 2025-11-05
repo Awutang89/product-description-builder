@@ -365,7 +365,7 @@ export function SettingsPanel({ projectId }) {
 
             <div className="mb-4 pb-4 border-b border-gray-200">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Number of Rows (max 10)
+                Number of Rows (max 40)
               </label>
               <select
                 value={rowCount}
@@ -388,6 +388,36 @@ export function SettingsPanel({ projectId }) {
                 <option value="8">8 Rows</option>
                 <option value="9">9 Rows</option>
                 <option value="10">10 Rows</option>
+                <option value="11">11 Rows</option>
+                <option value="12">12 Rows</option>
+                <option value="13">13 Rows</option>
+                <option value="14">14 Rows</option>
+                <option value="15">15 Rows</option>
+                <option value="16">16 Rows</option>
+                <option value="17">17 Rows</option>
+                <option value="18">18 Rows</option>
+                <option value="19">19 Rows</option>
+                <option value="20">20 Rows</option>
+                <option value="21">21 Rows</option>
+                <option value="22">22 Rows</option>
+                <option value="23">23 Rows</option>
+                <option value="24">24 Rows</option>
+                <option value="25">25 Rows</option>
+                <option value="26">26 Rows</option>
+                <option value="27">27 Rows</option>
+                <option value="28">28 Rows</option>
+                <option value="29">29 Rows</option>
+                <option value="30">30 Rows</option>
+                <option value="31">31 Rows</option>
+                <option value="32">32 Rows</option>
+                <option value="33">33 Rows</option>
+                <option value="34">34 Rows</option>
+                <option value="35">35 Rows</option>
+                <option value="36">36 Rows</option>
+                <option value="37">37 Rows</option>
+                <option value="38">38 Rows</option>
+                <option value="39">39 Rows</option>
+                <option value="40">40 Rows</option>
               </select>
             </div>
 
