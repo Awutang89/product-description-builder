@@ -396,7 +396,7 @@ export function Canvas({ projectId }) {
 
       {/* Canvas Area */}
       <div
-        className="flex-1 overflow-y-auto p-4 space-y-3"
+        className="flex-1 overflow-y-auto p-4 space-y-px"
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
