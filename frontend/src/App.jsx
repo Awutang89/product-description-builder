@@ -3,6 +3,7 @@ import { Navigation } from './components/Navigation';
 import { Dashboard } from './pages/Dashboard';
 import { Templates } from './pages/Templates';
 import { Editor } from './pages/Editor';
+import { ImageCompressor } from './pages/ImageCompressor';
 
 function App() {
   return (
@@ -33,6 +34,15 @@ function App() {
               <>
                 <Navigation />
                 <Templates />
+              </>
+            }
+          />
+          <Route
+            path="/image-compressor"
+            element={
+              <>
+                <Navigation />
+                <ImageCompressor />
               </>
             }
           />

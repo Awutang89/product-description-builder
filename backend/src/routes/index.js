@@ -3,6 +3,7 @@ import projectRoutes from './projectRoutes.js';
 import templateRoutes from './templateRoutes.js';
 import aiRoutes from './aiRoutes.js';
 import exportRoutes from './exportRoutes.js';
+import imageCompressorRoutes from './imageCompressorRoutes.js';
 
 const router = express.Router();
 
@@ -11,6 +12,7 @@ router.use('/projects', projectRoutes);
 router.use('/templates', templateRoutes);
 router.use('/ai', aiRoutes);
 router.use('/export', exportRoutes);
+router.use('/image-compressor', imageCompressorRoutes);
 
 // Welcome message
 router.get('/', (req, res) => {
@@ -20,7 +22,8 @@ router.get('/', (req, res) => {
       projects: '/api/projects',
       templates: '/api/templates',
       ai: '/api/ai',
-      export: '/api/export'
+      export: '/api/export',
+      imageCompressor: '/api/image-compressor'
     }
   });
 });

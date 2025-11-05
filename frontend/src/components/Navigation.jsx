@@ -17,6 +17,7 @@ export function Navigation() {
   const navLinks = [
     { href: '/', label: '📊 Dashboard' },
     { href: '/templates', label: '✨ Templates' },
+    { href: '/image-compressor', label: '🖼️ Image Compressor' },
   ];
 
   return (
