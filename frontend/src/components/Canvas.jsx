@@ -359,14 +359,14 @@ export function Canvas({ projectId }) {
             />
             {section.content?.mediaType === 'video' ? (
               <div
-                className="w-full h-64 rounded overflow-hidden"
+                className="w-full h-64 rounded overflow-hidden border-2 border-gray-300"
                 dangerouslySetInnerHTML={{ __html: section.content?.mediaUrl || '<div className="bg-gray-300 w-full h-64"></div>' }}
               />
             ) : (
               <img
                 src={section.content?.mediaUrl || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23ddd" width="100" height="100"/%3E%3C/svg%3E'}
                 alt="Media"
-                className="w-full h-64 object-cover rounded"
+                className="w-full h-64 object-cover rounded border-2 border-gray-300"
               />
             )}
           </div>

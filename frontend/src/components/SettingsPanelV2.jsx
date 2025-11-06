@@ -366,19 +366,21 @@ export function SettingsPanelV2({ projectId }) {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Column Text
               </label>
-              <ReactQuill
-                value={selectedSection.content?.leftText || ''}
-                onChange={(value) => handleContentChange('leftText', value)}
-                modules={{
-                  toolbar: [
-                    ['bold', 'italic', 'underline'],
-                    [{ 'script': 'sub' }, { 'script': 'super' }],
-                    ['link'],
-                    [{ 'align': [] }]
-                  ]
-                }}
-                className="bg-white"
-              />
+              <div className="border-2 border-gray-300 rounded overflow-hidden">
+                <ReactQuill
+                  value={selectedSection.content?.leftText || ''}
+                  onChange={(value) => handleContentChange('leftText', value)}
+                  modules={{
+                    toolbar: [
+                      ['bold', 'italic', 'underline'],
+                      [{ 'script': 'sub' }, { 'script': 'super' }],
+                      ['link'],
+                      [{ 'align': [] }]
+                    ]
+                  }}
+                  className="bg-white"
+                />
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1 mt-3">
@@ -415,20 +417,22 @@ export function SettingsPanelV2({ projectId }) {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Rich Text Content
               </label>
-              <ReactQuill
-                value={selectedSection.content?.richText || ''}
-                onChange={(value) => handleContentChange('richText', value)}
-                modules={{
-                  toolbar: [
-                    ['bold', 'italic', 'underline'],
-                    [{ 'script': 'sub' }, { 'script': 'super' }],
-                    ['link'],
-                    [{ 'align': [] }],
-                    ['blockquote', 'code-block']
-                  ]
-                }}
-                className="bg-white"
-              />
+              <div className="border-2 border-gray-300 rounded overflow-hidden">
+                <ReactQuill
+                  value={selectedSection.content?.richText || ''}
+                  onChange={(value) => handleContentChange('richText', value)}
+                  modules={{
+                    toolbar: [
+                      ['bold', 'italic', 'underline'],
+                      [{ 'script': 'sub' }, { 'script': 'super' }],
+                      ['link'],
+                      [{ 'align': [] }],
+                      ['blockquote', 'code-block']
+                    ]
+                  }}
+                  className="bg-white"
+                />
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1 mt-3">
