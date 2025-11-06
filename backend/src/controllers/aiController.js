@@ -742,6 +742,172 @@ export const getProductDescriptionExamples = async (req, res) => {
   }
 };
 
+/**
+ * SECTION BUILDER FRAMEWORK - SECTION-BY-SECTION GENERATION ENDPOINTS
+ */
+
+/**
+ * Plan sections for a product page
+ * POST /api/ai/section-builder/plan-sections
+ */
+export const planSections = async (req, res) => {
+  try {
+    const { productContext, mediaInventory = {} } = req.body;
+
+    if (!productContext) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Product context is required',
+        },
+      });
+    }
+
+    // Call AI service to plan sections
+    const result = await aiService.planSections(productContext, mediaInventory);
+
+    res.json({
+      success: true,
+      data: {
+        sections: result.sections,
+        usage: result.usage,
+      },
+    });
+  } catch (error) {
+    console.error('Plan sections error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'PLAN_ERROR',
+        message: error.message || 'Failed to plan sections',
+      },
+    });
+  }
+};
+
+/**
+ * Realize (generate content for) a single section
+ * POST /api/ai/section-builder/realize-section
+ */
+export const realizeSection = async (req, res) => {
+  try {
+    const { sectionPlan, productContext } = req.body;
+
+    if (!sectionPlan || !productContext) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Section plan and product context are required',
+        },
+      });
+    }
+
+    // Call AI service to realize section
+    const result = await aiService.realizeSection(sectionPlan, productContext);
+
+    res.json({
+      success: true,
+      data: {
+        sectionIndex: result.sectionIndex,
+        type: result.type,
+        content: result.content,
+        usage: result.usage,
+      },
+    });
+  } catch (error) {
+    console.error('Realize section error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'REALIZE_ERROR',
+        message: error.message || 'Failed to realize section',
+      },
+    });
+  }
+};
+
+/**
+ * Assign media to a section
+ * POST /api/ai/section-builder/assign-media
+ */
+export const assignMediaToSection = async (req, res) => {
+  try {
+    const { sectionPlan, sectionContent, mediaInventory } = req.body;
+
+    if (!sectionPlan || !sectionContent || !mediaInventory) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Section plan, content, and media inventory are required',
+        },
+      });
+    }
+
+    // Call AI service to assign media
+    const result = await aiService.assignMedia(sectionPlan, sectionContent, mediaInventory);
+
+    res.json({
+      success: true,
+      data: {
+        assignment: result.assignment,
+        usage: result.usage,
+      },
+    });
+  } catch (error) {
+    console.error('Assign media error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'MEDIA_ERROR',
+        message: error.message || 'Failed to assign media',
+      },
+    });
+  }
+};
+
+/**
+ * Validate a section
+ * POST /api/ai/section-builder/validate-section
+ */
+export const validateSectionContent = async (req, res) => {
+  try {
+    const { sectionPlan, sectionContent } = req.body;
+
+    if (!sectionPlan || !sectionContent) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Section plan and content are required',
+        },
+      });
+    }
+
+    // Call AI service to validate section
+    const result = await aiService.validateSection(sectionPlan, sectionContent);
+
+    res.json({
+      success: true,
+      data: {
+        validation: result.validation,
+        usage: result.usage,
+      },
+    });
+  } catch (error) {
+    console.error('Validate section error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'VALIDATION_ERROR',
+        message: error.message || 'Failed to validate section',
+      },
+    });
+  }
+};
+
 export default {
   generateContent,
   generateVariations,
@@ -758,4 +924,9 @@ export default {
   generateProductDescription,
   refineProductStage,
   getProductDescriptionExamples,
+  // Section Builder Framework endpoints
+  planSections,
+  realizeSection,
+  assignMediaToSection,
+  validateSectionContent,
 };

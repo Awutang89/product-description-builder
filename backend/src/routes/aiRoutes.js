@@ -60,4 +60,20 @@ router.post('/product-description/refine', aiController.refineProductStage);
 // Get example product descriptions
 router.get('/product-examples', aiController.getProductDescriptionExamples);
 
+/**
+ * Section Builder Framework - Section-by-Section Generation Endpoints
+ */
+
+// Plan sections for a product page
+router.post('/section-builder/plan-sections', aiController.planSections);
+
+// Realize (generate content for) a single section
+router.post('/section-builder/realize-section', aiController.realizeSection);
+
+// Assign media to a section
+router.post('/section-builder/assign-media', aiController.assignMediaToSection);
+
+// Validate a section
+router.post('/section-builder/validate-section', aiController.validateSectionContent);
+
 export default router;

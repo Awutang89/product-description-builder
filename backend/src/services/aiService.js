@@ -1174,6 +1174,438 @@ Return only the revised content.`;
   }
 };
 
+/**
+ * SECTION BUILDER FRAMEWORK - SECTION-BY-SECTION GENERATION
+ * New approach: Generate ordered sections (1-12) instead of fixed stages
+ */
+
+/**
+ * Plan sections for a product page
+ * Returns ordered list of sections to generate
+ */
+export const planSections = async (productContext, mediaInventory = {}) => {
+  try {
+    const systemPrompt = `You are an e-commerce product page section planner.
+
+GOAL
+Return an ordered list of numbered sections (Section 1, Section 2, …). Each section has:
+- type (from the allowed set)
+- goal (why this section exists)
+- source_refs (what inputs it uses)
+- min_required_fields (what the renderer needs)
+- constraints (count/format limits)
+- confidence (0–1)
+- notes (issues/todos/split/merge rationale)
+
+ALLOWED SECTION TYPES
+"introSummary"              // brief intro + size/fit + key value
+"imageWithBenefits"         // 1 key image + 4–8 benefit bullets
+"benefitsTextSoftCTA"       // prose benefits; CTA as closing sentence (no new section)
+"imageReview"               // hero customer photo + quote/attribution
+"manualsLinks"              // up to 3 PDFs, labeled
+"specTable"                 // table or listMode for sparse specs
+"comparisonTable"           // if ≥3 metrics exist
+"faq"                       // if real FAQs exist
+"gallery"                   // optional mixed images; not first
+"shippingReturns"           // if provided
+"warrantyCompliance"        // if provided
+"text"                      // fallback generic text block
+
+RULES (split/merge/ordering)
+1) Don't use "stages". Produce Section 1..N in narrative order.
+2) Section 1 MUST be "introSummary" unless inputs are too weak; then "text".
+   - If storage_fit or dimensional high-signal specs exist, include a single line like "Stores X/Y; footprint W×D×H".
+3) Prefer this baseline flow when inputs allow:
+   1) introSummary
+   2) imageWithBenefits
+   3) benefitsTextSoftCTA
+   4) imageReview  (only if a real customer image or quote exists)
+   5) manualsLinks (if any)
+   6) specTable    (always if specs exist; listMode when <5)
+   Optional: faq, comparisonTable, gallery, shippingReturns, warrantyCompliance
+4) Split a concept into multiple sections when any item count >8, or themes are distinct (e.g., Security vs Weather).
+5) Merge adjacent lightweight plans (<3 bullets/rows each) to stay within section limits.
+6) Never introduce a hard CTA section; soft close is allowed inside benefitsTextSoftCTA.
+7) If a required input is missing for a section (e.g., no manual URLs), OMIT that section.
+8) Min sections = 2, Max sections = 8. Prioritize most important content if product data would generate more than 8 sections.
+
+OUTPUT (STRICT JSON)
+{
+  "sections": [
+    {
+      "index": 1,
+      "type": "introSummary",
+      "goal": "one sentence",
+      "source_refs": ["benefits[0..3]","specs[group:Dimensions]"],
+      "min_required_fields": ["heading","body"],
+      "constraints": {
+        "max_bullets": 6,
+        "listMode": false,
+        "groupBy": null
+      },
+      "confidence": 0.9,
+      "notes": { "issues":[], "todos":[], "split_reason":null, "merge_reason":null }
+    }
+  ]
+}
+
+VALIDATION CHECKS
+- First section must not require external media to make sense.
+- If specs exist but are sparse (<5 rows) set constraints.listMode=true on specTable.
+- If reviews[].image_id exists → allow imageReview; else omit.
+- If manuals_links empty → omit manualsLinks.
+
+Return ONLY JSON.`;
+
+    const userPrompt = `Product Context:
+${JSON.stringify(productContext, null, 2)}
+
+Media Inventory:
+${JSON.stringify(mediaInventory, null, 2)}
+
+Plan the optimal section order for this product page.`;
+
+    const completion = await getOpenAIClient().chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt },
+      ],
+      temperature: 0.3, // Lower temperature for structured planning
+      max_tokens: 2000,
+      response_format: { type: 'json_object' },
+    });
+
+    const planResult = JSON.parse(completion.choices[0].message.content);
+
+    return {
+      success: true,
+      sections: planResult.sections || [],
+      usage: {
+        promptTokens: completion.usage.prompt_tokens,
+        completionTokens: completion.usage.completion_tokens,
+        totalTokens: completion.usage.total_tokens,
+      },
+    };
+  } catch (error) {
+    console.error('Plan Sections Error:', error);
+    throw {
+      code: 'PLAN_ERROR',
+      message: error.message || 'Failed to plan sections',
+    };
+  }
+};
+
+/**
+ * Build type-specific realizer prompt
+ */
+function buildSectionRealizerPrompt(sectionType) {
+  const sharedStyle = `SHARED STYLE
+- Concise, factual, brand-safe. No hype.
+- Use Title Case for headings (≤ 8 words).
+- If bullets: 4–6 items, 5–12 words each, factual.
+- If soft CTA (benefitsTextSoftCTA only): end final paragraph with a single, natural purchase nudge (no button).`;
+
+  const typePrompts = {
+    introSummary: `${sharedStyle}
+
+TYPE: introSummary
+{
+  "heading": "<short benefit-led title>",
+  "subhead": "<one-liner value proposition>",
+  "storage_line": "Stores <items>; footprint <W×D×H> if available",
+  "body": "40–70 words; mention material, durability, and use cases.",
+  "badges": ["Free Shipping", "15-Year Warranty"] // only if true in context
+}`,
+
+    imageWithBenefits: `${sharedStyle}
+
+TYPE: imageWithBenefits
+{
+  "heading": "<short>",
+  "bullets": ["..."], // 4–8, tie to features/specs
+  "image_intent": "landscape lifestyle OR white-background hero",
+  "caption": "optional single line",
+  "qa_sources": ["features[...]", "specs[...]" ]
+}`,
+
+    benefitsTextSoftCTA: `${sharedStyle}
+
+TYPE: benefitsTextSoftCTA
+{
+  "heading": "<short>",
+  "paragraphs": ["70–120 words total split into 1–2 paragraphs; map to features/specs"],
+  "soft_cta_sentence": "Close with a single natural purchase suggestion."
+}`,
+
+    imageReview: `${sharedStyle}
+
+TYPE: imageReview
+{
+  "heading": "What Customers Say",
+  "quote": "verbatim or lightly edited for clarity",
+  "author": "Name, location (if available)",
+  "image_required": true,
+  "alt_hint": "customer using <product> in <setting>"
+}`,
+
+    manualsLinks: `${sharedStyle}
+
+TYPE: manualsLinks
+{
+  "heading": "Manuals & Guides",
+  "links": [
+    {"label":"Assembly Manual (PDF)","url":"..."},
+    {"label":"Spec Sheet (PDF)","url":"..."}
+  ],
+  "note": "Link opens in a new tab."
+}`,
+
+    specTable: `${sharedStyle}
+
+TYPE: specTable
+{
+  "heading": "Specifications",
+  "mode": "table" | "list",
+  "columns": ["Specification","Value"], // for table
+  "rows": [ ["Overall (W×D×H)","..."], ["Door Opening","..."] ], // table
+  "listItems": ["Panel Material: ...","Frame: ..."], // listMode
+  "unit_notes": "All dimensions in inches unless noted."
+}`,
+
+    comparisonTable: `${sharedStyle}
+
+TYPE: comparisonTable (only if comparisons exist)
+{
+  "heading": "How It Compares",
+  "columns": ["Metric","This Model","Competitor A","Note"],
+  "rows": [ ["Wind Rating","...","...","..."], ... ]
+}`,
+
+    faq: `${sharedStyle}
+
+TYPE: faq
+{
+  "heading": "Common Questions",
+  "items": [ {"q":"...","a":"..."} ] // 3–6 pairs, grounded in context
+}`,
+
+    gallery: `${sharedStyle}
+
+TYPE: gallery
+{
+  "heading": "In the Real World",
+  "image_intent": "mix lifestyle + detail; 4–8 images",
+  "captions": ["..."]
+}`,
+
+    shippingReturns: `${sharedStyle}
+
+TYPE: shippingReturns
+{
+  "heading": "Shipping & Returns",
+  "bullets": ["Lead time: ...", "Curbside freight...", "Return window/restocking..."]
+}`,
+
+    warrantyCompliance: `${sharedStyle}
+
+TYPE: warrantyCompliance
+{
+  "heading": "Warranty & Standards",
+  "bullets": ["Warranty: ...", "Certifications: UL/ASTM...", "How to claim: ..."]
+}`,
+
+    text: `${sharedStyle}
+
+TYPE: text (fallback)
+{
+  "heading": "<short>",
+  "body": "50–90 words summarizing key value",
+  "todo": ["Missing specs","Need manual link"]
+}`,
+  };
+
+  return typePrompts[sectionType] || typePrompts.text;
+}
+
+/**
+ * Generate content for a single section
+ */
+export const realizeSection = async (sectionPlan, productContext) => {
+  try {
+    const systemPrompt = `You are a content realizer. You receive a section plan and the product_context. Output only the content object for that section type.
+
+${buildSectionRealizerPrompt(sectionPlan.type)}
+
+OUTPUT
+Return ONLY the JSON object for the section type. No commentary.`;
+
+    const userPrompt = `Section Plan:
+${JSON.stringify(sectionPlan, null, 2)}
+
+Product Context:
+${JSON.stringify(productContext, null, 2)}
+
+Generate the content for this section.`;
+
+    const completion = await getOpenAIClient().chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt },
+      ],
+      temperature: 0.7,
+      max_tokens: 800,
+      response_format: { type: 'json_object' },
+    });
+
+    const content = JSON.parse(completion.choices[0].message.content);
+
+    return {
+      success: true,
+      sectionIndex: sectionPlan.index,
+      type: sectionPlan.type,
+      content,
+      usage: {
+        promptTokens: completion.usage.prompt_tokens,
+        completionTokens: completion.usage.completion_tokens,
+        totalTokens: completion.usage.total_tokens,
+      },
+    };
+  } catch (error) {
+    console.error('Realize Section Error:', error);
+    throw {
+      code: 'REALIZE_ERROR',
+      message: error.message || 'Failed to realize section',
+    };
+  }
+};
+
+/**
+ * Assign media to a section
+ */
+export const assignMedia = async (sectionPlan, sectionContent, mediaInventory) => {
+  try {
+    const systemPrompt = `You select the best media for ONE section and write alt text.
+
+RULES
+- Priority alignment by type:
+  - introSummary: one hero image (16:9 or 3:2), no video.
+  - imageWithBenefits: 1 strong landscape image; avoid heavy text overlays.
+  - imageReview: must use a customer image if provided via reviews[].image_id; else return null and a TODO.
+  - manualsLinks/specTable: no images unless a true diagram (tags include ["diagram","dimensions","callouts"]).
+  - benefitsTextSoftCTA: optional 1 lifestyle image; skip if none suitable.
+- Choose images with qualityScore ≥ 0.75 when possible; break ties by aspect ratio suitability then by tag match.
+- Alt text: 6–14 words, literal, no promo language. Mention brand/model only if visible/salient.
+
+OUTPUT (STRICT JSON)
+{
+  "section_index": <number>,
+  "image_id": "img_123" | null,
+  "video_id": null,
+  "alt_text": { "img_123": "Duramax 4x8 vinyl shed beside house wall" },
+  "rationale": "why selected or why null",
+  "todos": ["need lifestyle 16:9 image"]
+}
+Return ONLY JSON.`;
+
+    const userPrompt = `Section Plan:
+${JSON.stringify(sectionPlan, null, 2)}
+
+Section Content:
+${JSON.stringify(sectionContent, null, 2)}
+
+Media Inventory:
+${JSON.stringify(mediaInventory, null, 2)}
+
+Select the best media for this section.`;
+
+    const completion = await getOpenAIClient().chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt },
+      ],
+      temperature: 0.3,
+      max_tokens: 300,
+      response_format: { type: 'json_object' },
+    });
+
+    const assignment = JSON.parse(completion.choices[0].message.content);
+
+    return {
+      success: true,
+      assignment,
+      usage: {
+        promptTokens: completion.usage.prompt_tokens,
+        completionTokens: completion.usage.completion_tokens,
+        totalTokens: completion.usage.total_tokens,
+      },
+    };
+  } catch (error) {
+    console.error('Assign Media Error:', error);
+    throw {
+      code: 'MEDIA_ERROR',
+      message: error.message || 'Failed to assign media',
+    };
+  }
+};
+
+/**
+ * Validate section content
+ */
+export const validateSection = async (sectionPlan, sectionContent) => {
+  try {
+    const systemPrompt = `Validate a section content object against its plan:
+- Ensure required fields in plan.min_required_fields are present and non-empty.
+- For bullets, enforce 4–6 items when applicable (trim or request TODO in notes).
+- For specTable:
+  - If fewer than 5 normalized specs → set mode="list" and move rows into listItems.
+  - Normalize units (prefer inches); if mixed units detected, add "unit_notes".
+- If validation fails and cannot be auto-fixed → replace with type "text" fallback and include a TODO list.
+
+Return STRICT JSON:
+{ "valid": true|false, "fixed": <object or null>, "reasons": ["..."] }`;
+
+    const userPrompt = `Section Plan:
+${JSON.stringify(sectionPlan, null, 2)}
+
+Section Content:
+${JSON.stringify(sectionContent, null, 2)}
+
+Validate and fix if needed.`;
+
+    const completion = await getOpenAIClient().chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt },
+      ],
+      temperature: 0.2,
+      max_tokens: 500,
+      response_format: { type: 'json_object' },
+    });
+
+    const validation = JSON.parse(completion.choices[0].message.content);
+
+    return {
+      success: true,
+      validation,
+      usage: {
+        promptTokens: completion.usage.prompt_tokens,
+        completionTokens: completion.usage.completion_tokens,
+        totalTokens: completion.usage.total_tokens,
+      },
+    };
+  } catch (error) {
+    console.error('Validate Section Error:', error);
+    throw {
+      code: 'VALIDATION_ERROR',
+      message: error.message || 'Failed to validate section',
+    };
+  }
+};
+
 export default {
   generateContent,
   generateVariations,
@@ -1182,4 +1614,9 @@ export default {
   generateSecondaryKeywords,
   generateProductDescriptionStage,
   refineProductStageContent,
+  // Section Builder Framework methods
+  planSections,
+  realizeSection,
+  assignMedia,
+  validateSection,
 };
