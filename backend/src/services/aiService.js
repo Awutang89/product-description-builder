@@ -363,6 +363,11 @@ Please revise the content to address the feedback while maintaining the core mes
  */
 export const generateSecondaryKeywords = async (productTitle) => {
   try {
+    // Check for API key
+    if (!process.env.OPENAI_API_KEY) {
+      throw new Error('OPENAI_API_KEY environment variable is not set');
+    }
+
     const prompt = `Given the product title: "${productTitle}"
 
 Generate 4-6 secondary keywords that:
@@ -408,7 +413,8 @@ Return only the keywords as a comma-separated list, nothing else.`;
     console.error('Generate Secondary Keywords Error:', error);
     throw {
       code: 'KEYWORD_ERROR',
-      message: 'Failed to generate secondary keywords',
+      message: error.message || 'Failed to generate secondary keywords',
+      details: error.error?.message || error.message,
     };
   }
 };
