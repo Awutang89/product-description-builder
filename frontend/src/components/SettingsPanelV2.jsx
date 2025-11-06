@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Settings, X, Wand2, BookOpen } from 'lucide-react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { useEditor } from '../store/editorStore';
 import AIGenerator from './AIGenerator';
 import ExampleManager from './ExampleManager';
@@ -356,6 +358,105 @@ export function SettingsPanelV2({ projectId }) {
           </>
         );
       }
+
+      case 'twoColumn':
+        return (
+          <>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Column Text
+              </label>
+              <ReactQuill
+                value={selectedSection.content?.leftText || ''}
+                onChange={(value) => handleContentChange('leftText', value)}
+                modules={{
+                  toolbar: [
+                    ['bold', 'italic', 'underline'],
+                    [{ 'script': 'sub' }, { 'script': 'super' }],
+                    ['link'],
+                    [{ 'align': [] }]
+                  ]
+                }}
+                className="bg-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1 mt-3">
+                Image URL
+              </label>
+              <input
+                type="url"
+                value={selectedSection.content?.rightImage || ''}
+                onChange={(e) => handleContentChange('rightImage', e.target.value)}
+                placeholder="https://example.com/image.jpg"
+                className="input-field"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Image Position
+              </label>
+              <select
+                value={selectedSection.styles?.imagePosition || 'right'}
+                onChange={(e) => handleStyleChange('imagePosition', e.target.value)}
+                className="input-field"
+              >
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+              </select>
+            </div>
+          </>
+        );
+
+      case 'twoColumnHighlight':
+        return (
+          <>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Rich Text Content
+              </label>
+              <ReactQuill
+                value={selectedSection.content?.richText || ''}
+                onChange={(value) => handleContentChange('richText', value)}
+                modules={{
+                  toolbar: [
+                    ['bold', 'italic', 'underline'],
+                    [{ 'script': 'sub' }, { 'script': 'super' }],
+                    ['link'],
+                    [{ 'align': [] }],
+                    ['blockquote', 'code-block']
+                  ]
+                }}
+                className="bg-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1 mt-3">
+                Media Type
+              </label>
+              <select
+                value={selectedSection.content?.mediaType || 'image'}
+                onChange={(e) => handleContentChange('mediaType', e.target.value)}
+                className="input-field"
+              >
+                <option value="image">Image</option>
+                <option value="video">Video</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Media URL
+              </label>
+              <input
+                type="url"
+                value={selectedSection.content?.mediaUrl || ''}
+                onChange={(e) => handleContentChange('mediaUrl', e.target.value)}
+                placeholder="https://example.com/media.jpg or embed code"
+                className="input-field"
+              />
+            </div>
+          </>
+        );
 
       default:
         return (
