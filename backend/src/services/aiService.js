@@ -371,11 +371,15 @@ export const generateSecondaryKeywords = async (productTitle) => {
     const prompt = `Given the product title: "${productTitle}"
 
 Generate 4-6 secondary keywords that:
-1. Are variations or related keywords to the main product
-2. Can be used as headings throughout a product description
-3. Are SEO-friendly
-4. Provide good variety while staying relevant
-5. Are suitable for different sections of a sales page
+1. Are natural variations or related keywords to the main product
+2. Combine brand names, product types, and key features
+3. Include both generic and specific variations
+4. Are SEO-friendly and commonly searched
+5. Can be used as headings throughout a product description
+
+EXAMPLE:
+Product Title: Duramax SideMate Shed with Foundation 4'x8' - 06625
+Secondary Keywords: Sidemate Shed, Duramax Shed, Sidemate Backyard Shed, Sidemate 4x8 Shed, duramax sidemate storage shed, 4x8 duramax shed
 
 Return only the keywords as a comma-separated list, nothing else.`;
 
@@ -385,7 +389,7 @@ Return only the keywords as a comma-separated list, nothing else.`;
         {
           role: 'system',
           content:
-            'You are an SEO expert and copywriter. Generate keyword variations from product titles.',
+            'You are an SEO expert and copywriter. Generate keyword variations from product titles by combining brand names, product types, and key specifications. Follow the pattern shown in examples.',
         },
         {
           role: 'user',
