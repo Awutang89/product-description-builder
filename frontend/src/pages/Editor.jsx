@@ -1,11 +1,12 @@
 import { useEffect, useCallback, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Save, ArrowLeft, Download, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Save, ArrowLeft, Download, ChevronLeft, ChevronRight, Zap } from 'lucide-react';
 import { useEditor } from '../store/editorStore';
 import SectionLibrary from '../components/SectionLibrary';
 import Canvas from '../components/Canvas';
 import SettingsPanel from '../components/SettingsPanel';
 import ExportModal from '../components/ExportModal';
+import AIGeneratorModal from '../components/AIGeneratorModal';
 
 /**
  * Editor Page
@@ -15,7 +16,9 @@ export function Editor() {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const [isExportOpen, setIsExportOpen] = useState(false);
+  const [showAIModal, setShowAIModal] = useState(false);
   const [isLibraryCollapsed, setIsLibraryCollapsed] = useState(false);
+  const [isPropertiesCollapsed, setIsPropertiesCollapsed] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const [editedName, setEditedName] = useState('');
 
@@ -162,6 +165,13 @@ export function Editor() {
 
         <div className="flex items-center gap-3">
           <button
+            onClick={() => setShowAIModal(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            <Zap size={18} />
+            AI Generate
+          </button>
+          <button
             onClick={handleExport}
             className="btn-secondary flex items-center gap-2"
           >
@@ -219,11 +229,33 @@ export function Editor() {
           <Canvas projectId={projectId} />
         </div>
 
-        {/* Right Column - Settings Panel */}
-        <div className="w-80 flex-shrink-0 overflow-hidden">
-          <SettingsPanel projectId={projectId} />
-        </div>
+        {/* Right Column - Settings Panel (Collapsible) */}
+        {!isPropertiesCollapsed && (
+          <div className="w-80 flex-shrink-0 overflow-hidden">
+            <SettingsPanel projectId={projectId} />
+          </div>
+        )}
+
+        {/* Properties Collapse Toggle Button */}
+        <button
+          onClick={() => setIsPropertiesCollapsed(!isPropertiesCollapsed)}
+          className="flex-shrink-0 w-4 bg-gray-100 border-l border-gray-200 flex items-center justify-center hover:bg-gray-200 transition-colors"
+          title={isPropertiesCollapsed ? 'Expand properties' : 'Collapse properties'}
+        >
+          {isPropertiesCollapsed ? (
+            <ChevronLeft size={14} className="text-gray-600" />
+          ) : (
+            <ChevronRight size={14} className="text-gray-600" />
+          )}
+        </button>
       </div>
+
+      {/* AI Generator Modal */}
+      <AIGeneratorModal
+        isOpen={showAIModal}
+        onClose={() => setShowAIModal(false)}
+        projectId={projectId}
+      />
 
       {/* Export Modal */}
       <ExportModal
