@@ -475,7 +475,7 @@ export function Canvas({ projectId }) {
                 onClick={() => selectSection(section.id)}
               >
                 {/* Section Preview */}
-                <div className="p-4">
+                <div className="p-px">
                   {getSectionPreview(section)}
                 </div>
               </div>
