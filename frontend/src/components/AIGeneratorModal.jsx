@@ -355,9 +355,44 @@ allowfullscreen></iframe>
                 </div>
               )}
 
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 mb-2">
                 You can also manually edit keywords - just type them in the field below and press Enter
               </p>
+
+              <div className="mb-6">
+                <input
+                  type="text"
+                  placeholder="Type a keyword and press Enter to add it"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && e.target.value.trim()) {
+                      const newKeyword = e.target.value.trim();
+                      if (!selectedKeywords.includes(newKeyword)) {
+                        setSelectedKeywords([...selectedKeywords, newKeyword]);
+                      }
+                      e.target.value = '';
+                    }
+                  }}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                {selectedKeywords.length > 0 && (
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {selectedKeywords.map((keyword, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center gap-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
+                      >
+                        <span>{keyword}</span>
+                        <button
+                          onClick={() => setSelectedKeywords(selectedKeywords.filter((k) => k !== keyword))}
+                          className="text-blue-600 hover:text-blue-800 font-bold"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
 
               <button
                 onClick={handleKeywordConfirm}
