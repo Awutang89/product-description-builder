@@ -100,6 +100,42 @@ export function AIGeneratorModal({ isOpen, onClose, projectId }) {
         .map((url) => url.trim())
         .filter((url) => url);
 
+      // Parse and format YouTube embed codes
+      const youtubeEmbeds = inputData.videoEmbed
+        .split('\n')
+        .map((embed) => embed.trim())
+        .filter((embed) => embed)
+        .map((embed) => {
+          // Extract embed URL - only accept youtube.com/embed/ format
+          let embedUrl = '';
+          if (embed.includes('youtube.com/embed/')) {
+            // Match the full YouTube embed URL including query parameters
+            const urlMatch = embed.match(/https:\/\/www\.youtube\.com\/embed\/[^\s"'<>]*/);
+            if (urlMatch) {
+              embedUrl = urlMatch[0];
+              // Clean up any trailing special characters that might have been captured
+              embedUrl = embedUrl.replace(/[<>"]/, '');
+            }
+          }
+
+          if (embedUrl) {
+            return `<noscript class="loading-lazy">
+<iframe loading="lazy" width="1280" height="720" src="${embedUrl}" title="YouTube video player"
+frameborder="0"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+allowfullscreen></iframe>
+</noscript>`;
+          }
+          return '';
+        })
+        .filter((embed) => embed);
+
+      // Parse manual/file URLs
+      const manualUrls = inputData.manualUrls
+        .split('\n')
+        .map((url) => url.trim())
+        .filter((url) => url);
+
       const response = await aiService.generateProductDescription(
         inputData.supplierDescription,
         imageUrls,
@@ -107,6 +143,8 @@ export function AIGeneratorModal({ isOpen, onClose, projectId }) {
         stageNum,
         {
           secondaryKeywords: selectedKeywords,
+          youtubeEmbeds: youtubeEmbeds,
+          manualUrls: manualUrls,
           // examples will be loaded from backend based on product type
         }
       );
@@ -273,7 +311,7 @@ export function AIGeneratorModal({ isOpen, onClose, projectId }) {
                   name="videoEmbed"
                   value={inputData.videoEmbed}
                   onChange={handleInputChange}
-                  placeholder="&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/...&quot;&gt;&lt;/iframe&gt;"
+                  placeholder="&lt;iframe width=&quot;853&quot; height=&quot;480&quot; src=&quot;https://www.youtube.com/embed/AnQZtUnMpPk?list=LL&quot; title=&quot;Video Title&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen&gt;&lt;/iframe&gt;"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent h-20"
                 />
               </div>
