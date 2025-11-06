@@ -187,26 +187,30 @@ export function Canvas({ projectId }) {
           4: 'grid-cols-4'
         }[testimonials.length] || 'grid-cols-1';
 
+        const bgColor = section.styles?.bgColor || '#FEFCE8';
+        const textColor = section.styles?.textColor || '#1F2937';
+
         return (
           <div className={`grid ${gridCols} gap-6 p-6 w-full`}>
             {testimonials.map((testimonial, i) => (
-              <div key={i} className="bg-yellow-50 p-6 rounded border border-yellow-200 flex flex-col items-center text-center h-full">
+              <div key={i} className="p-6 rounded border flex flex-col items-center text-center h-full" style={{ backgroundColor: bgColor, color: textColor, borderColor: bgColor }}>
                 {testimonial.photo && (
                   <img
                     src={testimonial.photo}
                     alt={testimonial.author || `Reviewer ${i + 1}`}
-                    className="h-16 w-16 object-cover rounded-full border-2 border-yellow-200 mb-4 flex-shrink-0"
+                    className="h-16 w-16 object-cover rounded-full mb-4 flex-shrink-0"
+                    style={{ borderColor: textColor }}
                   />
                 )}
-                <p className="text-gray-700 italic mb-4 flex-1">
+                <p className="italic mb-4 flex-1">
                   "{testimonial.quote || 'Great product! Highly recommended.'}"
                 </p>
                 <div className="w-full">
-                  <p className="font-semibold text-gray-900">
+                  <p className="font-semibold">
                     — {testimonial.author || 'Customer Name'}
                   </p>
                   {testimonial.authorTitle && (
-                    <p className="text-xs text-gray-600">
+                    <p className="text-xs opacity-75">
                       {testimonial.authorTitle}
                     </p>
                   )}

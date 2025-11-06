@@ -270,6 +270,93 @@ export function SettingsPanelV2({ projectId }) {
           </>
         );
 
+      case 'testimonial': {
+        const testimonials = selectedSection.content?.testimonials || [];
+        return (
+          <>
+            {/* Testimonials List */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Testimonials ({testimonials.length})
+              </label>
+              <div className="space-y-3 max-h-48 overflow-y-auto border border-gray-200 rounded p-2 bg-gray-50">
+                {testimonials.length === 0 ? (
+                  <p className="text-xs text-gray-500 text-center py-2">No testimonials yet</p>
+                ) : (
+                  testimonials.map((testimonial, idx) => (
+                    <div key={idx} className="bg-white p-2 rounded border border-gray-200 text-xs">
+                      <p className="font-medium text-gray-900 mb-1">Quote:</p>
+                      <textarea
+                        value={testimonial.quote || ''}
+                        onChange={(e) => {
+                          const newTestimonials = [...testimonials];
+                          newTestimonials[idx].quote = e.target.value;
+                          handleContentChange('testimonials', newTestimonials);
+                        }}
+                        placeholder="Enter testimonial quote"
+                        className="input-field resize-none text-xs mb-2"
+                        rows="2"
+                      />
+                      <p className="font-medium text-gray-900 mb-1">Author:</p>
+                      <input
+                        type="text"
+                        value={testimonial.author || ''}
+                        onChange={(e) => {
+                          const newTestimonials = [...testimonials];
+                          newTestimonials[idx].author = e.target.value;
+                          handleContentChange('testimonials', newTestimonials);
+                        }}
+                        placeholder="Author name"
+                        className="input-field text-xs mb-2 w-full"
+                      />
+                      <p className="font-medium text-gray-900 mb-1">Author Title (optional):</p>
+                      <input
+                        type="text"
+                        value={testimonial.authorTitle || ''}
+                        onChange={(e) => {
+                          const newTestimonials = [...testimonials];
+                          newTestimonials[idx].authorTitle = e.target.value;
+                          handleContentChange('testimonials', newTestimonials);
+                        }}
+                        placeholder="e.g., CEO at Company"
+                        className="input-field text-xs w-full"
+                      />
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+
+            {/* Colors */}
+            <div className="pt-3 border-t border-gray-200">
+              <h4 className="text-sm font-medium text-gray-900 mb-2">Colors</h4>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Background Color
+                </label>
+                <input
+                  type="color"
+                  value={selectedSection.styles?.bgColor || '#FEFCE8'}
+                  onChange={(e) => handleStyleChange('bgColor', e.target.value)}
+                  className="w-full h-10 rounded border border-gray-300 cursor-pointer"
+                />
+              </div>
+              <div className="mt-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Text Color
+                </label>
+                <input
+                  type="color"
+                  value={selectedSection.styles?.textColor || '#1F2937'}
+                  onChange={(e) => handleStyleChange('textColor', e.target.value)}
+                  className="w-full h-10 rounded border border-gray-300 cursor-pointer"
+                />
+              </div>
+            </div>
+          </>
+        );
+      }
+
       default:
         return (
           <div className="text-gray-500 text-sm">
