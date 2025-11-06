@@ -188,21 +188,110 @@ allowfullscreen></iframe>
 
   const handleApplyToCanvas = async () => {
     try {
-      // Create sections based on generated content
-      // Stage 1: Hero
+      const { updateSection } = useEditor.getState();
+
+      // Helper function to extract heading and body from stage content
+      const parseStageContent = (content) => {
+        if (!content) return { heading: '', body: '' };
+
+        // Match [HEADING] ... [BODY] pattern
+        const headingMatch = content.match(/\[HEADING\]\s*\n?([\s\S]*?)(?=\[BODY\]|\n\n|$)/);
+        const bodyMatch = content.match(/\[BODY\]\s*\n?([\s\S]*?)(?:\[CTA|$)/);
+
+        let heading = headingMatch ? headingMatch[1].trim() : '';
+        let body = bodyMatch ? bodyMatch[1].trim() : '';
+
+        // If no markers found, treat entire content as body
+        if (!heading && !body) {
+          body = content.trim();
+        }
+
+        return { heading, body };
+      };
+
+      // Helper function to extract CTA button text
+      const extractCTAButton = (content) => {
+        if (!content) return 'Shop Now';
+        const ctaMatch = content.match(/\[CTA BUTTON TEXT:\s*([^\]]+)\]/);
+        return ctaMatch ? ctaMatch[1].trim() : 'Shop Now';
+      };
+
+      // Stage 1: Hero (uses heading and first part of content)
+      const stage1 = parseStageContent(stageContent[1]);
+      const heroBgColor = '#3B82F6';
+      const heroTextColor = '#FFFFFF';
       addSection('hero');
+      const heroSectionId = useEditor.getState().sections[useEditor.getState().sections.length - 1].id;
+      updateSection(heroSectionId, {
+        content: {
+          title: stage1.heading || inputData.productTitle,
+          subtitle: stage1.body.split('\n')[0] || 'High-quality product description'
+        },
+        styles: {
+          bgColor: heroBgColor,
+          textColor: heroTextColor,
+          titleSize: 40,
+          subtitleSize: 16
+        }
+      });
 
-      // Stage 2: Text section
+      // Stage 2: Text section (full body content)
+      const stage2 = parseStageContent(stageContent[2]);
+      const textContent = stage2.heading ? `<h3>${stage2.heading}</h3>\n${stage2.body}` : stage2.body;
       addSection('text');
+      const textSectionId = useEditor.getState().sections[useEditor.getState().sections.length - 1].id;
+      updateSection(textSectionId, {
+        content: {
+          text: textContent
+        }
+      });
 
-      // Stage 3: Features
+      // Stage 3: Features (parse as feature list)
+      const stage3 = parseStageContent(stageContent[3]);
+      const featureLines = stage3.body.split('\n').filter(line => line.trim().length > 0);
+      const features = featureLines.slice(0, 3).map((line, idx) => ({
+        title: `Feature ${idx + 1}`,
+        description: line.substring(0, 100),
+        icon: null
+      }));
       addSection('features');
+      const featureSectionId = useEditor.getState().sections[useEditor.getState().sections.length - 1].id;
+      updateSection(featureSectionId, {
+        content: {
+          features: features.length > 0 ? features : [
+            { title: 'Feature 1', description: 'Feature description' },
+            { title: 'Feature 2', description: 'Feature description' },
+            { title: 'Feature 3', description: 'Feature description' }
+          ]
+        }
+      });
 
-      // Stage 4: Comparison/Text
+      // Stage 4: Comparison/Text (use as text section with specs)
+      const stage4 = parseStageContent(stageContent[4]);
+      const specsContent = stage4.heading ? `<h3>${stage4.heading}</h3>\n${stage4.body}` : stage4.body;
       addSection('comparison');
+      const comparisonSectionId = useEditor.getState().sections[useEditor.getState().sections.length - 1].id;
+      updateSection(comparisonSectionId, {
+        content: {
+          table: {
+            headers: ['Specification', 'Value'],
+            rows: [[]]
+          },
+          text: specsContent
+        }
+      });
 
-      // Stage 5: CTA
+      // Stage 5: CTA (extract button text and create section)
+      const stage5 = parseStageContent(stageContent[5]);
+      const ctaButtonText = extractCTAButton(stageContent[5]);
       addSection('cta');
+      const ctaSectionId = useEditor.getState().sections[useEditor.getState().sections.length - 1].id;
+      updateSection(ctaSectionId, {
+        content: {
+          buttonText: ctaButtonText,
+          buttonLink: '#'
+        }
+      });
 
       // Add gallery with images if provided
       const imageUrls = inputData.imageUrls
@@ -212,10 +301,21 @@ allowfullscreen></iframe>
 
       if (imageUrls.length > 0) {
         addSection('gallery');
+        const gallerySectionId = useEditor.getState().sections[useEditor.getState().sections.length - 1].id;
+        updateSection(gallerySectionId, {
+          content: {
+            images: imageUrls.map((url, idx) => ({
+              url: url,
+              title: `Product Image ${idx + 1}`,
+              alt: `${inputData.productTitle} - Image ${idx + 1}`
+            }))
+          }
+        });
       }
 
       onClose();
     } catch (err) {
+      console.error('Error applying sections:', err);
       setError('Failed to apply sections to canvas');
     }
   };
