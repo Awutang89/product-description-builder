@@ -220,7 +220,7 @@ export function AIGeneratorModal({ isOpen, onClose, projectId }) {
                   value={inputData.productTitle}
                   onChange={handleInputChange}
                   placeholder="e.g., Austin Air HealthMate Plus Air Purifier"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
 
@@ -233,7 +233,7 @@ export function AIGeneratorModal({ isOpen, onClose, projectId }) {
                   value={inputData.supplierDescription}
                   onChange={handleInputChange}
                   placeholder="Paste the supplier's product description, specifications, and features here..."
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent h-40"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent h-40"
                 />
               </div>
 
@@ -246,13 +246,13 @@ export function AIGeneratorModal({ isOpen, onClose, projectId }) {
                   value={inputData.imageUrls}
                   onChange={handleInputChange}
                   placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent h-24"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent h-24"
                 />
               </div>
 
               <button
                 onClick={handleStartGeneration}
-                className="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
+                className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
               >
                 Start Generation
               </button>
@@ -270,7 +270,7 @@ export function AIGeneratorModal({ isOpen, onClose, projectId }) {
 
               {isLoading ? (
                 <div className="flex flex-col items-center justify-center py-8">
-                  <Loader size={32} className="text-purple-600 animate-spin mb-2" />
+                  <Loader size={32} className="text-blue-600 animate-spin mb-2" />
                   <p className="text-gray-600">Generating keywords...</p>
                 </div>
               ) : (
@@ -281,7 +281,7 @@ export function AIGeneratorModal({ isOpen, onClose, projectId }) {
                         type="checkbox"
                         checked={selectedKeywords.includes(keyword)}
                         onChange={() => handleKeywordToggle(keyword)}
-                        className="w-4 h-4 text-purple-600 rounded focus:ring-2 focus:ring-purple-500"
+                        className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
                       />
                       <span className="ml-3 text-gray-700 font-medium">{keyword}</span>
                     </label>
@@ -296,7 +296,7 @@ export function AIGeneratorModal({ isOpen, onClose, projectId }) {
               <button
                 onClick={handleKeywordConfirm}
                 disabled={selectedKeywords.length === 0 || isLoading}
-                className="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Continue to Stage Generation →
               </button>
@@ -305,7 +305,7 @@ export function AIGeneratorModal({ isOpen, onClose, projectId }) {
 
           {step === 'generating' && (
             <div className="flex flex-col items-center justify-center py-12">
-              <Loader size={48} className="text-purple-600 animate-spin mb-4" />
+              <Loader size={48} className="text-blue-600 animate-spin mb-4" />
               <p className="text-gray-700 font-semibold">
                 Generating Stage {currentStage}: {stageLabels[currentStage]}...
               </p>
@@ -328,7 +328,7 @@ export function AIGeneratorModal({ isOpen, onClose, projectId }) {
                 <textarea
                   value={stageContent[currentStage] || ''}
                   onChange={(e) => handleEditStageContent(currentStage, e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent min-h-[300px] font-mono text-sm"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[300px] font-mono text-sm"
                   placeholder="Edit content here..."
                 />
               ) : (
@@ -368,7 +368,7 @@ export function AIGeneratorModal({ isOpen, onClose, projectId }) {
                 )}
                 <button
                   onClick={handleApproveStage}
-                  className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-semibold flex items-center justify-center gap-2"
+                  className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold flex items-center justify-center gap-2"
                 >
                   {currentStage === 5 ? 'Review All' : 'Continue'} <ChevronRight size={18} />
                 </button>
