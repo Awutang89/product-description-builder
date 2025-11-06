@@ -445,6 +445,7 @@ QUALITY CHECKLIST - Your output must meet ALL of these criteria:
 ✓ Mentions the primary keyword (product name) at least once in the first 100-300 words
 ✓ Uses chunking with bullet/numbered lists and increased white space to enhance readability
 ✓ PRESERVE ALL NUMBERS: Never change specifications, measurements, weights, or dimensions (e.g., "2 windows", "20lbs/sq ft", "18'x20'x30'") - use exactly as provided in product details
+✓ AVOID OVERUSED WORDS: Minimize use of clichéd marketing terms like "versatile", "ample", "durable", "durability", "enhance", "utilize", "leverage", "seamless", "unlock", "harness", "synergize", "catalyze", and "blend of" phrases - use fresh, specific language instead
 ✓ Length: 150-250 words of body content
 ✓ Tone: Conversational, empathetic, not salesy
 
@@ -545,6 +546,7 @@ QUALITY CHECKLIST - Your output must meet ALL of these criteria:
 ✓ Addresses the specific problem from Stage 1
 ✓ Uses chunking with bullet/numbered lists and increased white space to enhance readability
 ✓ PRESERVE ALL NUMBERS: Never change specifications, measurements, weights, or dimensions (e.g., "635 CFM", "18 pound carbon bed", "2,000 sq ft") - use exactly as provided in product details
+✓ AVOID OVERUSED WORDS: Minimize use of clichéd marketing terms like "versatile", "ample", "durable", "durability", "enhance", "utilize", "leverage", "seamless", "unlock", "harness", "synergize", "catalyze", and "blend of" phrases - use fresh, specific language instead
 ✓ Length: 150-250 words of body content
 ✓ Tone: Clear, logical, reassuring
 
@@ -651,6 +653,7 @@ QUALITY CHECKLIST - Your output must meet ALL of these criteria:
 ✓ Specific and concrete (not vague)
 ✓ Uses chunking with bullet/numbered lists and increased white space to enhance readability
 ✓ PRESERVE ALL NUMBERS: Never change specifications, measurements, weights, or dimensions (e.g., "40 sq ft", "53 lbs", "210 lb weight stacks") - use exactly as provided in product details
+✓ AVOID OVERUSED WORDS: Minimize use of clichéd marketing terms like "versatile", "ample", "durable", "durability", "enhance", "utilize", "leverage", "seamless", "unlock", "harness", "synergize", "catalyze", and "blend of" phrases - use fresh, specific language instead
 ✓ Include lifestyle images where beneficial (reference provided image URLs)
 ✓ Length: 4-6 feature/benefit pairs with detail
 ✓ Tone: Conversational, benefit-focused
@@ -773,6 +776,7 @@ QUALITY CHECKLIST - Your output must meet ALL of these criteria:
 ✓ Addresses durability, warranty, certifications
 ✓ Uses chunking with bullet/numbered lists and increased white space to enhance readability
 ✓ PRESERVE ALL NUMBERS: Never change specifications, measurements, weights, or dimensions (e.g., "23"H x 15"W", "42 lbs", "400 lbs capacity") - use exactly as provided in product details
+✓ AVOID OVERUSED WORDS: Minimize use of clichéd marketing terms like "versatile", "ample", "durable", "durability", "enhance", "utilize", "leverage", "seamless", "unlock", "harness", "synergize", "catalyze", and "blend of" phrases - use fresh, specific language instead
 ✓ SPECIFICATIONS FORMAT: Use table block format for specifications lists - this allows specs to be plugged into a structured, scannable table in the product editor
 ✓ Installation manuals/specs: Create heading as "[Product Name] + Manual", add body text with actual hyperlink on separate line (NEVER put link in heading tag)
 ✓ MANUAL/DIAGRAM LINKS: When user provides links to installation manuals or diagrams, ALWAYS use a section with a PDF icon and clickable link - prefer these dedicated manual sections when building the page
@@ -910,6 +914,7 @@ QUALITY CHECKLIST - Your output must meet ALL of these criteria:
 ✓ Ends with memorable benefit/transformation
 ✓ Uses chunking with bullet/numbered lists and increased white space to enhance readability
 ✓ PRESERVE ALL NUMBERS: Never change specifications, measurements, weights, or dimensions (e.g., "30-day money-back guarantee", "1-2 business days", "$1,200") - use exactly as provided in product details
+✓ AVOID OVERUSED WORDS: Minimize use of clichéd marketing terms like "versatile", "ample", "durable", "durability", "enhance", "utilize", "leverage", "seamless", "unlock", "harness", "synergize", "catalyze", and "blend of" phrases - use fresh, specific language instead
 ✓ NEVER put external links as part of any heading tags (H2, H3, H4, etc.)
 ✓ Length: 150-200 words body + CTA button text
 ✓ Tone: Urgent, confident, reassuring
