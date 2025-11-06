@@ -1,13 +1,12 @@
 import { useEffect, useCallback, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Save, ArrowLeft, Download, ChevronLeft, ChevronRight, Zap, Sparkles } from 'lucide-react';
+import { Save, ArrowLeft, Download, ChevronLeft, ChevronRight, Zap } from 'lucide-react';
 import { useEditor } from '../store/editorStore';
 import SectionLibrary from '../components/SectionLibrary';
 import Canvas from '../components/Canvas';
 import SettingsPanel from '../components/SettingsPanel';
 import ExportModal from '../components/ExportModal';
 import AIGeneratorModal from '../components/AIGeneratorModal';
-import SectionBuilderModal from '../components/SectionBuilderModal';
 
 /**
  * Editor Page
@@ -18,7 +17,6 @@ export function Editor() {
   const navigate = useNavigate();
   const [isExportOpen, setIsExportOpen] = useState(false);
   const [showAIModal, setShowAIModal] = useState(false);
-  const [showSectionBuilderModal, setShowSectionBuilderModal] = useState(false);
   const [showAIDropdown, setShowAIDropdown] = useState(false);
   const [isLibraryCollapsed, setIsLibraryCollapsed] = useState(false);
   const [isPropertiesCollapsed, setIsPropertiesCollapsed] = useState(false);
@@ -167,54 +165,14 @@ export function Editor() {
         </div>
 
         <div className="flex items-center gap-3">
-          {/* AI Generate Dropdown */}
-          <div className="relative">
-            <button
-              onClick={() => setShowAIDropdown(!showAIDropdown)}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              <Zap size={18} />
-              AI Generate
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-
-            {showAIDropdown && (
-              <div className="absolute top-full mt-2 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[280px]">
-                <button
-                  onClick={() => {
-                    setShowSectionBuilderModal(true);
-                    setShowAIDropdown(false);
-                  }}
-                  className="w-full flex items-start gap-3 px-4 py-3 hover:bg-blue-50 transition-colors border-b border-gray-100"
-                >
-                  <Sparkles className="text-blue-600 flex-shrink-0 mt-0.5" size={20} />
-                  <div className="text-left">
-                    <p className="font-semibold text-gray-900 text-sm">Section Builder</p>
-                    <p className="text-xs text-gray-600 mt-0.5">
-                      Smart section-by-section generation (Recommended)
-                    </p>
-                  </div>
-                </button>
-                <button
-                  onClick={() => {
-                    setShowAIModal(true);
-                    setShowAIDropdown(false);
-                  }}
-                  className="w-full flex items-start gap-3 px-4 py-3 hover:bg-gray-50 transition-colors"
-                >
-                  <Zap className="text-gray-600 flex-shrink-0 mt-0.5" size={20} />
-                  <div className="text-left">
-                    <p className="font-semibold text-gray-900 text-sm">Classic Mode</p>
-                    <p className="text-xs text-gray-600 mt-0.5">
-                      5-stage generation (Legacy)
-                    </p>
-                  </div>
-                </button>
-              </div>
-            )}
-          </div>
+          {/* AI Generate Button */}
+          <button
+            onClick={() => setShowAIModal(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            <Zap size={18} />
+            AI Generate
+          </button>
 
           <button
             onClick={handleExport}
@@ -295,17 +253,10 @@ export function Editor() {
         </button>
       </div>
 
-      {/* AI Generator Modal (Classic Mode) */}
+      {/* AI Generator Modal */}
       <AIGeneratorModal
         isOpen={showAIModal}
         onClose={() => setShowAIModal(false)}
-        projectId={projectId}
-      />
-
-      {/* Section Builder Modal (New Mode) */}
-      <SectionBuilderModal
-        isOpen={showSectionBuilderModal}
-        onClose={() => setShowSectionBuilderModal(false)}
         projectId={projectId}
       />
 

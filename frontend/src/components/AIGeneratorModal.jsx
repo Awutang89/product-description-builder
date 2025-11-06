@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Loader, ChevronRight } from 'lucide-react';
+import { X, Loader, ChevronRight, Trash2, Plus, ArrowUp, ArrowDown } from 'lucide-react';
 import { useAIStore } from '../store/aiStore';
 import { useEditor } from '../store/editorStore';
 import aiService from '../services/aiService';
@@ -25,7 +25,33 @@ export function AIGeneratorModal({ isOpen, onClose, projectId }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Section mapping: tracks which stage maps to which section type
+  const [sectionMappings, setSectionMappings] = useState([
+    { stageNum: 1, sectionType: 'hero', label: 'Hero' },
+    { stageNum: 2, sectionType: 'text', label: 'Solution' },
+    { stageNum: 3, sectionType: 'features', label: 'Features' },
+    { stageNum: 4, sectionType: 'comparison', label: 'Specs' },
+    { stageNum: 5, sectionType: 'cta', label: 'Call-to-Action' },
+  ]);
+
   const { addSection } = useEditor();
+
+  // Available section types (predefined in app)
+  const availableSectionTypes = [
+    { value: 'hero', label: 'Hero' },
+    { value: 'text', label: 'Text' },
+    { value: 'features', label: 'Features' },
+    { value: 'image', label: 'Image' },
+    { value: 'gallery', label: 'Gallery' },
+    { value: 'cta', label: 'CTA Button' },
+    { value: 'testimonial', label: 'Testimonial' },
+    { value: 'comparison', label: 'Comparison' },
+    { value: 'twoColumn', label: 'Two Column w/ Image' },
+    { value: 'sideBySide', label: 'Side by Side Text w/ Image' },
+    { value: 'threeColumns', label: 'Three Columns w/ Images' },
+    { value: 'fourColumns', label: 'Four Columns w/ Images' },
+    { value: 'twoColumnHighlight', label: 'Two Column Highlight' },
+  ];
 
   const stageLabels = {
     1: 'Problem Identification',
@@ -186,6 +212,45 @@ allowfullscreen></iframe>
     await generateStage(currentStage);
   };
 
+  // Section management handlers
+  const handleDeleteSection = (index) => {
+    setSectionMappings(sectionMappings.filter((_, i) => i !== index));
+  };
+
+  const handleMoveSection = (index, direction) => {
+    const newMappings = [...sectionMappings];
+    if (direction === 'up' && index > 0) {
+      [newMappings[index], newMappings[index - 1]] = [newMappings[index - 1], newMappings[index]];
+    } else if (direction === 'down' && index < newMappings.length - 1) {
+      [newMappings[index], newMappings[index + 1]] = [newMappings[index + 1], newMappings[index]];
+    }
+    setSectionMappings(newMappings);
+  };
+
+  const handleChangeSectionType = (index, newType) => {
+    const newMappings = [...sectionMappings];
+    newMappings[index].sectionType = newType;
+    newMappings[index].label = availableSectionTypes.find(t => t.value === newType)?.label || newType;
+    setSectionMappings(newMappings);
+  };
+
+  const handleAddSection = () => {
+    const newMapping = {
+      stageNum: null, // Not tied to a stage - will use custom content
+      sectionType: 'text',
+      label: 'New Section'
+    };
+    setSectionMappings([...sectionMappings, newMapping]);
+  };
+
+  // Extract preview text from stage content
+  const getContentPreview = (stageNum) => {
+    const content = stageContent[stageNum] || '';
+    // Remove markdown/formatting and get first 150 characters
+    const text = content.replace(/\[HEADING\]|\[BODY\]|\[CTA.*?\]/g, '').trim();
+    return text.substring(0, 150) + (text.length > 150 ? '...' : '');
+  };
+
   const handleApplyToCanvas = async () => {
     try {
       const { updateSection } = useEditor.getState();
@@ -209,109 +274,94 @@ allowfullscreen></iframe>
         return { heading, body };
       };
 
-      // Helper function to extract CTA button text
-      const extractCTAButton = (content) => {
-        if (!content) return 'Shop Now';
-        const ctaMatch = content.match(/\[CTA BUTTON TEXT:\s*([^\]]+)\]/);
-        return ctaMatch ? ctaMatch[1].trim() : 'Shop Now';
-      };
+      // Process each section mapping
+      sectionMappings.forEach((mapping) => {
+        addSection(mapping.sectionType);
+        const newSectionId = useEditor.getState().sections[useEditor.getState().sections.length - 1].id;
 
-      // Stage 1: Hero (uses heading and first part of content)
-      const stage1 = parseStageContent(stageContent[1]);
-      const heroBgColor = '#3B82F6';
-      const heroTextColor = '#FFFFFF';
-      addSection('hero');
-      const heroSectionId = useEditor.getState().sections[useEditor.getState().sections.length - 1].id;
-      updateSection(heroSectionId, {
-        content: {
-          title: stage1.heading || inputData.productTitle,
-          subtitle: stage1.body.split('\n')[0] || 'High-quality product description'
-        },
-        styles: {
-          bgColor: heroBgColor,
-          textColor: heroTextColor,
-          titleSize: 40,
-          subtitleSize: 16
+        // Get content from the mapped stage
+        const stageContent_ = mapping.stageNum ? stageContent[mapping.stageNum] : '';
+        const parsed = parseStageContent(stageContent_);
+
+        // Populate content based on section type
+        const updateData = { content: {} };
+
+        switch (mapping.sectionType) {
+          case 'hero':
+            updateData.content = {
+              title: parsed.heading || inputData.productTitle,
+              subtitle: parsed.body.split('\n')[0] || 'High-quality product description'
+            };
+            updateData.styles = {
+              bgColor: '#3B82F6',
+              textColor: '#FFFFFF',
+              titleSize: 40,
+              subtitleSize: 16
+            };
+            break;
+
+          case 'text':
+            updateData.content = {
+              text: parsed.heading ? `<h3>${parsed.heading}</h3>\n${parsed.body}` : parsed.body
+            };
+            break;
+
+          case 'features':
+            const featureLines = parsed.body.split('\n').filter(line => line.trim().length > 0);
+            const features = featureLines.slice(0, 6).map((line, idx) => ({
+              title: `Feature ${idx + 1}`,
+              description: line.substring(0, 100),
+              icon: null
+            }));
+            updateData.content = {
+              features: features.length > 0 ? features : [
+                { title: 'Feature 1', description: 'Feature description' },
+                { title: 'Feature 2', description: 'Feature description' },
+              ]
+            };
+            break;
+
+          case 'comparison':
+            updateData.content = {
+              table: {
+                headers: ['Specification', 'Value'],
+                rows: [[]]
+              },
+              text: parsed.heading ? `<h3>${parsed.heading}</h3>\n${parsed.body}` : parsed.body
+            };
+            break;
+
+          case 'cta':
+            const ctaMatch = stageContent_?.match(/\[CTA BUTTON TEXT:\s*([^\]]+)\]/);
+            const ctaButtonText = ctaMatch ? ctaMatch[1].trim() : 'Shop Now';
+            updateData.content = {
+              buttonText: ctaButtonText,
+              buttonLink: '#'
+            };
+            break;
+
+          case 'gallery':
+            const imageUrls = inputData.imageUrls
+              .split('\n')
+              .map((url) => url.trim())
+              .filter((url) => url);
+            updateData.content = {
+              images: imageUrls.map((url, idx) => ({
+                url: url,
+                title: `Product Image ${idx + 1}`,
+                alt: `${inputData.productTitle} - Image ${idx + 1}`
+              }))
+            };
+            break;
+
+          default:
+            updateData.content = {
+              text: parsed.body || 'Add your content here'
+            };
         }
+
+        updateSection(newSectionId, updateData);
       });
-
-      // Stage 2: Text section (full body content)
-      const stage2 = parseStageContent(stageContent[2]);
-      const textContent = stage2.heading ? `<h3>${stage2.heading}</h3>\n${stage2.body}` : stage2.body;
-      addSection('text');
-      const textSectionId = useEditor.getState().sections[useEditor.getState().sections.length - 1].id;
-      updateSection(textSectionId, {
-        content: {
-          text: textContent
-        }
-      });
-
-      // Stage 3: Features (parse as feature list)
-      const stage3 = parseStageContent(stageContent[3]);
-      const featureLines = stage3.body.split('\n').filter(line => line.trim().length > 0);
-      const features = featureLines.slice(0, 3).map((line, idx) => ({
-        title: `Feature ${idx + 1}`,
-        description: line.substring(0, 100),
-        icon: null
-      }));
-      addSection('features');
-      const featureSectionId = useEditor.getState().sections[useEditor.getState().sections.length - 1].id;
-      updateSection(featureSectionId, {
-        content: {
-          features: features.length > 0 ? features : [
-            { title: 'Feature 1', description: 'Feature description' },
-            { title: 'Feature 2', description: 'Feature description' },
-            { title: 'Feature 3', description: 'Feature description' }
-          ]
-        }
-      });
-
-      // Stage 4: Comparison/Text (use as text section with specs)
-      const stage4 = parseStageContent(stageContent[4]);
-      const specsContent = stage4.heading ? `<h3>${stage4.heading}</h3>\n${stage4.body}` : stage4.body;
-      addSection('comparison');
-      const comparisonSectionId = useEditor.getState().sections[useEditor.getState().sections.length - 1].id;
-      updateSection(comparisonSectionId, {
-        content: {
-          table: {
-            headers: ['Specification', 'Value'],
-            rows: [[]]
-          },
-          text: specsContent
-        }
-      });
-
-      // Stage 5: CTA (extract button text and create section)
-      const stage5 = parseStageContent(stageContent[5]);
-      const ctaButtonText = extractCTAButton(stageContent[5]);
-      addSection('cta');
-      const ctaSectionId = useEditor.getState().sections[useEditor.getState().sections.length - 1].id;
-      updateSection(ctaSectionId, {
-        content: {
-          buttonText: ctaButtonText,
-          buttonLink: '#'
-        }
-      });
-
-      // Add gallery with images if provided
-      const imageUrls = inputData.imageUrls
-        .split('\n')
-        .map((url) => url.trim())
-        .filter((url) => url);
-
-      if (imageUrls.length > 0) {
-        addSection('gallery');
-        const gallerySectionId = useEditor.getState().sections[useEditor.getState().sections.length - 1].id;
-        updateSection(gallerySectionId, {
-          content: {
-            images: imageUrls.map((url, idx) => ({
-              url: url,
-              title: `Product Image ${idx + 1}`,
-              alt: `${inputData.productTitle} - Image ${idx + 1}`
-            }))
-          }
-        });
-      }
 
       onClose();
     } catch (err) {
@@ -579,30 +629,101 @@ allowfullscreen></iframe>
 
           {step === 'finalReview' && (
             <div className="space-y-4">
-              <h3 className="text-lg font-bold text-gray-900 mb-6">Final Review - All Stages</h3>
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-bold text-gray-900">Review & Customize Sections</h3>
+                <button
+                  onClick={handleAddSection}
+                  className="flex items-center gap-1 px-3 py-1.5 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors text-sm font-medium"
+                >
+                  <Plus size={16} />
+                  Add Section
+                </button>
+              </div>
 
-              {[1, 2, 3, 4, 5].map((stage) => (
-                <div key={stage} className="border border-gray-200 rounded-lg p-4">
-                  <h4 className="font-semibold text-gray-900 mb-2">
-                    Stage {stage}: {stageLabels[stage]}
-                  </h4>
-                  <div className="bg-gray-50 p-3 rounded text-sm text-gray-700 max-h-[150px] overflow-y-auto">
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: stageContent[stage] || 'No content generated',
-                      }}
-                    />
-                  </div>
+              {sectionMappings.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  <p>No sections configured. Click "Add Section" to create one.</p>
                 </div>
-              ))}
+              ) : (
+                <div className="space-y-3">
+                  {sectionMappings.map((mapping, index) => (
+                    <div key={index} className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors">
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-xs font-semibold text-gray-500">Section {index + 1}</span>
+                            <select
+                              value={mapping.sectionType}
+                              onChange={(e) => handleChangeSectionType(index, e.target.value)}
+                              className="text-sm px-2 py-1 border border-gray-300 rounded bg-white font-medium text-gray-900 hover:border-blue-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
+                              {availableSectionTypes.map(type => (
+                                <option key={type.value} value={type.value}>{type.label}</option>
+                              ))}
+                            </select>
+                          </div>
+                          {mapping.stageNum && (
+                            <p className="text-xs text-gray-500">From: Stage {mapping.stageNum} - {stageLabels[mapping.stageNum]}</p>
+                          )}
+                        </div>
 
-              <p className="text-sm text-gray-600 mt-6">
-                ✅ This will create 6 sections on your canvas (Hero, Text, Features, Comparison, CTA, and Gallery)
-              </p>
+                        <div className="flex items-center gap-1 flex-shrink-0">
+                          <button
+                            onClick={() => handleMoveSection(index, 'up')}
+                            disabled={index === 0}
+                            className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                            title="Move up"
+                          >
+                            <ArrowUp size={16} />
+                          </button>
+                          <button
+                            onClick={() => handleMoveSection(index, 'down')}
+                            disabled={index === sectionMappings.length - 1}
+                            className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                            title="Move down"
+                          >
+                            <ArrowDown size={16} />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteSection(index)}
+                            className="p-1.5 text-red-600 hover:text-red-900 hover:bg-red-50 rounded transition-colors"
+                            title="Delete section"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Content preview */}
+                      {mapping.stageNum && stageContent[mapping.stageNum] && (
+                        <div className="bg-gray-50 p-3 rounded text-sm text-gray-700 mt-3 border border-gray-100">
+                          <p className="text-xs font-semibold text-gray-600 mb-2">Preview:</p>
+                          <p className="line-clamp-3 text-gray-600">
+                            {getContentPreview(mapping.stageNum)}
+                          </p>
+                        </div>
+                      )}
+
+                      {!mapping.stageNum && (
+                        <div className="bg-blue-50 p-3 rounded text-sm text-blue-700 mt-3 border border-blue-100">
+                          <p className="text-xs">This section will be added with default content. Edit it on the canvas after applying.</p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4 mt-6">
+                <p className="text-sm text-green-900">
+                  ✅ Ready to add <strong>{sectionMappings.length}</strong> section{sectionMappings.length !== 1 ? 's' : ''} to your canvas
+                </p>
+              </div>
 
               <button
                 onClick={handleApplyToCanvas}
-                className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+                disabled={sectionMappings.length === 0}
+                className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 ✅ Apply All Sections to Canvas
               </button>
