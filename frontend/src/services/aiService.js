@@ -205,6 +205,117 @@ export const aiService = {
     return response.data;
   },
 
+  /**
+   * Section Builder Framework Methods
+   */
+
+  /**
+   * Plan sections for product page
+   * Analyzes product data and determines which sections to generate (2-8 sections)
+   */
+  planSections: async (productContext, mediaInventory = {}) => {
+    const response = await api.post('/ai/section-builder/plan-sections', {
+      productContext,
+      mediaInventory,
+    });
+    return response.data;
+  },
+
+  /**
+   * Realize (generate content for) a single section
+   */
+  realizeSection: async (sectionPlan, productContext) => {
+    const response = await api.post('/ai/section-builder/realize-section', {
+      sectionPlan,
+      productContext,
+    });
+    return response.data;
+  },
+
+  /**
+   * Assign media to a section
+   */
+  assignMedia: async (sectionPlan, sectionContent, mediaInventory) => {
+    const response = await api.post('/ai/section-builder/assign-media', {
+      sectionPlan,
+      sectionContent,
+      mediaInventory,
+    });
+    return response.data;
+  },
+
+  /**
+   * Validate section content
+   */
+  validateSection: async (sectionPlan, sectionContent) => {
+    const response = await api.post('/ai/section-builder/validate-section', {
+      sectionPlan,
+      sectionContent,
+    });
+    return response.data;
+  },
+
+  /**
+   * Generate entire page section-by-section
+   * Orchestrates planning, realizing, and validating sections
+   */
+  generateSectionBuilderPage: async (productContext, mediaInventory, onProgress = null) => {
+    // Step 1: Plan sections
+    if (onProgress) {
+      onProgress({
+        step: 'planning',
+        progress: 0,
+        message: 'Planning optimal section layout...',
+        currentSection: null,
+      });
+    }
+
+    const planResponse = await aiService.planSections(productContext, mediaInventory);
+    const sectionPlan = planResponse.data.sections;
+
+    // Step 2: Realize and validate each section
+    const generatedSections = [];
+    const totalSections = sectionPlan.length;
+
+    for (let i = 0; i < sectionPlan.length; i++) {
+      const sectionInfo = sectionPlan[i];
+      const progress = Math.round(((i + 1) / totalSections) * 100);
+
+      if (onProgress) {
+        onProgress({
+          step: 'generating',
+          progress,
+          message: `Generating ${sectionInfo.type} section...`,
+          currentSection: sectionInfo.index,
+        });
+      }
+
+      try {
+        // Generate section content
+        const realizeResponse = await aiService.realizeSection(sectionInfo, productContext);
+        let sectionContent = realizeResponse.data.content;
+
+        // Validate section
+        const validateResponse = await aiService.validateSection(sectionInfo, sectionContent);
+        if (validateResponse.data.validation && validateResponse.data.validation.fixed) {
+          sectionContent = validateResponse.data.validation.fixed;
+        }
+
+        generatedSections.push({
+          plan: sectionInfo,
+          content: sectionContent,
+        });
+      } catch (error) {
+        console.error(`Failed to generate section ${i + 1}:`, error);
+        // Continue with next section even if one fails
+      }
+    }
+
+    return {
+      sections: generatedSections,
+    };
+  },
+
 };
 
 export default aiService;
