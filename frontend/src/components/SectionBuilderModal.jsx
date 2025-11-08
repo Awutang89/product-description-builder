@@ -15,6 +15,7 @@ export function SectionBuilderModal({ isOpen, onClose, projectId }) {
     supplierDescription: '',
     imageUrls: '',
     manualUrls: '',
+    videoEmbed: '',
   });
   const [sectionPlan, setSectionPlan] = useState([]);
   const [generatedSections, setGeneratedSections] = useState([]);
@@ -78,6 +79,23 @@ export function SectionBuilderModal({ isOpen, onClose, projectId }) {
       .split('\n')
       .filter((url) => url.trim());
 
+    const videoEmbeds = inputData.videoEmbed
+      .split('\n')
+      .filter((url) => url.trim())
+      .map((embed) => {
+        // Extract YouTube embed URL - only accept youtube.com/embed/ format
+        let embedUrl = '';
+        if (embed.includes('youtube.com/embed/')) {
+          const urlMatch = embed.match(/https:\/\/www\.youtube\.com\/embed\/[^\s"'<>]*/);
+          if (urlMatch) {
+            embedUrl = urlMatch[0];
+            embedUrl = embedUrl.replace(/[<>"]/, '');
+          }
+        }
+        return embedUrl;
+      })
+      .filter((url) => url);
+
     return {
       images: imageUrls.map((url, i) => ({
         id: `img_${i + 1}`,
@@ -87,7 +105,11 @@ export function SectionBuilderModal({ isOpen, onClose, projectId }) {
         tags: ['product'],
         qualityScore: 0.8,
       })),
-      videos: [],
+      videos: videoEmbeds.map((url, i) => ({
+        id: `video_${i + 1}`,
+        url: url,
+        type: 'youtube',
+      })),
       pdfs: [],
     };
   };
@@ -254,6 +276,20 @@ export function SectionBuilderModal({ isOpen, onClose, projectId }) {
                   onChange={handleInputChange}
                   rows="3"
                   placeholder="https://example.com/manual.pdf&#10;https://example.com/spec-sheet.pdf"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  YouTube Embed Codes (Optional, one per line)
+                </label>
+                <textarea
+                  name="videoEmbed"
+                  value={inputData.videoEmbed}
+                  onChange={handleInputChange}
+                  rows="3"
+                  placeholder="https://www.youtube.com/embed/dQw4w9WgXcQ&#10;https://www.youtube.com/embed/jNQXAC9IVRw"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
                 />
               </div>
