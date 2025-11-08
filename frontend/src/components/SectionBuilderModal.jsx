@@ -21,6 +21,7 @@ export function SectionBuilderModal({ isOpen, onClose, projectId }) {
   const [selectedKeywords, setSelectedKeywords] = useState([]);
   const [sectionPlan, setSectionPlan] = useState([]);
   const [generatedSections, setGeneratedSections] = useState([]);
+  const [sectionsToInclude, setSectionsToInclude] = useState([]);
   const [progress, setProgress] = useState({
     step: '',
     progress: 0,
@@ -201,6 +202,8 @@ export function SectionBuilderModal({ isOpen, onClose, projectId }) {
       );
 
       setGeneratedSections(result.sections);
+      // Initialize all sections as included by default
+      setSectionsToInclude(result.sections.map((_, i) => i));
       setStep('complete');
       setIsLoading(false);
     } catch (err) {
@@ -210,18 +213,74 @@ export function SectionBuilderModal({ isOpen, onClose, projectId }) {
     }
   };
 
+  const handleToggleSection = (index) => {
+    setSectionsToInclude((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+  };
+
   const handleApplyToCanvas = () => {
-    // Convert generated sections to canvas sections
-    generatedSections.forEach((section) => {
-      const canvasSection = {
-        type: section.plan.type,
-        content: section.content,
-        styles: {},
-      };
-      addSection(canvasSection.type, canvasSection);
+    // Convert selected sections to canvas sections
+    generatedSections.forEach((section, index) => {
+      if (sectionsToInclude.includes(index)) {
+        const canvasSection = {
+          type: section.plan.type,
+          content: section.content,
+          styles: {},
+        };
+        addSection(canvasSection.type, canvasSection);
+      }
     });
 
     onClose();
+  };
+
+  const renderContentPreview = (section) => {
+    const content = section.content;
+    const type = section.plan.type;
+
+    // Show relevant content based on section type
+    if (type === 'hero') {
+      return `${content.title || ''} — ${content.subtitle || ''}`;
+    }
+    if (type === 'text') {
+      return content.text?.substring(0, 150) || '';
+    }
+    if (type === 'features') {
+      return content.features?.map((f) => f.title).join(', ') || '';
+    }
+    if (type === 'gallery') {
+      return `Gallery with ${content.images?.length || 0} images`;
+    }
+    if (type === 'testimonial') {
+      return content.testimonials?.[0]?.quote?.substring(0, 100) || '';
+    }
+    if (type === 'comparison') {
+      return `Comparison table with ${content.table?.rows?.length || 0} rows`;
+    }
+    if (type === 'cta') {
+      return content.buttonText || '';
+    }
+    if (type === 'image') {
+      return content.altText || 'Product image';
+    }
+    if (type === 'twoColumn') {
+      return content.leftText?.substring(0, 100) || '';
+    }
+    if (type === 'sideBySide') {
+      return `${content.col1Text?.substring(0, 50)} | ${content.col2Text?.substring(0, 50)}`;
+    }
+    if (type === 'threeColumns') {
+      return '3 columns layout';
+    }
+    if (type === 'fourColumns') {
+      return '4 columns layout';
+    }
+    if (type === 'twoColumnHighlight') {
+      return content.richText?.substring(0, 100) || '';
+    }
+
+    return 'Section content';
   };
 
   const handleClose = () => {
@@ -539,36 +598,62 @@ export function SectionBuilderModal({ isOpen, onClose, projectId }) {
                   All sections generated!
                 </p>
                 <p className="text-sm text-green-700">
-                  {generatedSections.length} sections ready to add to your canvas
+                  {sectionsToInclude.length} of {generatedSections.length} sections selected for canvas
                 </p>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {generatedSections.map((section, i) => (
-                  <div key={i} className="border border-gray-200 rounded-lg p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xs font-semibold text-gray-500">
-                        Section {section.plan.index}
-                      </span>
-                      <span className="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs font-medium rounded">
-                        {section.plan.type}
-                      </span>
-                      {section.validation?.valid && (
-                        <CheckCircle className="text-green-600" size={14} />
-                      )}
+                  <div
+                    key={i}
+                    className={`border rounded-lg p-4 transition-colors ${
+                      sectionsToInclude.includes(i)
+                        ? 'border-blue-300 bg-blue-50'
+                        : 'border-gray-200 bg-gray-50 opacity-60'
+                    }`}
+                  >
+                    <div className="space-y-3">
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-start gap-3 flex-1">
+                          <input
+                            type="checkbox"
+                            checked={sectionsToInclude.includes(i)}
+                            onChange={() => handleToggleSection(i)}
+                            className="w-5 h-5 text-blue-600 rounded mt-1"
+                          />
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="text-xs font-semibold text-gray-500">
+                                Section {section.plan.index}
+                              </span>
+                              <span className="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs font-medium rounded">
+                                {section.plan.type}
+                              </span>
+                              {section.validation?.valid && (
+                                <CheckCircle className="text-green-600" size={14} />
+                              )}
+                            </div>
+                            <p className="text-xs text-gray-600 mb-2">{section.plan.goal}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="bg-white border border-gray-200 rounded p-3 ml-8">
+                        <p className="text-sm text-gray-700">
+                          {renderContentPreview(section)}
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-sm text-gray-700 line-clamp-2">
-                      {section.content.heading || section.content.body?.substring(0, 100)}
-                    </p>
                   </div>
                 ))}
               </div>
 
               <button
                 onClick={handleApplyToCanvas}
-                className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+                disabled={sectionsToInclude.length === 0}
+                className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Add All Sections to Canvas
+                Add {sectionsToInclude.length} Sections to Canvas
               </button>
             </div>
           )}
