@@ -12,8 +12,6 @@ export function SectionBuilderModal({ isOpen, onClose, projectId }) {
   const [step, setStep] = useState('input'); // 'input', 'planning', 'review-plan', 'generating', 'complete'
   const [inputData, setInputData] = useState({
     productTitle: '',
-    brand: '',
-    category: '',
     supplierDescription: '',
     imageUrls: '',
     manualUrls: '',
@@ -61,8 +59,6 @@ export function SectionBuilderModal({ isOpen, onClose, projectId }) {
 
     return {
       title: inputData.productTitle,
-      brand: inputData.brand || null,
-      category: inputData.category || null,
       benefits,
       features,
       specs,
@@ -218,35 +214,6 @@ export function SectionBuilderModal({ isOpen, onClose, projectId }) {
                   placeholder="e.g., Duramax SideMate Shed 4x8"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Brand (Optional)
-                  </label>
-                  <input
-                    type="text"
-                    name="brand"
-                    value={inputData.brand}
-                    onChange={handleInputChange}
-                    placeholder="e.g., Duramax"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Category (Optional)
-                  </label>
-                  <input
-                    type="text"
-                    name="category"
-                    value={inputData.category}
-                    onChange={handleInputChange}
-                    placeholder="e.g., storage, outdoor"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
               </div>
 
               <div>
