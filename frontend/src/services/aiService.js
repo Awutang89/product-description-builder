@@ -237,16 +237,21 @@ export const aiService = {
         // Generate section content
         const realizeResponse = await aiService.realizeSection(sectionInfo, productContext);
         let sectionContent = realizeResponse.data.content;
+        let validation = null;
 
         // Validate section
         const validateResponse = await aiService.validateSection(sectionInfo, sectionContent);
-        if (validateResponse.data.validation && validateResponse.data.validation.fixed) {
-          sectionContent = validateResponse.data.validation.fixed;
+        if (validateResponse.data.validation) {
+          validation = validateResponse.data.validation;
+          if (validation.fixed) {
+            sectionContent = validation.fixed;
+          }
         }
 
         generatedSections.push({
           plan: sectionInfo,
           content: sectionContent,
+          validation: validation,
         });
       } catch (error) {
         console.error(`Failed to generate section ${i + 1}:`, error);

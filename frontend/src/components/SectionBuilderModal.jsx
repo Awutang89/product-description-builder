@@ -553,7 +553,7 @@ export function SectionBuilderModal({ isOpen, onClose, projectId }) {
                       <span className="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs font-medium rounded">
                         {section.plan.type}
                       </span>
-                      {section.validation.valid && (
+                      {section.validation?.valid && (
                         <CheckCircle className="text-green-600" size={14} />
                       )}
                     </div>
