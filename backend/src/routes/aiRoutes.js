@@ -45,20 +45,9 @@ router.post('/examples/:id/approve', aiController.approveExample);
 router.post('/examples/:id/use', aiController.useExample);
 
 /**
- * Product Description Generation Endpoints
+ * Generate secondary keywords from product title
  */
-
-// Generate secondary keywords from product title
 router.post('/keywords', aiController.generateSecondaryKeywords);
-
-// Generate product description in stages
-router.post('/product-description', aiController.generateProductDescription);
-
-// Refine product description stage
-router.post('/product-description/refine', aiController.refineProductStage);
-
-// Get example product descriptions
-router.get('/product-examples', aiController.getProductDescriptionExamples);
 
 /**
  * Section Builder Framework Endpoints
