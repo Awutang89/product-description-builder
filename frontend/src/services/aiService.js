@@ -147,63 +147,6 @@ export const aiService = {
     return response.data;
   },
 
-  /**
-   * Generate product description in stages
-   * Stage 1: Problem Identification
-   * Stage 2: Solution Explanation
-   * Stage 3: Feature → Benefit Mapping
-   * Stage 4: Technical Specifications
-   * Stage 5: Call-to-Action Conclusion
-   */
-  generateProductDescription: async (
-    supplierDescription,
-    imageUrls = [],
-    productTitle,
-    stage = 1,
-    options = {}
-  ) => {
-    const response = await api.post('/ai/product-description', {
-      supplierDescription,
-      imageUrls,
-      productTitle,
-      stage,
-      secondaryKeywords: options.secondaryKeywords || [],
-      examples: options.examples || [],
-      previousStageContent: options.previousStageContent || null,
-    });
-    return response.data;
-  },
-
-  /**
-   * Refine product description stage based on feedback
-   */
-  refineProductStage: async (
-    stageContent,
-    feedback,
-    stage,
-    productTitle,
-    options = {}
-  ) => {
-    const response = await api.post('/ai/product-description/refine', {
-      stageContent,
-      feedback,
-      stage,
-      productTitle,
-      secondaryKeywords: options.secondaryKeywords || [],
-    });
-    return response.data;
-  },
-
-  /**
-   * Get example product descriptions for reference
-   * These are used to train the AI on good product copy
-   */
-  getProductDescriptionExamples: async (category = null, limit = 3) => {
-    const params = { limit };
-    if (category) params.category = category;
-    const response = await api.get('/ai/product-examples', { params });
-    return response.data;
-  },
 
   /**
    * Section Builder Framework Methods

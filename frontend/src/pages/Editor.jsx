@@ -6,7 +6,7 @@ import SectionLibrary from '../components/SectionLibrary';
 import Canvas from '../components/Canvas';
 import SettingsPanel from '../components/SettingsPanel';
 import ExportModal from '../components/ExportModal';
-import AIGeneratorModal from '../components/AIGeneratorModal';
+import { SectionBuilderModal } from '../components/SectionBuilderModal';
 
 /**
  * Editor Page
@@ -16,8 +16,7 @@ export function Editor() {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const [isExportOpen, setIsExportOpen] = useState(false);
-  const [showAIModal, setShowAIModal] = useState(false);
-  const [showAIDropdown, setShowAIDropdown] = useState(false);
+  const [showSectionBuilder, setShowSectionBuilder] = useState(false);
   const [isLibraryCollapsed, setIsLibraryCollapsed] = useState(false);
   const [isPropertiesCollapsed, setIsPropertiesCollapsed] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
@@ -167,7 +166,7 @@ export function Editor() {
         <div className="flex items-center gap-3">
           {/* AI Generate Button */}
           <button
-            onClick={() => setShowAIModal(true)}
+            onClick={() => setShowSectionBuilder(true)}
             className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
           >
             <Zap size={18} />
@@ -253,10 +252,10 @@ export function Editor() {
         </button>
       </div>
 
-      {/* AI Generator Modal */}
-      <AIGeneratorModal
-        isOpen={showAIModal}
-        onClose={() => setShowAIModal(false)}
+      {/* Section Builder Modal */}
+      <SectionBuilderModal
+        isOpen={showSectionBuilder}
+        onClose={() => setShowSectionBuilder(false)}
         projectId={projectId}
       />
 

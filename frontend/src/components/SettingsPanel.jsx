@@ -3,7 +3,6 @@ import { Settings, X, Wand2, BookOpen } from 'lucide-react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useEditor } from '../store/editorStore';
-import AIGenerator from './AIGenerator';
 import ExampleManager from './ExampleManager';
 
 /**

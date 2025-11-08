@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { Settings, X, Wand2, BookOpen } from 'lucide-react';
+import { Settings, X, BookOpen } from 'lucide-react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useEditor } from '../store/editorStore';
-import AIGenerator from './AIGenerator';
 import ExampleManager from './ExampleManager';
 
 /**
@@ -63,29 +62,6 @@ export function SettingsPanelV2({ projectId }) {
         [field]: value,
       },
     });
-  };
-
-  const handleAIContentGenerated = (content) => {
-    // Determine which field to update based on section type
-    let field = 'text';
-    switch (selectedSection.type) {
-      case 'hero':
-        field = 'title';
-        break;
-      case 'cta':
-        field = 'heading';
-        break;
-      case 'features':
-        field = 'items';
-        break;
-      case 'testimonial':
-        field = 'quote';
-        break;
-      default:
-        field = 'text';
-    }
-
-    handleContentChange(field, content);
   };
 
   const renderContentFields = () => {
@@ -501,17 +477,6 @@ export function SettingsPanelV2({ projectId }) {
           Properties
         </button>
         <button
-          onClick={() => setActiveTab('ai')}
-          className={`flex-1 px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
-            activeTab === 'ai'
-              ? 'border-blue-500 text-blue-600'
-              : 'border-transparent text-gray-600 hover:text-gray-900'
-          }`}
-        >
-          <Wand2 size={16} className="inline mr-2" />
-          AI
-        </button>
-        <button
           onClick={() => setActiveTab('examples')}
           className={`flex-1 px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
             activeTab === 'examples'
@@ -588,13 +553,6 @@ export function SettingsPanelV2({ projectId }) {
                 </div>
               </div>
             </div>
-          </div>
-        )}
-
-        {/* AI Tab */}
-        {activeTab === 'ai' && (
-          <div className="p-4">
-            <AIGenerator sectionType={selectedSection.type} onContentGenerated={handleAIContentGenerated} />
           </div>
         )}
 
