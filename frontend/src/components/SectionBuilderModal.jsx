@@ -9,7 +9,7 @@ import aiService from '../services/aiService';
  * Uses the new Section Builder Framework instead of rigid 5-stage approach
  */
 export function SectionBuilderModal({ isOpen, onClose, projectId }) {
-  const [step, setStep] = useState('input'); // 'input', 'planning', 'review-plan', 'generating', 'complete'
+  const [step, setStep] = useState('input'); // 'input', 'keywords', 'planning', 'review-plan', 'generating', 'complete'
   const [inputData, setInputData] = useState({
     productTitle: '',
     supplierDescription: '',
@@ -17,6 +17,8 @@ export function SectionBuilderModal({ isOpen, onClose, projectId }) {
     manualUrls: '',
     videoEmbed: '',
   });
+  const [suggestedKeywords, setSuggestedKeywords] = useState([]);
+  const [selectedKeywords, setSelectedKeywords] = useState([]);
   const [sectionPlan, setSectionPlan] = useState([]);
   const [generatedSections, setGeneratedSections] = useState([]);
   const [progress, setProgress] = useState({
@@ -40,6 +42,47 @@ export function SectionBuilderModal({ isOpen, onClose, projectId }) {
     }));
   };
 
+  const handleStartKeywordGeneration = async () => {
+    if (!inputData.productTitle.trim() || !inputData.supplierDescription.trim()) {
+      setError('Please fill in product title and description');
+      return;
+    }
+
+    setError(null);
+    setIsLoading(true);
+    setStep('keywords');
+
+    try {
+      const response = await aiService.generateSecondaryKeywords(inputData.productTitle);
+      setSuggestedKeywords(response.data.keywords || []);
+      setSelectedKeywords(response.data.keywords || []);
+      setIsLoading(false);
+    } catch (err) {
+      setError(err.response?.data?.error?.message || 'Failed to generate keywords');
+      // Fallback: create basic keywords from product title
+      const basicKeywords = inputData.productTitle.split(' ').slice(0, 3);
+      setSuggestedKeywords(basicKeywords);
+      setSelectedKeywords(basicKeywords);
+      setIsLoading(false);
+    }
+  };
+
+  const handleKeywordToggle = (keyword) => {
+    setSelectedKeywords((prev) =>
+      prev.includes(keyword) ? prev.filter((k) => k !== keyword) : [...prev, keyword]
+    );
+  };
+
+  const handleKeywordConfirm = async () => {
+    if (selectedKeywords.length === 0) {
+      setError('Please select at least one keyword');
+      return;
+    }
+    setError(null);
+    setStep('planning');
+    await handleStartPlanning();
+  };
+
   const parseProductContext = () => {
     // Parse supplier description to extract benefits, features, specs
     const lines = inputData.supplierDescription.split('\n').filter((l) => l.trim());
@@ -60,6 +103,7 @@ export function SectionBuilderModal({ isOpen, onClose, projectId }) {
 
     return {
       title: inputData.productTitle,
+      keywords: selectedKeywords,
       benefits,
       features,
       specs,
@@ -295,23 +339,80 @@ export function SectionBuilderModal({ isOpen, onClose, projectId }) {
               </div>
 
               <button
-                onClick={handleStartPlanning}
+                onClick={handleStartKeywordGeneration}
                 disabled={isLoading}
                 className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center gap-2">
                     <Loader className="animate-spin" size={20} />
-                    Planning sections...
+                    Generating keywords...
                   </span>
                 ) : (
-                  'Plan Sections'
+                  'Continue'
                 )}
               </button>
             </div>
           )}
 
-          {/* Step 2: Planning */}
+          {/* Step 2: Keywords */}
+          {step === 'keywords' && (
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Secondary Keywords</h3>
+                <p className="text-gray-600 text-sm mb-4">
+                  These keywords will be used in your headings throughout the product description. Select the ones you want to use:
+                </p>
+              </div>
+
+              {isLoading ? (
+                <div className="flex flex-col items-center justify-center py-8">
+                  <Loader size={32} className="text-blue-600 animate-spin mb-2" />
+                  <p className="text-gray-600">Generating keywords...</p>
+                </div>
+              ) : (
+                <div className="space-y-2 mb-6">
+                  {suggestedKeywords.map((keyword, index) => (
+                    <label key={index} className="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={selectedKeywords.includes(keyword)}
+                        onChange={() => handleKeywordToggle(keyword)}
+                        className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                      />
+                      <span className="ml-3 text-gray-700 font-medium">{keyword}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setStep('input')}
+                  disabled={isLoading}
+                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Back
+                </button>
+                <button
+                  onClick={handleKeywordConfirm}
+                  disabled={isLoading || selectedKeywords.length === 0}
+                  className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader className="animate-spin" size={18} />
+                      Planning...
+                    </>
+                  ) : (
+                    'Plan Sections'
+                  )}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Step 3: Planning */}
           {step === 'planning' && (
             <div className="flex flex-col items-center justify-center py-12">
               <Loader className="animate-spin text-blue-600 mb-4" size={48} />
