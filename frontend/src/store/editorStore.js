@@ -39,14 +39,14 @@ export const useEditor = create((set, get) => ({
   },
 
   // Add new section
-  addSection: (sectionType) => {
+  addSection: (sectionType, sectionData = null) => {
     const newSection = {
       id: uuidv4(),
       type: sectionType,
       order: get().sections.length,
-      config: {},
-      content: {},
-      styles: {
+      config: sectionData?.config || {},
+      content: sectionData?.content || {},
+      styles: sectionData?.styles || {
         padding: 'md',
         marginBottom: 'md',
       },
