@@ -1,4 +1,5 @@
 import aiService from '../services/aiService.js';
+import agenticAIService from '../services/agenticAIService.js';
 import AIExample from '../models/AIExample.js';
 
 /**
@@ -737,6 +738,269 @@ export const validateSectionContent = async (req, res) => {
   }
 };
 
+/**
+ * Agentic AI Workflow Endpoints
+ */
+
+/**
+ * Stage 1: Generate problem identification suggestions
+ * POST /api/ai/agentic/stage1-problem
+ */
+export const generateProblemSuggestions = async (req, res) => {
+  try {
+    const { productTitle, supplierDescription } = req.body;
+
+    if (!productTitle || !supplierDescription) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Product title and supplier description are required',
+        },
+      });
+    }
+
+    const result = await agenticAIService.generateProblemIdentification(
+      productTitle,
+      supplierDescription
+    );
+
+    res.json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    console.error('Generate problem suggestions error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'GENERATION_ERROR',
+        message: error.message || 'Failed to generate problem suggestions',
+      },
+    });
+  }
+};
+
+/**
+ * Stage 2: Generate solution explanation
+ * POST /api/ai/agentic/stage2-solution
+ */
+export const generateSolution = async (req, res) => {
+  try {
+    const {
+      productTitle,
+      supplierDescription,
+      problemStatement,
+      customerAvatar,
+      secondaryKeywords = [],
+    } = req.body;
+
+    if (!productTitle || !supplierDescription || !problemStatement) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Product title, supplier description, and problem statement are required',
+        },
+      });
+    }
+
+    const result = await agenticAIService.generateSolutionExplanation(
+      productTitle,
+      supplierDescription,
+      problemStatement,
+      customerAvatar,
+      secondaryKeywords
+    );
+
+    res.json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    console.error('Generate solution error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'GENERATION_ERROR',
+        message: error.message || 'Failed to generate solution explanation',
+      },
+    });
+  }
+};
+
+/**
+ * Stage 3: Generate feature-benefit mappings
+ * POST /api/ai/agentic/stage3-features
+ */
+export const generateFeatures = async (req, res) => {
+  try {
+    const {
+      productTitle,
+      supplierDescription,
+      problemStatement,
+      secondaryKeywords = [],
+    } = req.body;
+
+    if (!productTitle || !supplierDescription || !problemStatement) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Product title, supplier description, and problem statement are required',
+        },
+      });
+    }
+
+    const result = await agenticAIService.generateFeatureBenefits(
+      productTitle,
+      supplierDescription,
+      problemStatement,
+      secondaryKeywords
+    );
+
+    res.json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    console.error('Generate features error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'GENERATION_ERROR',
+        message: error.message || 'Failed to generate feature benefits',
+      },
+    });
+  }
+};
+
+/**
+ * Stage 4: Generate technical specifications
+ * POST /api/ai/agentic/stage4-specs
+ */
+export const generateSpecs = async (req, res) => {
+  try {
+    const {
+      productTitle,
+      supplierDescription,
+      problemStatement,
+      secondaryKeywords = [],
+    } = req.body;
+
+    if (!productTitle || !supplierDescription || !problemStatement) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Product title, supplier description, and problem statement are required',
+        },
+      });
+    }
+
+    const result = await agenticAIService.generateTechnicalSpecs(
+      productTitle,
+      supplierDescription,
+      problemStatement,
+      secondaryKeywords
+    );
+
+    res.json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    console.error('Generate specs error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'GENERATION_ERROR',
+        message: error.message || 'Failed to generate technical specifications',
+      },
+    });
+  }
+};
+
+/**
+ * Stage 5: Generate conclusion with CTA
+ * POST /api/ai/agentic/stage5-conclusion
+ */
+export const generateConclusionCTA = async (req, res) => {
+  try {
+    const { productTitle, problemStatement, keyBenefits = [] } = req.body;
+
+    if (!productTitle || !problemStatement || keyBenefits.length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Product title, problem statement, and key benefits are required',
+        },
+      });
+    }
+
+    const result = await agenticAIService.generateConclusion(
+      productTitle,
+      problemStatement,
+      keyBenefits
+    );
+
+    res.json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    console.error('Generate conclusion error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'GENERATION_ERROR',
+        message: error.message || 'Failed to generate conclusion',
+      },
+    });
+  }
+};
+
+/**
+ * Self-critique stage content
+ * POST /api/ai/agentic/critique
+ */
+export const critiqueContent = async (req, res) => {
+  try {
+    const { stageNumber, stageContent, checklistItems = [] } = req.body;
+
+    if (!stageNumber || !stageContent) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Stage number and content are required',
+        },
+      });
+    }
+
+    const result = await agenticAIService.critiqueStageContent(
+      stageNumber,
+      stageContent,
+      checklistItems
+    );
+
+    res.json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    console.error('Critique content error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'CRITIQUE_ERROR',
+        message: error.message || 'Failed to critique content',
+      },
+    });
+  }
+};
+
 export default {
   generateContent,
   generateVariations,
@@ -755,4 +1019,11 @@ export default {
   realizeSection,
   assignMediaToSection,
   validateSectionContent,
+  // Agentic AI Workflow endpoints
+  generateProblemSuggestions,
+  generateSolution,
+  generateFeatures,
+  generateSpecs,
+  generateConclusionCTA,
+  critiqueContent,
 };
