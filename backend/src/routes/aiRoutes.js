@@ -99,4 +99,15 @@ router.post('/agentic/evaluate-alt-text', aiController.evaluateAltText);
 // Evaluate Keyword Coverage
 router.post('/agentic/evaluate-keywords', aiController.evaluateKeywords);
 
+/**
+ * Content Mapper Endpoints
+ * Maps generated content to section structures
+ */
+
+// Map content from 5 stages to sections
+router.post('/agentic/map-content', aiController.mapContentToSections);
+
+// Recommend section types based on content
+router.post('/agentic/recommend-sections', aiController.recommendSections);
+
 export default router;

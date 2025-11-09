@@ -1,5 +1,6 @@
 import aiService from '../services/aiService.js';
 import agenticAIService from '../services/agenticAIService.js';
+import contentMapper from '../services/contentMapper.js';
 import AIExample from '../models/AIExample.js';
 
 /**
@@ -1002,6 +1003,108 @@ export const critiqueContent = async (req, res) => {
 };
 
 /**
+ * Map Content to Sections
+ * POST /api/ai/agentic/map-content
+ */
+export const mapContentToSections = async (req, res) => {
+  try {
+    const { stageContent, secondaryKeywords = [], mediaInventory = {}, mainKeyword } = req.body;
+
+    if (!stageContent) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Stage content is required',
+        },
+      });
+    }
+
+    if (!mainKeyword) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Main keyword (product title) is required',
+        },
+      });
+    }
+
+    const sections = contentMapper.mapContentToSections(
+      stageContent,
+      secondaryKeywords,
+      mediaInventory,
+      mainKeyword
+    );
+
+    // Validate each section's field mapping
+    const validations = sections.map((section, index) => ({
+      sectionIndex: index,
+      ...contentMapper.validateSectionFieldMapping(section),
+    }));
+
+    const allValid = validations.every((v) => v.valid);
+
+    res.json({
+      success: true,
+      data: {
+        sections,
+        validations,
+        allValid,
+        sectionCount: sections.length,
+      },
+    });
+  } catch (error) {
+    console.error('Map content to sections error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'MAPPING_ERROR',
+        message: error.message || 'Failed to map content to sections',
+      },
+    });
+  }
+};
+
+/**
+ * Recommend Section Types
+ * POST /api/ai/agentic/recommend-sections
+ */
+export const recommendSections = async (req, res) => {
+  try {
+    const { productContext, stageContent } = req.body;
+
+    if (!productContext || !stageContent) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Product context and stage content are required',
+        },
+      });
+    }
+
+    const recommendations = contentMapper.recommendSectionTypes(productContext, stageContent);
+
+    res.json({
+      success: true,
+      data: {
+        recommendations,
+      },
+    });
+  } catch (error) {
+    console.error('Recommend sections error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'RECOMMENDATION_ERROR',
+        message: error.message || 'Failed to recommend section types',
+      },
+    });
+  }
+};
+
+/**
  * Evaluate Alt Text Quality
  * POST /api/ai/agentic/evaluate-alt-text
  */
@@ -1115,4 +1218,7 @@ export default {
   // Agentic AI Evaluation endpoints
   evaluateAltText,
   evaluateKeywords,
+  // Content Mapper endpoints
+  mapContentToSections,
+  recommendSections,
 };
