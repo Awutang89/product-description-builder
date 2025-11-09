@@ -65,4 +65,27 @@ router.post('/section-builder/assign-media', aiController.assignMediaToSection);
 // Validate a section
 router.post('/section-builder/validate-section', aiController.validateSectionContent);
 
+/**
+ * Agentic AI Workflow Endpoints
+ * Multi-stage content generation with self-critique
+ */
+
+// Stage 1: Problem Identification
+router.post('/agentic/stage1-problem', aiController.generateProblemSuggestions);
+
+// Stage 2: Solution Explanation
+router.post('/agentic/stage2-solution', aiController.generateSolution);
+
+// Stage 3: Features to Benefits Mapping
+router.post('/agentic/stage3-features', aiController.generateFeatures);
+
+// Stage 4: Technical Specifications
+router.post('/agentic/stage4-specs', aiController.generateSpecs);
+
+// Stage 5: Conclusion + CTA
+router.post('/agentic/stage5-conclusion', aiController.generateConclusionCTA);
+
+// AI Self-Critique
+router.post('/agentic/critique', aiController.critiqueContent);
+
 export default router;
