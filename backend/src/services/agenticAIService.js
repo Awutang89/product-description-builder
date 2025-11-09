@@ -407,6 +407,175 @@ Evaluate this content against the criteria.`;
   };
 };
 
+/**
+ * Evaluation 1: Alt Text Quality
+ * Checks if images have proper alt text with keywords
+ */
+export const evaluateAltTextQuality = async (sections, secondaryKeywords) => {
+  const systemPrompt = `You are an expert SEO and accessibility evaluator checking alt text quality.
+
+Your task: Evaluate all images in the generated sections for alt text quality.
+
+CRITERIA:
+1. Every image must have alt text
+2. Alt text must include at least one secondary keyword
+3. Alt text must describe what the image shows
+4. Format should be: "{keyword} - {description}"
+
+EXAMPLES OF GOOD ALT TEXT:
+✓ "HealthMate Plus Air Purifier - HEPA filtration system removing airborne particles"
+✓ "Austin Air Purifier - 360-degree air intake design"
+
+EXAMPLES OF BAD ALT TEXT:
+✗ "Product image" (no keyword, not descriptive)
+✗ "air purifier" (no keyword variation, too generic)
+✗ "" (missing alt text)
+
+OUTPUT FORMAT (strict JSON):
+{
+  "overall_score": 4.5,
+  "total_images": 5,
+  "images_with_alt": 5,
+  "images_with_keyword": 4,
+  "issues": [
+    {
+      "section_index": 2,
+      "field": "rightImage",
+      "problem": "Alt text missing secondary keyword",
+      "current_alt": "Product sitting on table",
+      "suggested_alt": "HealthMate Plus Purifier - Product on table in home setting"
+    }
+  ],
+  "passed": true/false,
+  "summary": "Brief evaluation summary"
+}`;
+
+  const userPrompt = `Secondary Keywords Available: ${secondaryKeywords.join(', ')}
+
+Sections to Evaluate:
+${JSON.stringify(sections, null, 2)}
+
+Evaluate all images for alt text quality.`;
+
+  const completion = await getOpenAIClient().chat.completions.create({
+    model: 'gpt-4o-mini',
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userPrompt },
+    ],
+    temperature: 0.3,
+    max_tokens: 1000,
+    response_format: { type: 'json_object' },
+  });
+
+  const result = JSON.parse(completion.choices[0].message.content);
+
+  return {
+    success: true,
+    score: result.overall_score || 0,
+    totalImages: result.total_images || 0,
+    imagesWithAlt: result.images_with_alt || 0,
+    imagesWithKeyword: result.images_with_keyword || 0,
+    issues: result.issues || [],
+    passed: result.passed || false,
+    summary: result.summary || '',
+    usage: {
+      promptTokens: completion.usage.prompt_tokens,
+      completionTokens: completion.usage.completion_tokens,
+      totalTokens: completion.usage.total_tokens,
+    },
+  };
+};
+
+/**
+ * Evaluation 2: Keyword Coverage
+ * Checks if H2 headings include secondary keywords and distribution is natural
+ */
+export const evaluateKeywordCoverage = async (sections, secondaryKeywords, mainKeyword) => {
+  const systemPrompt = `You are an expert SEO evaluator checking keyword usage in content.
+
+Your task: Evaluate keyword coverage in H2 headings and overall content.
+
+CRITERIA:
+1. Every H2 heading must include at least one secondary keyword
+2. Keywords should be naturally distributed (not stuffed)
+3. Minimum 1 keyword usage per section
+4. Keywords should vary (not repeating the exact same phrase)
+5. Main product keyword should appear in conclusion
+
+EXAMPLES OF GOOD KEYWORD USAGE:
+✓ "<h2>How the HealthMate Plus Purifier Cleans Your Air</h2>" (natural integration)
+✓ "<h2>Key Features of the Austin Air System</h2>" (keyword variation)
+
+EXAMPLES OF BAD KEYWORD USAGE:
+✗ "<h2>Features</h2>" (no keyword)
+✗ "<h2>Austin Air HealthMate Plus Air Purifier Best Austin Air HealthMate Plus</h2>" (stuffing)
+
+OUTPUT FORMAT (strict JSON):
+{
+  "overall_score": 4.2,
+  "total_h2_headings": 6,
+  "headings_with_keywords": 5,
+  "keyword_distribution": {
+    "HealthMate Plus Air": 2,
+    "Austin Air Purifier": 2,
+    "HealthMate Plus Purifier": 1
+  },
+  "issues": [
+    {
+      "section_index": 1,
+      "heading": "<h2>Product Benefits</h2>",
+      "problem": "Missing secondary keyword in H2 heading",
+      "suggested_heading": "<h2>HealthMate Plus Air Benefits</h2>"
+    }
+  ],
+  "keyword_stuffing_detected": false,
+  "main_keyword_in_conclusion": true,
+  "passed": true/false,
+  "summary": "Brief evaluation summary"
+}`;
+
+  const userPrompt = `Main Product Keyword: ${mainKeyword}
+
+Secondary Keywords Available: ${secondaryKeywords.join(', ')}
+
+Sections to Evaluate:
+${JSON.stringify(sections, null, 2)}
+
+Evaluate keyword coverage and usage quality.`;
+
+  const completion = await getOpenAIClient().chat.completions.create({
+    model: 'gpt-4o-mini',
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userPrompt },
+    ],
+    temperature: 0.3,
+    max_tokens: 1000,
+    response_format: { type: 'json_object' },
+  });
+
+  const result = JSON.parse(completion.choices[0].message.content);
+
+  return {
+    success: true,
+    score: result.overall_score || 0,
+    totalH2Headings: result.total_h2_headings || 0,
+    headingsWithKeywords: result.headings_with_keywords || 0,
+    keywordDistribution: result.keyword_distribution || {},
+    issues: result.issues || [],
+    keywordStuffing: result.keyword_stuffing_detected || false,
+    mainKeywordInConclusion: result.main_keyword_in_conclusion || false,
+    passed: result.passed || false,
+    summary: result.summary || '',
+    usage: {
+      promptTokens: completion.usage.prompt_tokens,
+      completionTokens: completion.usage.completion_tokens,
+      totalTokens: completion.usage.total_tokens,
+    },
+  };
+};
+
 export default {
   generateProblemIdentification,
   generateSolutionExplanation,
@@ -414,4 +583,6 @@ export default {
   generateTechnicalSpecs,
   generateConclusion,
   critiqueStageContent,
+  evaluateAltTextQuality,
+  evaluateKeywordCoverage,
 };

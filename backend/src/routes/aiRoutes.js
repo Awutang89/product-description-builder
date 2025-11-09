@@ -88,4 +88,15 @@ router.post('/agentic/stage5-conclusion', aiController.generateConclusionCTA);
 // AI Self-Critique
 router.post('/agentic/critique', aiController.critiqueContent);
 
+/**
+ * Agentic AI Evaluation Endpoints
+ * Post-generation quality checks
+ */
+
+// Evaluate Alt Text Quality
+router.post('/agentic/evaluate-alt-text', aiController.evaluateAltText);
+
+// Evaluate Keyword Coverage
+router.post('/agentic/evaluate-keywords', aiController.evaluateKeywords);
+
 export default router;

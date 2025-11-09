@@ -1001,6 +1001,92 @@ export const critiqueContent = async (req, res) => {
   }
 };
 
+/**
+ * Evaluate Alt Text Quality
+ * POST /api/ai/agentic/evaluate-alt-text
+ */
+export const evaluateAltText = async (req, res) => {
+  try {
+    const { sections, secondaryKeywords = [] } = req.body;
+
+    if (!sections || !Array.isArray(sections)) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Sections array is required',
+        },
+      });
+    }
+
+    const result = await agenticAIService.evaluateAltTextQuality(sections, secondaryKeywords);
+
+    res.json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    console.error('Evaluate alt text error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'EVALUATION_ERROR',
+        message: error.message || 'Failed to evaluate alt text quality',
+      },
+    });
+  }
+};
+
+/**
+ * Evaluate Keyword Coverage
+ * POST /api/ai/agentic/evaluate-keywords
+ */
+export const evaluateKeywords = async (req, res) => {
+  try {
+    const { sections, secondaryKeywords = [], mainKeyword } = req.body;
+
+    if (!sections || !Array.isArray(sections)) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Sections array is required',
+        },
+      });
+    }
+
+    if (!mainKeyword) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Main keyword is required',
+        },
+      });
+    }
+
+    const result = await agenticAIService.evaluateKeywordCoverage(
+      sections,
+      secondaryKeywords,
+      mainKeyword
+    );
+
+    res.json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    console.error('Evaluate keyword coverage error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'EVALUATION_ERROR',
+        message: error.message || 'Failed to evaluate keyword coverage',
+      },
+    });
+  }
+};
+
 export default {
   generateContent,
   generateVariations,
@@ -1026,4 +1112,7 @@ export default {
   generateSpecs,
   generateConclusionCTA,
   critiqueContent,
+  // Agentic AI Evaluation endpoints
+  evaluateAltText,
+  evaluateKeywords,
 };
