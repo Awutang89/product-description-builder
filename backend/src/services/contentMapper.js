@@ -449,10 +449,10 @@ export const buildSmartSections = (orchestratorOutput) => {
           marginBottom: 'md',
         },
       });
-    } else if (index === 1 && features.features && features.features.length > 0) {
+    } else if (index === 1 && features && features.length > 0) {
       // Second section: Display ALL features (consolidate to fit within section limits)
       // Smart consolidation to minimize section count while showing all features
-      const totalFeatures = features.features.length;
+      const totalFeatures = features.length;
       let FEATURES_PER_SECTION;
 
       // Dynamic features per section based on total count
@@ -471,7 +471,7 @@ export const buildSmartSections = (orchestratorOutput) => {
       for (let i = 0; i < numSections; i++) {
         const startIdx = i * FEATURES_PER_SECTION;
         const endIdx = Math.min(startIdx + FEATURES_PER_SECTION, totalFeatures);
-        const featureSlice = features.features.slice(startIdx, endIdx);
+        const featureSlice = features.slice(startIdx, endIdx);
 
         sections.push({
           type: 'features',
