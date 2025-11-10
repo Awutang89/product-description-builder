@@ -281,6 +281,29 @@ export const aiService = {
     };
   },
 
+  /**
+   * Generate content for a user-added section
+   * When users manually add a section from the library, generate AI content for it
+   */
+  generateUserAddedSectionContent: async (
+    sectionType,
+    productTitle,
+    productDescription,
+    secondaryKeywords = [],
+    mediaInventory = {},
+    existingContext = {}
+  ) => {
+    const response = await api.post('/ai/generate-section', {
+      sectionType,
+      productTitle,
+      productDescription,
+      secondaryKeywords,
+      mediaInventory,
+      existingContext,
+    });
+    return response.data;
+  },
+
 };
 
 export default aiService;

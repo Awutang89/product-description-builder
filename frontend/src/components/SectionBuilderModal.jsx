@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { X, Loader, CheckCircle, AlertCircle, Sparkles } from 'lucide-react';
 import { useEditor } from '../store/editorStore';
 import aiService from '../services/aiService';
+import { useAIStore } from '../store/aiStore';
 
 /**
  * Section Builder Modal
@@ -31,7 +32,7 @@ export function SectionBuilderModal({ isOpen, onClose, projectId }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const { addSection } = useEditor();
+  const { addSection, setProjectContext } = useEditor();
 
   if (!isOpen) return null;
 
@@ -192,6 +193,14 @@ export function SectionBuilderModal({ isOpen, onClose, projectId }) {
     try {
       const productContext = parseProductContext();
       const mediaInventory = parseMediaInventory();
+
+      // Save project context for future AI generation of user-added sections
+      setProjectContext({
+        productTitle: inputData.productTitle,
+        productDescription: inputData.supplierDescription,
+        secondaryKeywords: selectedKeywords,
+        mediaInventory,
+      });
 
       const result = await aiService.generateSectionBuilderPage(
         productContext,

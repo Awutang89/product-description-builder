@@ -118,4 +118,12 @@ router.post('/agentic/recommend-sections', aiController.recommendSections);
 // Generate full page with smart section distribution
 router.post('/generate-full-page', aiController.generateFullPage);
 
+/**
+ * User-Added Section Content Generation
+ * Generate content for manually added sections
+ */
+
+// Generate content for a specific section type when user adds it
+router.post('/generate-section', aiController.generateSectionContent);
+
 export default router;

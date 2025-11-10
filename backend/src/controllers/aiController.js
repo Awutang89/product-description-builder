@@ -1276,6 +1276,140 @@ export const evaluateKeywords = async (req, res) => {
   }
 };
 
+/**
+ * Generate content for a user-added section
+ * POST /api/ai/generate-section
+ * When users manually add a section, generate AI content for that section type
+ */
+export const generateSectionContent = async (req, res) => {
+  try {
+    const {
+      sectionType,
+      productTitle,
+      productDescription,
+      secondaryKeywords = [],
+      mediaInventory = {},
+      existingContext = {},
+    } = req.body;
+
+    // Validation
+    if (!sectionType) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Section type is required',
+        },
+      });
+    }
+
+    if (!productTitle || productTitle.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Product title is required',
+        },
+      });
+    }
+
+    if (!productDescription || productDescription.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Product description is required',
+        },
+      });
+    }
+
+    // Build a minimal section plan for this section type
+    const sectionPlan = {
+      index: 1,
+      type: sectionType,
+      goal: `Generate ${sectionType} content for the product`,
+      source_refs: ['title', 'description'],
+      min_required_fields: [],
+      constraints: {},
+      confidence: 0.8,
+      notes: { issues: [], todos: [], split_reason: null, merge_reason: null },
+    };
+
+    // Build product context from inputs
+    const productContext = {
+      title: productTitle,
+      description: productDescription,
+      keywords: secondaryKeywords,
+      ...existingContext,
+    };
+
+    // Generate content for this specific section
+    const realizeResult = await aiService.realizeSection(sectionPlan, productContext);
+
+    let sectionContent = realizeResult.content;
+    let mediaAssignment = null;
+
+    // Try to assign media if available
+    if (Object.keys(mediaInventory).length > 0) {
+      try {
+        const assignResult = await aiService.assignMedia(
+          sectionPlan,
+          sectionContent,
+          mediaInventory,
+          secondaryKeywords
+        );
+
+        if (assignResult.updatedContent) {
+          sectionContent = assignResult.updatedContent;
+          mediaAssignment = {
+            imagesUsed: assignResult.imagesUsed,
+            rationale: assignResult.rationale,
+          };
+        }
+      } catch (mediaError) {
+        console.warn('Failed to assign media to section:', mediaError);
+        // Continue without media assignment
+      }
+    }
+
+    // Validate the generated content
+    let validation = null;
+    try {
+      const validateResult = await aiService.validateSection(sectionPlan, sectionContent);
+      if (validateResult.validation) {
+        validation = validateResult.validation;
+        if (validation.fixed) {
+          sectionContent = validation.fixed;
+        }
+      }
+    } catch (validateError) {
+      console.warn('Failed to validate section:', validateError);
+      // Continue without validation
+    }
+
+    res.json({
+      success: true,
+      data: {
+        type: sectionType,
+        content: sectionContent,
+        mediaAssignment,
+        validation,
+        usage: realizeResult.usage,
+      },
+      message: `Generated ${sectionType} content successfully`,
+    });
+  } catch (error) {
+    console.error('Generate Section Content Error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: error.code || 'GENERATION_ERROR',
+        message: error.message || 'Failed to generate section content',
+      },
+    });
+  }
+};
+
 export default {
   generateContent,
   generateVariations,
@@ -1309,4 +1443,6 @@ export default {
   recommendSections,
   // ORCHESTRATOR
   generateFullPage,
+  // User-added section generation
+  generateSectionContent,
 };

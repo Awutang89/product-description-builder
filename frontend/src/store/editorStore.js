@@ -16,6 +16,14 @@ export const useEditor = create((set, get) => ({
   isSaving: false,
   error: null,
 
+  // Project context for AI generation (from original builder or manual input)
+  projectContext: {
+    productTitle: '',
+    productDescription: '',
+    secondaryKeywords: [],
+    mediaInventory: {},
+  },
+
   // Initialize editor with project
   initializeEditor: async (projectId) => {
     set({ projectId, isSaving: true });
@@ -183,6 +191,27 @@ export const useEditor = create((set, get) => ({
       isDirty: false,
       isSaving: false,
       error: null,
+      projectContext: {
+        productTitle: '',
+        productDescription: '',
+        secondaryKeywords: [],
+        mediaInventory: {},
+      },
     });
+  },
+
+  // Set project context for AI generation
+  setProjectContext: (context) => {
+    set((state) => ({
+      projectContext: {
+        ...state.projectContext,
+        ...context,
+      },
+    }));
+  },
+
+  // Get project context for AI generation
+  getProjectContext: () => {
+    return get().projectContext;
   },
 }));
