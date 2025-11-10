@@ -1148,6 +1148,85 @@ export const evaluateAltText = async (req, res) => {
 };
 
 /**
+ * ORCHESTRATOR ENDPOINT
+ * Generate Full Product Page (2-8 sections)
+ * POST /api/ai/generate-full-page
+ */
+export const generateFullPage = async (req, res) => {
+  try {
+    const {
+      productTitle,
+      supplierDescription,
+      secondaryKeywords = [],
+      mediaInventory = {},
+      userProvidedContent = {},
+    } = req.body;
+
+    // Validation
+    if (!productTitle || productTitle.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Product title is required',
+        },
+      });
+    }
+
+    if (!supplierDescription || supplierDescription.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Supplier description is required',
+        },
+      });
+    }
+
+    // Run orchestrator to generate all content
+    const orchestratorOutput = await agenticAIService.generateFullPageContent(
+      productTitle,
+      supplierDescription,
+      secondaryKeywords,
+      mediaInventory,
+      userProvidedContent
+    );
+
+    // Build smart sections from generated content
+    const sections = contentMapper.buildSmartSections(orchestratorOutput);
+
+    // Validate sections
+    const validations = sections.map((section, index) => ({
+      sectionIndex: index,
+      ...contentMapper.validateSectionFieldMapping(section),
+    }));
+
+    const allValid = validations.every((v) => v.valid);
+
+    res.json({
+      success: true,
+      data: {
+        sections,
+        sectionCount: sections.length,
+        validations,
+        allValid,
+        usage: orchestratorOutput.usage,
+      },
+      message: `Successfully generated ${sections.length} sections`,
+    });
+  } catch (error) {
+    console.error('Generate Full Page Error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: error.code || 'GENERATION_ERROR',
+        message: error.message || 'Failed to generate full page',
+      },
+    });
+  }
+};
+
+/**
  * Evaluate Keyword Coverage
  * POST /api/ai/agentic/evaluate-keywords
  */
@@ -1228,4 +1307,6 @@ export default {
   // Content Mapper endpoints
   mapContentToSections,
   recommendSections,
+  // ORCHESTRATOR
+  generateFullPage,
 };

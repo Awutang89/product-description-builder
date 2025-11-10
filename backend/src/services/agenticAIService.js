@@ -576,6 +576,118 @@ Evaluate keyword coverage and usage quality.`;
   };
 };
 
+/**
+ * ORCHESTRATOR: Full Page Generation
+ * Runs all 5 stages as guidelines and returns structured content for section mapping
+ */
+export const generateFullPageContent = async (
+  productTitle,
+  supplierDescription,
+  secondaryKeywords = [],
+  mediaInventory = {},
+  userProvidedContent = {}
+) => {
+  try {
+    const totalUsage = {
+      promptTokens: 0,
+      completionTokens: 0,
+      totalTokens: 0,
+    };
+
+    // Stage 1: Generate 2-4 problem-solution pairs
+    const problemsResult = await generateProblemIdentification(productTitle, supplierDescription);
+    totalUsage.promptTokens += problemsResult.usage.promptTokens;
+    totalUsage.completionTokens += problemsResult.usage.completionTokens;
+    totalUsage.totalTokens += problemsResult.usage.totalTokens;
+
+    // Take top 2-4 suggestions based on available content
+    const selectedProblems = problemsResult.suggestions.slice(0, Math.min(4, problemsResult.suggestions.length));
+    const problemSolutions = [];
+
+    // Stage 2: Generate solution for each problem
+    for (const problem of selectedProblems) {
+      const solutionResult = await generateSolutionExplanation(
+        productTitle,
+        supplierDescription,
+        problem.problem,
+        problem.avatar,
+        secondaryKeywords
+      );
+
+      totalUsage.promptTokens += solutionResult.usage.promptTokens;
+      totalUsage.completionTokens += solutionResult.usage.completionTokens;
+      totalUsage.totalTokens += solutionResult.usage.totalTokens;
+
+      problemSolutions.push({
+        problem: problem.problem,
+        avatar: problem.avatar,
+        solution: solutionResult.content,
+        keywordUsed: solutionResult.keywordUsed,
+      });
+    }
+
+    // Stage 3: Features → Benefits (used for feature sections)
+    const featuresResult = await generateFeatureBenefits(
+      productTitle,
+      supplierDescription,
+      selectedProblems[0].problem, // Primary problem
+      secondaryKeywords
+    );
+    totalUsage.promptTokens += featuresResult.usage.promptTokens;
+    totalUsage.completionTokens += featuresResult.usage.completionTokens;
+    totalUsage.totalTokens += featuresResult.usage.totalTokens;
+
+    // Stage 4: Technical Specs (used for spec table sections)
+    const specsResult = await generateTechnicalSpecs(
+      productTitle,
+      supplierDescription,
+      selectedProblems[0].problem,
+      secondaryKeywords
+    );
+    totalUsage.promptTokens += specsResult.usage.promptTokens;
+    totalUsage.completionTokens += specsResult.usage.completionTokens;
+    totalUsage.totalTokens += specsResult.usage.totalTokens;
+
+    // Stage 5: Soft CTA content (added to last problem-solution section)
+    const keyBenefits = featuresResult.features.slice(0, 3).map(f => f.title);
+    const ctaResult = await generateConclusion(
+      productTitle,
+      selectedProblems[0].problem,
+      keyBenefits
+    );
+    totalUsage.promptTokens += ctaResult.usage.promptTokens;
+    totalUsage.completionTokens += ctaResult.usage.completionTokens;
+    totalUsage.totalTokens += ctaResult.usage.totalTokens;
+
+    // Return structured content for section builder
+    return {
+      success: true,
+      content: {
+        problemSolutions, // Array of {problem, avatar, solution, keywordUsed}
+        features: featuresResult.features, // Array of {title, benefit, has_keyword}
+        specs: {
+          hasTable: specsResult.hasTable,
+          table: specsResult.table,
+          explanatoryText: specsResult.explanatoryText,
+        },
+        softCTA: ctaResult.content, // HTML content with CTA
+        ctaButtonText: ctaResult.ctaButtonText,
+      },
+      userProvidedContent, // Pass through (manuals, videos, review images)
+      mediaInventory,
+      secondaryKeywords,
+      mainKeyword: productTitle,
+      usage: totalUsage,
+    };
+  } catch (error) {
+    console.error('Generate Full Page Content Error:', error);
+    throw {
+      code: 'ORCHESTRATOR_ERROR',
+      message: error.message || 'Failed to generate full page content',
+    };
+  }
+};
+
 export default {
   generateProblemIdentification,
   generateSolutionExplanation,
@@ -585,4 +697,5 @@ export default {
   critiqueStageContent,
   evaluateAltTextQuality,
   evaluateKeywordCoverage,
+  generateFullPageContent,
 };

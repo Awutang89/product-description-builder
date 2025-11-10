@@ -110,4 +110,12 @@ router.post('/agentic/map-content', aiController.mapContentToSections);
 // Recommend section types based on content
 router.post('/agentic/recommend-sections', aiController.recommendSections);
 
+/**
+ * ORCHESTRATOR ENDPOINT
+ * Generate complete product page (2-8 sections)
+ */
+
+// Generate full page with smart section distribution
+router.post('/generate-full-page', aiController.generateFullPage);
+
 export default router;

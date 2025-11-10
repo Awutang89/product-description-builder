@@ -373,9 +373,208 @@ export const recommendSectionTypes = (productContext, stageContent) => {
   return recommendations.sort((a, b) => a.priority - b.priority);
 };
 
+/**
+ * Smart Section Builder
+ * Takes orchestrator output and builds 2-8 Canvas sections
+ * Intelligently maps problem-solutions to section types and adds supporting content
+ */
+export const buildSmartSections = (orchestratorOutput) => {
+  const {
+    content,
+    userProvidedContent = {},
+    mediaInventory = {},
+    secondaryKeywords = [],
+    mainKeyword,
+  } = orchestratorOutput;
+
+  const sections = [];
+  const { problemSolutions, features, specs, softCTA } = content;
+
+  // Track image usage
+  const availableImages = [...(mediaInventory.images || [])];
+  let imageIndex = 0;
+
+  /**
+   * Helper: Get next image with keyword-rich alt text
+   */
+  const getNextImage = (description) => {
+    if (imageIndex >= availableImages.length) return null;
+
+    const image = availableImages[imageIndex];
+    const keyword = secondaryKeywords[imageIndex % secondaryKeywords.length] || mainKeyword;
+    imageIndex++;
+
+    return {
+      url: image.url || image,
+      alt: `${keyword} - ${description}`,
+    };
+  };
+
+  // ========================================
+  // PROBLEM-SOLUTION SECTIONS (2-4 sections)
+  // ========================================
+
+  problemSolutions.forEach((ps, index) => {
+    const isLastProblem = index === problemSolutions.length - 1;
+
+    // Decide section type based on position and available content
+    if (index === 0) {
+      // First section: Always twoColumn with image
+      const image = getNextImage('Product overview and key features');
+      sections.push({
+        type: 'twoColumn',
+        content: {
+          leftText: ps.solution,
+          rightImage: image?.url || '',
+          imageAlt: image?.alt || '',
+        },
+        config: {
+          imagePosition: 'right',
+        },
+        styles: {
+          padding: 'lg',
+          marginBottom: 'md',
+        },
+      });
+    } else if (index === 1 && features.features && features.features.length > 0) {
+      // Second section: Use features list if available
+      sections.push({
+        type: 'features',
+        content: {
+          heading: `Key Features of ${secondaryKeywords[0] || mainKeyword}`,
+          features: features.features.map((feature) => ({
+            title: feature.title,
+            description: feature.benefit,
+            icon: null,
+          })),
+        },
+        styles: {
+          padding: 'lg',
+          marginBottom: 'md',
+        },
+      });
+    } else {
+      // Other problem sections: Use text or twoColumn depending on image availability
+      const hasImageAvailable = imageIndex < availableImages.length;
+
+      if (hasImageAvailable && !isLastProblem) {
+        const image = getNextImage('Product functionality and use case');
+        sections.push({
+          type: 'twoColumn',
+          content: {
+            leftText: ps.solution,
+            rightImage: image?.url || '',
+            imageAlt: image?.alt || '',
+          },
+          config: {
+            imagePosition: 'right',
+          },
+          styles: {
+            padding: 'lg',
+            marginBottom: 'md',
+          },
+        });
+      } else {
+        // Last problem section OR no images: Use text with soft CTA
+        const textContent = isLastProblem
+          ? `${ps.solution}\n\n${softCTA}`
+          : ps.solution;
+
+        sections.push({
+          type: 'text',
+          content: {
+            text: textContent,
+          },
+          styles: {
+            padding: 'md',
+            marginBottom: 'md',
+          },
+        });
+      }
+    }
+  });
+
+  // ========================================
+  // SUPPORTING SECTIONS (0-4 sections)
+  // ========================================
+
+  // Add spec table if available
+  if (specs.hasTable && specs.table) {
+    const specImage = getNextImage('Technical specifications and dimensions');
+    sections.push({
+      type: 'comparison',
+      content: {
+        heading: `Technical Specifications`,
+        table: {
+          headers: specs.table.headers || ['Specification', 'Value', 'Benefit'],
+          rows: specs.table.rows || [],
+        },
+      },
+      styles: {
+        padding: 'lg',
+        marginBottom: 'md',
+      },
+    });
+  }
+
+  // Add user-provided review image if available
+  if (userProvidedContent.reviewImage) {
+    sections.push({
+      type: 'image',
+      content: {
+        url: userProvidedContent.reviewImage,
+        altText: `${mainKeyword} - Customer review and testimonial`,
+      },
+      styles: {
+        padding: 'md',
+        marginBottom: 'md',
+      },
+    });
+  }
+
+  // Add installation manual gallery if provided
+  if (userProvidedContent.installationManual && Array.isArray(userProvidedContent.installationManual)) {
+    sections.push({
+      type: 'gallery',
+      content: {
+        heading: `${secondaryKeywords[2] || mainKeyword} - Installation Guide`,
+        description: 'Step-by-step installation instructions and manual.',
+        images: userProvidedContent.installationManual.map((imgUrl, idx) => ({
+          url: imgUrl,
+          alt: `${mainKeyword} - Installation step ${idx + 1}`,
+        })),
+      },
+      styles: {
+        padding: 'lg',
+        marginBottom: 'md',
+      },
+    });
+  }
+
+  // Add YouTube video if provided
+  if (userProvidedContent.videoUrl) {
+    sections.push({
+      type: 'video',
+      content: {
+        videoUrl: userProvidedContent.videoUrl,
+        heading: `${mainKeyword} - Product Demonstration`,
+        description: 'Watch this product in action.',
+      },
+      styles: {
+        padding: 'lg',
+        marginBottom: 'md',
+      },
+    });
+  }
+
+  // Limit to 8 sections max
+  return sections.slice(0, 8);
+};
+
 export default {
   mapContentToSections,
   generateAltText,
   validateSectionFieldMapping,
   recommendSectionTypes,
+  buildSmartSections,
 };
