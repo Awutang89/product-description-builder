@@ -375,8 +375,21 @@ export const recommendSectionTypes = (productContext, stageContent) => {
 
 /**
  * Smart Section Builder
- * Takes orchestrator output and builds 2-8 Canvas sections
+ * Takes orchestrator output and builds 2+ Canvas sections (NO maximum limit)
  * Intelligently maps problem-solutions to section types and adds supporting content
+ *
+ * CRITICAL: ALL user-provided content must be included (no loss):
+ * - ALL features extracted from supplier description
+ * - Spec tables (if user provides specs)
+ * - Review images (if user uploads)
+ * - Installation manuals (if user provides)
+ * - Videos (if user provides)
+ *
+ * Features are consolidated dynamically:
+ * - 1-8 features: 1 section (8 per section)
+ * - 9-20 features: 2 sections (10 per section)
+ * - 21-30 features: 2 sections (15 per section)
+ * - 30+ features: multiple sections (20 per section)
  */
 export const buildSmartSections = (orchestratorOutput) => {
   const {
@@ -437,19 +450,36 @@ export const buildSmartSections = (orchestratorOutput) => {
         },
       });
     } else if (index === 1 && features.features && features.features.length > 0) {
-      // Second section: Display ALL features (can span multiple sections if needed)
-      // If 8 or fewer features: one section
-      // If more than 8 features: split across multiple sections
-      const FEATURES_PER_SECTION = 8;
+      // Second section: Display ALL features (consolidate to fit within section limits)
+      // Smart consolidation to minimize section count while showing all features
       const totalFeatures = features.features.length;
+      let FEATURES_PER_SECTION;
 
-      if (totalFeatures <= FEATURES_PER_SECTION) {
-        // All features fit in one section
+      // Dynamic features per section based on total count
+      if (totalFeatures <= 8) {
+        FEATURES_PER_SECTION = 8; // 1 section for 1-8 features
+      } else if (totalFeatures <= 20) {
+        FEATURES_PER_SECTION = 10; // 2 sections for 9-20 features
+      } else if (totalFeatures <= 30) {
+        FEATURES_PER_SECTION = 15; // 2 sections for 21-30 features
+      } else {
+        FEATURES_PER_SECTION = 20; // 20 per section for 30+ features
+      }
+
+      const numSections = Math.ceil(totalFeatures / FEATURES_PER_SECTION);
+
+      for (let i = 0; i < numSections; i++) {
+        const startIdx = i * FEATURES_PER_SECTION;
+        const endIdx = Math.min(startIdx + FEATURES_PER_SECTION, totalFeatures);
+        const featureSlice = features.features.slice(startIdx, endIdx);
+
         sections.push({
           type: 'features',
           content: {
-            heading: `Key Features of ${secondaryKeywords[0] || mainKeyword}`,
-            features: features.features.map((feature) => ({
+            heading: i === 0
+              ? `Key Features of ${secondaryKeywords[0] || mainKeyword}`
+              : `More Features of ${secondaryKeywords[1] || mainKeyword}`,
+            features: featureSlice.map((feature) => ({
               title: feature.title,
               description: feature.benefit,
               icon: null,
@@ -460,32 +490,6 @@ export const buildSmartSections = (orchestratorOutput) => {
             marginBottom: 'md',
           },
         });
-      } else {
-        // Split features across multiple sections
-        const numSections = Math.ceil(totalFeatures / FEATURES_PER_SECTION);
-        for (let i = 0; i < numSections; i++) {
-          const startIdx = i * FEATURES_PER_SECTION;
-          const endIdx = Math.min(startIdx + FEATURES_PER_SECTION, totalFeatures);
-          const featureSlice = features.features.slice(startIdx, endIdx);
-
-          sections.push({
-            type: 'features',
-            content: {
-              heading: i === 0
-                ? `Key Features of ${secondaryKeywords[0] || mainKeyword}`
-                : `More Features of ${secondaryKeywords[1] || mainKeyword}`,
-              features: featureSlice.map((feature) => ({
-                title: feature.title,
-                description: feature.benefit,
-                icon: null,
-              })),
-            },
-            styles: {
-              padding: 'lg',
-              marginBottom: 'md',
-            },
-          });
-        }
       }
     } else {
       // Other problem sections: Use text or twoColumn depending on image availability
@@ -601,8 +605,11 @@ export const buildSmartSections = (orchestratorOutput) => {
     });
   }
 
-  // Limit to 8 sections max
-  return sections.slice(0, 8);
+  // Return all sections - NO hard limit
+  // User-provided content (features, specs, reviews, manuals, videos) must NEVER be cut off
+  // Minimum 2 sections (always at least 1 problem + 1 feature/supporting)
+  // No maximum - as many sections as needed to show all user content
+  return sections;
 };
 
 export default {
