@@ -437,22 +437,56 @@ export const buildSmartSections = (orchestratorOutput) => {
         },
       });
     } else if (index === 1 && features.features && features.features.length > 0) {
-      // Second section: Use features list if available
-      sections.push({
-        type: 'features',
-        content: {
-          heading: `Key Features of ${secondaryKeywords[0] || mainKeyword}`,
-          features: features.features.map((feature) => ({
-            title: feature.title,
-            description: feature.benefit,
-            icon: null,
-          })),
-        },
-        styles: {
-          padding: 'lg',
-          marginBottom: 'md',
-        },
-      });
+      // Second section: Display ALL features (can span multiple sections if needed)
+      // If 8 or fewer features: one section
+      // If more than 8 features: split across multiple sections
+      const FEATURES_PER_SECTION = 8;
+      const totalFeatures = features.features.length;
+
+      if (totalFeatures <= FEATURES_PER_SECTION) {
+        // All features fit in one section
+        sections.push({
+          type: 'features',
+          content: {
+            heading: `Key Features of ${secondaryKeywords[0] || mainKeyword}`,
+            features: features.features.map((feature) => ({
+              title: feature.title,
+              description: feature.benefit,
+              icon: null,
+            })),
+          },
+          styles: {
+            padding: 'lg',
+            marginBottom: 'md',
+          },
+        });
+      } else {
+        // Split features across multiple sections
+        const numSections = Math.ceil(totalFeatures / FEATURES_PER_SECTION);
+        for (let i = 0; i < numSections; i++) {
+          const startIdx = i * FEATURES_PER_SECTION;
+          const endIdx = Math.min(startIdx + FEATURES_PER_SECTION, totalFeatures);
+          const featureSlice = features.features.slice(startIdx, endIdx);
+
+          sections.push({
+            type: 'features',
+            content: {
+              heading: i === 0
+                ? `Key Features of ${secondaryKeywords[0] || mainKeyword}`
+                : `More Features of ${secondaryKeywords[1] || mainKeyword}`,
+              features: featureSlice.map((feature) => ({
+                title: feature.title,
+                description: feature.benefit,
+                icon: null,
+              })),
+            },
+            styles: {
+              padding: 'lg',
+              marginBottom: 'md',
+            },
+          });
+        }
+      }
     } else {
       // Other problem sections: Use text or twoColumn depending on image availability
       const hasImageAvailable = imageIndex < availableImages.length;

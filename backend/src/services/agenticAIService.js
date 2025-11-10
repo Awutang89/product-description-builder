@@ -147,7 +147,9 @@ export const generateFeatureBenefits = async (
 ) => {
   const systemPrompt = `You are an expert at converting product features into customer benefits.
 
-Your task: Extract features and write benefit statements for EACH feature.
+Your task: Extract ALL features from the supplier description and write benefit statements for EACH ONE.
+
+CRITICAL: You MUST extract EVERY SINGLE FEATURE mentioned - no feature can be lost or omitted.
 
 FEATURE → BENEFIT FORMAT:
 "{Feature Title}: {What this means for the customer and how it helps solve their problem}"
@@ -156,11 +158,13 @@ EXAMPLE:
 ✓ "360° Perforated Steel Intake: Drawing air into all sides of the purifier, it then passes through the four-stage filtration process. With a high-velocity airflow, it can create a pocket of clean air around you."
 
 GUIDELINES:
-- Extract 4-8 key features from supplier description
+- Extract EVERY feature from supplier description (no limit on count)
 - Each feature MUST have a benefit statement
 - Benefits should connect back to solving the problem
-- Use 2-3 secondary keywords across feature titles
+- Use 2-3 secondary keywords across feature titles naturally
 - Make benefits specific and tangible (not vague)
+- If supplier description mentions 15 features, extract all 15
+- Never skip or summarize features - extract them all individually
 
 OUTPUT FORMAT (strict JSON):
 {
@@ -190,7 +194,7 @@ Extract features and write benefit statements.`;
       { role: 'user', content: userPrompt },
     ],
     temperature: 0.7,
-    max_tokens: 1200,
+    max_tokens: 3000, // Increased to handle ALL features (no limit)
     response_format: { type: 'json_object' },
   });
 
