@@ -176,13 +176,14 @@ export const aiService = {
   },
 
   /**
-   * Assign media to a section
+   * Assign media to a section with keyword-rich alt text
    */
-  assignMedia: async (sectionPlan, sectionContent, mediaInventory) => {
+  assignMedia: async (sectionPlan, sectionContent, mediaInventory, secondaryKeywords = []) => {
     const response = await api.post('/ai/section-builder/assign-media', {
       sectionPlan,
       sectionContent,
       mediaInventory,
+      secondaryKeywords,
     });
     return response.data;
   },
@@ -238,6 +239,22 @@ export const aiService = {
         const realizeResponse = await aiService.realizeSection(sectionInfo, productContext);
         let sectionContent = realizeResponse.data.content;
         let validation = null;
+
+        // Assign media with keyword-rich alt text
+        try {
+          const assignResponse = await aiService.assignMedia(
+            sectionInfo,
+            sectionContent,
+            mediaInventory,
+            productContext.keywords || []
+          );
+          if (assignResponse.data.updatedContent) {
+            sectionContent = assignResponse.data.updatedContent;
+          }
+        } catch (mediaError) {
+          console.warn(`Failed to assign media to section ${i + 1}:`, mediaError);
+          // Continue without media assignment
+        }
 
         // Validate section
         const validateResponse = await aiService.validateSection(sectionInfo, sectionContent);

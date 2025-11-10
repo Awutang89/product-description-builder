@@ -749,43 +749,62 @@ Generate the content for this section.`;
 };
 
 /**
- * Assign media to a section
+ * Assign media to a section with keyword-rich alt text
+ * Maps images to correct content fields based on section type
  */
-export const assignMedia = async (sectionPlan, sectionContent, mediaInventory) => {
+export const assignMedia = async (sectionPlan, sectionContent, mediaInventory, secondaryKeywords = []) => {
   try {
-    const systemPrompt = `You select the best media for ONE section and write alt text.
+    const systemPrompt = `You assign media to section content fields and generate keyword-rich alt text.
 
-RULES
-- Priority alignment by type:
-  - introSummary: one hero image (16:9 or 3:2), no video.
-  - imageWithBenefits: 1 strong landscape image; avoid heavy text overlays.
-  - imageReview: must use a customer image if provided via reviews[].image_id; else return null and a TODO.
-  - manualsLinks/specTable: no images unless a true diagram (tags include ["diagram","dimensions","callouts"]).
-  - benefitsTextSoftCTA: optional 1 lifestyle image; skip if none suitable.
-- Choose images with qualityScore ≥ 0.75 when possible; break ties by aspect ratio suitability then by tag match.
-- Alt text: 6–14 words, literal, no promo language. Mention brand/model only if visible/salient.
+SECTION TYPE FIELD MAPPING:
+- twoColumn: populate "rightImage" (URL string) and "imageAlt" (alt text)
+- sideBySide: populate "col1Image", "col2Image" and respective alt text fields
+- threeColumns: populate "col1Image", "col2Image", "col3Image" with alt text
+- fourColumns: populate "col1Image", "col2Image", "col3Image", "col4Image" with alt text
+- twoColumnHighlight: populate "mediaUrl" (URL string) and "mediaAlt"
+- gallery: populate "images" array with {url, alt} objects (3-8 images)
+- image: populate "url" (URL string) and "altText"
+- hero: populate "backgroundImage" and "imageAlt" if applicable
+- features: optionally populate "icon" fields for each feature
 
-OUTPUT (STRICT JSON)
+IMAGE SELECTION RULES:
+- Choose images with qualityScore ≥ 0.75 when possible
+- Match image aspect ratio to section needs (hero/gallery want 16:9, features want square)
+- Distribute images evenly across sections (track which images used)
+
+ALT TEXT FORMAT (CRITICAL):
+- MUST use format: "{secondary_keyword} - {description}"
+- Rotate through secondary keywords for variety
+- Description should be 5-10 words describing what's shown
+- Examples:
+  ✓ "HealthMate Plus Air Purifier - HEPA filtration system in home setting"
+  ✓ "Austin Air Purifier - 360-degree air intake design closeup"
+  ✗ "Product image" (too generic, no keyword)
+  ✗ "Air purifier on table" (missing keyword)
+
+OUTPUT (STRICT JSON):
 {
-  "section_index": <number>,
-  "image_id": "img_123" | null,
-  "video_id": null,
-  "alt_text": { "img_123": "Duramax 4x8 vinyl shed beside house wall" },
-  "rationale": "why selected or why null",
-  "todos": ["need lifestyle 16:9 image"]
+  "updatedContent": {
+    ... original content with image URLs and alt text populated
+  },
+  "imagesUsed": ["img_1", "img_2"],
+  "rationale": "Explanation of image selections"
 }
-Return ONLY JSON.`;
 
-    const userPrompt = `Section Plan:
-${JSON.stringify(sectionPlan, null, 2)}
+Return ONLY JSON with the complete updated content object.`;
 
-Section Content:
+    const userPrompt = `Section Type: ${sectionPlan.type}
+Section Index: ${sectionPlan.index}
+
+Current Content:
 ${JSON.stringify(sectionContent, null, 2)}
 
-Media Inventory:
+Available Media:
 ${JSON.stringify(mediaInventory, null, 2)}
 
-Select the best media for this section.`;
+Secondary Keywords: ${secondaryKeywords.join(', ')}
+
+Assign images to this section's content fields with keyword-rich alt text.`;
 
     const completion = await getOpenAIClient().chat.completions.create({
       model: 'gpt-4o-mini',
@@ -794,15 +813,17 @@ Select the best media for this section.`;
         { role: 'user', content: userPrompt },
       ],
       temperature: 0.3,
-      max_tokens: 300,
+      max_tokens: 600,
       response_format: { type: 'json_object' },
     });
 
-    const assignment = JSON.parse(completion.choices[0].message.content);
+    const result = JSON.parse(completion.choices[0].message.content);
 
     return {
       success: true,
-      assignment,
+      updatedContent: result.updatedContent || sectionContent,
+      imagesUsed: result.imagesUsed || [],
+      rationale: result.rationale || '',
       usage: {
         promptTokens: completion.usage.prompt_tokens,
         completionTokens: completion.usage.completion_tokens,

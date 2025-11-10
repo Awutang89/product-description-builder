@@ -665,7 +665,7 @@ export const realizeSection = async (req, res) => {
  */
 export const assignMediaToSection = async (req, res) => {
   try {
-    const { sectionPlan, sectionContent, mediaInventory } = req.body;
+    const { sectionPlan, sectionContent, mediaInventory, secondaryKeywords = [] } = req.body;
 
     if (!sectionPlan || !sectionContent || !mediaInventory) {
       return res.status(400).json({
@@ -677,13 +677,20 @@ export const assignMediaToSection = async (req, res) => {
       });
     }
 
-    // Call AI service to assign media
-    const result = await aiService.assignMedia(sectionPlan, sectionContent, mediaInventory);
+    // Call AI service to assign media with keyword-rich alt text
+    const result = await aiService.assignMedia(
+      sectionPlan,
+      sectionContent,
+      mediaInventory,
+      secondaryKeywords
+    );
 
     res.json({
       success: true,
       data: {
-        assignment: result.assignment,
+        updatedContent: result.updatedContent,
+        imagesUsed: result.imagesUsed,
+        rationale: result.rationale,
         usage: result.usage,
       },
     });
